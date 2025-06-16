@@ -7,6 +7,7 @@ import AddRestaurantDialog from "@/components/AddRestaurantDialog";
 import RestaurantSearchFilter from "@/components/RestaurantSearchFilter";
 import { useUser } from "@/contexts/UserContext";
 import { supabase } from "@/lib/supabaseClient";
+import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
 
 interface Restaurant {
   id: string;
@@ -203,7 +204,7 @@ useEffect(() => {
         <div className="block md:hidden">
           
           <div className="space-y-4 mb-6">
-            <RestaurantSearchFilter
+            <RestaurantSearchFilterPhone
               selectedCity={selectedCity}
               onCityChange={setSelectedCity}
               searchTerm={searchTerm}

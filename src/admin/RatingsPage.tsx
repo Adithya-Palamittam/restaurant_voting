@@ -8,7 +8,7 @@ export default function RatingsTable() {
     const fetchRatings = async () => {
       const { data, error } = await supabase
         .from('ratings_table')
-        .select('user_id, restaurant_id, food_rating, service_rating, ambience_rating');
+        .select('user_id, restaurant_id, food_rating, service_rating, ambience_rating,restaurant_name');
 
       if (!error) setRatings(data);
     };
