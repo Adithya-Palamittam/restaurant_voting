@@ -50,7 +50,13 @@ const SelectedRestaurantsList = ({
       </div>
       
       <div className="mt-4 text-center text-sm">
-        You need to add {maxSelections - selectedRestaurants.length} more restaurant's
+        {selectedRestaurants.length < maxSelections ? (
+          <>
+            Please add <span className="text-red-500 font-semibold">{maxSelections - selectedRestaurants.length}</span> restaurants
+          </>
+        ) : (
+          <span className="text-green-600 font-semibold">You have added {maxSelections} restaurants.</span>
+        )}
       </div>
     </div>
   );

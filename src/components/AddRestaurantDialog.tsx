@@ -53,7 +53,7 @@ const AddRestaurantDialog = ({
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Restaurant</DialogTitle>
+            <DialogTitle>Nominate a restaurant not on this list</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <Select value={newRestaurantCity} onValueChange={setNewRestaurantCity}>

@@ -197,9 +197,10 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 p-4 md:p-6">
+        <h2 className="text-xl font-semibold mb-4 text-left">Select 10 restaurant's from your region</h2>
+        <hr className="border-t border-gray-300 mb-4" />
         {/* Mobile Layout */}
         <div className="block md:hidden">
-          <h2 className="text-xl font-semibold mb-4 text-center">Select 10 restaurant's from your region</h2>
           
           <div className="space-y-4 mb-6">
             <RestaurantSearchFilter
@@ -252,10 +253,16 @@ useEffect(() => {
                     </Button>
                   </div>
                 </div>
-              ))}
+              ))} 
             </div>
             <div className="p-3 text-center text-sm">
-              Please add <span className="text-red-500 font-semibold">{10 - selectedRestaurants.length}</span> restaurants
+              {selectedRestaurants.length < 10 ? (
+                <>
+                  Please add <span className="text-red-500 font-semibold">{10 - selectedRestaurants.length}</span> restaurants
+                </>
+              ) : (
+                <span className="text-green-600 font-semibold">You have added 10 restaurants.</span>
+              )}
             </div>
           </div>
 
@@ -318,7 +325,7 @@ useEffect(() => {
             disabled={!canProceed}
             className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Done and go to step 2 →
+            Done →
           </Button>
         </div>
       </div>

@@ -32,9 +32,11 @@ const RestaurantRatingCard = ({
 }: RestaurantRatingCardProps) => {
   return (
     <div className="border border-gray-300 rounded-lg p-4 mb-6">
-      <div className="text-center mb-4">
-        <div className="text-blue-600 font-medium mb-1">{restaurant.city}</div>
-        <div className="text-red-500 font-medium mb-2">{currentIndex + 1}/{totalCount}</div>
+      <div className="text-left mb-4">
+        <div className="flex justify-between items-center mb-2">
+          <div className="text-blue-600 font-medium">{restaurant.city}</div>
+          <div className="text-blue-600 font-medium"><span className="text-red-500 font-medium">{currentIndex + 1}</span>/{totalCount}</div>
+        </div>
         <h2 className={`font-bold border-b border-gray-300 pb-2 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
           {restaurant.name}
         </h2>

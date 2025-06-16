@@ -171,20 +171,7 @@ const handleSubmit = async () => {
     <div className="min-h-screen bg-white">
       <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">
         <span className="text-lg font-medium">Your final ratings</span>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Traveller</span>
-          <div className="w-px h-4 bg-gray-300"></div>
-          <span className="text-sm font-medium">district</span>
-          <div className="inline-flex items-center justify-center w-8 h-8 border-2 border-black rounded-full ml-2">
-            <span className="text-xs font-bold">T</span>
-            <div className="w-2 h-2 border border-black rounded-full"></div>
-            <span className="text-xs font-bold">P</span>
-          </div>
-          <div className="text-xs">
-            <div>RESTAURANT</div>
-            <div>AWARDS</div>
-          </div>
-        </div>
+
       </div>
 
       <div className="p-4 md:p-6">
@@ -283,9 +270,9 @@ const handleSubmit = async () => {
           </Button>
         </div>
 
-        <div className="text-center text-sm text-gray-600 mt-4">
+        {/* <div className="text-center text-sm text-gray-600 mt-4">
           You have till 11:59 pm Sunday 30th June to fill this form
-        </div>
+        </div> */}
       </div>
 
       {/* Edit Rating Dialog */}

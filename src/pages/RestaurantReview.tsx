@@ -105,20 +105,7 @@ const RestaurantReview = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">
         <span className="text-lg font-medium">These are your top 15 restaurants</span>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Traveller</span>
-          <div className="w-px h-4 bg-gray-300"></div>
-          <span className="text-sm font-medium">district</span>
-          <div className="inline-flex items-center justify-center w-8 h-8 border-2 border-black rounded-full ml-2">
-            <span className="text-xs font-bold">T</span>
-            <div className="w-2 h-2 border border-black rounded-full"></div>
-            <span className="text-xs font-bold">P</span>
-          </div>
-          <div className="text-xs">
-            <div>RESTAURANT</div>
-            <div>AWARDS</div>
-          </div>
-        </div>
+
       </div>
 
       <div className="flex-1 p-4 md:p-6">
@@ -155,7 +142,7 @@ const RestaurantReview = () => {
               </div>
             </div>
 
-            <div className="flex justify-center gap-4 mb-6">
+            <div className="flex flex-col justify-center gap-4 mb-6">
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
@@ -174,7 +161,7 @@ const RestaurantReview = () => {
                 className={`px-8 py-2 rounded ${
                   is15Restaurants
                     ? "bg-green-500 text-white hover:bg-green-600"
-                    : "bg-black text-white hover:bg-gray-800 disabled:opacity-50"
+                    : "bg-black text-white hover:bg-gray-800 "
                 }`}
               >
                 Ready? It's time to rate

@@ -131,28 +131,6 @@ const RatingPage = () => {
 
   if (!currentRestaurant) return null;
 
-  const AppHeader = () => (
-    <div className="text-center mb-6">
-      <div className="flex items-center justify-center gap-2 mb-6">
-        <span className="text-lg font-medium">Traveller</span>
-        <div className="w-px h-6 bg-gray-300"></div>
-        <span className="text-lg font-medium">district</span>
-      </div>
-      <div className="mb-8">
-        <div className="inline-flex items-center justify-center w-16 h-16 border-2 border-black rounded-full mb-4">
-          <span className="text-xl font-bold">T</span>
-          <div className="w-4 h-4 border border-black rounded-full"></div>
-          <span className="text-xl font-bold">P</span>
-        </div>
-        <div className="text-xs font-medium mb-4">
-          <div>RESTAURANT</div>
-          <div>AWARDS 2025</div>
-        </div>
-      </div>
-      <h1 className="text-xl font-semibold mb-2">Rate the top 15 restaurants you selected</h1>
-    </div>
-  );
-
   const NavigationButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
     <div className="flex justify-between mt-8">
       <Button
@@ -176,7 +154,7 @@ const RatingPage = () => {
         <Button
           onClick={goNext}
           disabled={!isCurrentRated}
-          className={`bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 ${isMobile ? 'px-6' : 'px-8'} py-2 rounded`}
+          className={`bg-black text-white hover:bg-blue-700 disabled:opacity-50 ${isMobile ? 'px-6' : 'px-8'} py-2 rounded`}
         >
           Next →
         </Button>
@@ -188,7 +166,8 @@ const RatingPage = () => {
     <div className="min-h-screen bg-white">
       {/* Mobile Layout */}
       <div className="block md:hidden p-4">
-        <AppHeader />
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
+        <p className="text-lg mb-2 text-center">Rate the top 15 restaurants you selected</p>
         <RestaurantRatingCard
           restaurant={currentRestaurant}
           rating={currentRating}
@@ -203,7 +182,8 @@ const RatingPage = () => {
       {/* Desktop Layout */}
       <div className="hidden md:flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-md text-center">
-          <AppHeader />
+   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
+   <p className="text-lg mb-2">Rate the top 15 restaurants you selected</p>
           <RestaurantRatingCard
             restaurant={currentRestaurant}
             rating={currentRating}
