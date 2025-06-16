@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -28,21 +27,31 @@ const FinalRatings = () => {
   const navigate = useNavigate();
   const { user } = useUser();
 
- useEffect(() => {
-  const regional = localStorage.getItem('regionalRestaurants');
-  const national = localStorage.getItem('nationalRestaurants');
-  const storedRatings = localStorage.getItem('restaurantRatings');
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user?.id) return;
 
-  const regionalList = regional ? JSON.parse(regional) : [];
-  const nationalList = national ? JSON.parse(national) : [];
+      const { data: userSelection, error: selectionError } = await supabase
+        .from("user_selection_table")
+        .select("selected_regional_restaurants, selected_national_restaurants, restaurant_ratings")
+        .eq("user_id", user.id)
+        .single();
 
-  const allRestaurants = [...regionalList, ...nationalList];
-  setRestaurants(allRestaurants);
+      if (selectionError) {
+        console.error("Error fetching user selections:", selectionError.message);
+        return;
+      }
 
-  if (storedRatings) {
-    setRatings(JSON.parse(storedRatings));
-  }
-}, []);
+      const regionalList = userSelection?.selected_regional_restaurants || [];
+      const nationalList = userSelection?.selected_national_restaurants || [];
+      const allRestaurants = [...regionalList, ...nationalList];
+
+      setRestaurants(allRestaurants);
+      setRatings(userSelection?.restaurant_ratings || {});
+    };
+
+    fetchData();
+  }, [user]);
 
   const handleEditRating = (restaurant: Restaurant) => {
     setEditingRestaurant(restaurant);
@@ -50,17 +59,27 @@ const FinalRatings = () => {
     setIsEditDialogOpen(true);
   };
 
-  const saveEditedRating = () => {
-    if (editingRestaurant) {
-      const updatedRatings = {
-        ...ratings,
-        [editingRestaurant.id]: editingRating
-      };
-      setRatings(updatedRatings);
-      localStorage.setItem('restaurantRatings', JSON.stringify(updatedRatings));
-      setIsEditDialogOpen(false);
-      setEditingRestaurant(null);
+  const saveEditedRating = async () => {
+    if (!editingRestaurant || !user?.id) return;
+
+    const updatedRatings = {
+      ...ratings,
+      [editingRestaurant.id]: editingRating
+    };
+
+    setRatings(updatedRatings);
+
+    const { error } = await supabase
+      .from("user_selection_table")
+      .update({ restaurant_ratings: updatedRatings })
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error updating ratings:", error.message);
     }
+
+    setIsEditDialogOpen(false);
+    setEditingRestaurant(null);
   };
 
   const updateEditingRating = (category: keyof Rating, value: number) => {
@@ -70,9 +89,14 @@ const FinalRatings = () => {
     }));
   };
 
-  const StarRating = ({ value, onChange, label, readonly = false }: { 
-    value: number; 
-    onChange?: (rating: number) => void; 
+  const StarRating = ({
+    value,
+    onChange,
+    label,
+    readonly = false
+  }: {
+    value: number;
+    onChange?: (rating: number) => void;
     label: string;
     readonly?: boolean;
   }) => {
@@ -95,40 +119,52 @@ const FinalRatings = () => {
     );
   };
 
-  const handleSubmit = async () => {
-    if (!user?.id) {
-      alert("User not logged in.");
-      return;
-    }
+const handleSubmit = async () => {
+  if (!user?.id) {
+    alert("User not logged in.");
+    return;
+  }
 
-    const entries = restaurants.map((restaurant) => ({
-      user_id: user.id,
-      restaurant_id: restaurant.id,
-      food_rating: ratings[restaurant.id]?.food || 0,
-      service_rating: ratings[restaurant.id]?.service || 0,
-      ambience_rating: ratings[restaurant.id]?.ambience || 0,
-      is_complete: true
-    }));
+  // Wait for the latest data from Supabase
+  const { data: userSelection, error } = await supabase
+    .from("user_selection_table")
+    .select("restaurant_ratings")
+    .eq("user_id", user.id)
+    .single();
 
-    const { error: insertError } = await supabase.from("ratings_table").insert(entries);
+  if (error) {
+    console.error("Failed to fetch latest ratings:", error.message);
+    alert("Failed to fetch latest ratings. Please try again.");
+    return;
+  }
 
-    if (insertError) {
-      console.error("Error submitting ratings:", insertError.message);
-      alert("There was an error submitting your ratings. Please try again.");
-      return;
-    }
+  const latestRatings = userSelection?.restaurant_ratings || {};
 
-    const { error: updateError } = await supabase
+  const entries = restaurants.map((restaurant) => ({
+    user_id: user.id,
+    restaurant_id: restaurant.id,
+    food_rating: latestRatings[restaurant.id]?.food || 0,
+    service_rating: latestRatings[restaurant.id]?.service || 0,
+    ambience_rating: latestRatings[restaurant.id]?.ambience || 0,
+    is_complete: true
+  }));
+
+  const { error: insertError } = await supabase.from("ratings_table").insert(entries);
+
+  if (insertError) {
+    console.error("Error submitting ratings:", insertError.message);
+    alert("There was an error submitting your ratings. Please try again.");
+    return;
+  }
+
+  await supabase
     .from("users_table")
     .update({ is_completed: true })
     .eq("uid", user.id);
 
-    if (updateError) {
-      console.error("Failed to update completion status:", updateError.message);
-      return;
-    }
-    navigate("/thank-you");
-  };
+  navigate("/thank-you");
+};
+
 
   return (
     <div className="min-h-screen bg-white">

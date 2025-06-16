@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -24,9 +23,9 @@ const RegionalSelection = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRestaurants, setSelectedRestaurants] = useState<Restaurant[]>([]);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
-
-    useEffect(() => {
+  useEffect(() => {
     if (!regionId) return;
 
     const fetchRestaurants = async () => {
@@ -50,18 +49,50 @@ const RegionalSelection = () => {
     fetchRestaurants();
   }, [regionId]);
 
-  // Load existing regional selections from localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem('regionalRestaurants');
-    if (stored) {
-      setSelectedRestaurants(JSON.parse(stored));
-    }
-  }, []);
+useEffect(() => {
+  const fetchUserSelection = async () => {
+    if (!userData?.uid || restaurants.length === 0) return;
 
-  // Save to localStorage whenever selections change
-  useEffect(() => {
-    localStorage.setItem('regionalRestaurants', JSON.stringify(selectedRestaurants));
-  }, [selectedRestaurants]);
+    const { data, error } = await supabase
+      .from("user_selection_table")
+      .select("selected_regional_restaurants")
+      .eq("user_id", userData.uid)
+      .single();
+
+    if (error) {
+      console.error("Error fetching user selection:", error.message);
+      return;
+    }
+
+    const selected = data?.selected_regional_restaurants || [];
+    setSelectedRestaurants(selected); // safe because selected is full JSON
+    setHasInitialized(true); // ✅ enable DB updates only after initial load
+  };
+
+  fetchUserSelection();
+}, [userData?.uid, restaurants]);
+
+
+useEffect(() => {
+  const saveSelection = async () => {
+    if (!userData?.uid || !hasInitialized) return;
+
+    const { error } = await supabase
+      .from("user_selection_table")
+      .upsert({
+        user_id: userData.uid,
+        selected_regional_restaurants: selectedRestaurants,
+        updated_at: new Date().toISOString(),
+      });
+
+    if (error) {
+      console.error("Error saving selection:", error.message);
+    }
+  };
+
+  saveSelection();
+}, [selectedRestaurants]);
+
 
   const cities = [...new Set(restaurants.map(r => r.city))];
 
@@ -84,83 +115,78 @@ const RegionalSelection = () => {
     setSelectedRestaurants(prev => prev.filter(r => r.id !== restaurantId));
   };
 
-const addCustomRestaurant = async (restaurant: Restaurant) => {
-  if (!regionId) {
-    alert("Region ID not available. Cannot add restaurant.");
-    return;
-  }
-
-  try {
-    // Step 1: Lookup city_id from cities_table using city_name
-    const { data: cityMatch, error: cityError } = await supabase
-      .from("cities_table")
-      .select("city_id")
-      .eq("city_name", restaurant.city)
-      .single(); // only expecting one match
-
-    if (cityError || !cityMatch) {
-      console.error("City lookup failed:", cityError?.message);
-      alert(`City "${restaurant.city}" not found in cities_table.`);
+  const addCustomRestaurant = async (restaurant: Restaurant) => {
+    if (!regionId) {
+      alert("Region ID not available. Cannot add restaurant.");
       return;
     }
 
-    const city_id = cityMatch.city_id;
+    try {
+      const { data: cityMatch, error: cityError } = await supabase
+        .from("cities_table")
+        .select("city_id")
+        .eq("city_name", restaurant.city)
+        .single();
 
-    // Step 2: Check for existing restaurant (same name + city + region)
-    const { data: existing, error: fetchError } = await supabase
-      .from("restaurants_table")
-      .select("restaurant_id")
-      .eq("restaurant_name", restaurant.name)
-      .eq("city_name", restaurant.city)
-      .eq("region_id", regionId);
+      if (cityError || !cityMatch) {
+        console.error("City lookup failed:", cityError?.message);
+        alert(`City "${restaurant.city}" not found in cities_table.`);
+        return;
+      }
 
-    if (fetchError) {
-      console.error("Error checking existing restaurant:", fetchError.message);
-      alert("Something went wrong. Please try again.");
-      return;
+      const city_id = cityMatch.city_id;
+
+      const { data: existing, error: fetchError } = await supabase
+        .from("restaurants_table")
+        .select("restaurant_id")
+        .eq("restaurant_name", restaurant.name)
+        .eq("city_name", restaurant.city)
+        .eq("region_id", regionId);
+
+      if (fetchError) {
+        console.error("Error checking existing restaurant:", fetchError.message);
+        alert("Something went wrong. Please try again.");
+        return;
+      }
+
+      if (existing && existing.length > 0) {
+        alert("This restaurant already exists.");
+        return;
+      }
+
+      const { data: inserted, error: insertError } = await supabase
+        .from("restaurants_table")
+        .insert([
+          {
+            restaurant_name: restaurant.name,
+            city_name: restaurant.city,
+            city_id: city_id,
+            region_id: regionId,
+          },
+        ])
+        .select()
+        .single();
+
+      if (insertError || !inserted) {
+        console.error("Insert failed:", insertError?.message);
+        alert("Failed to add restaurant.");
+        return;
+      }
+
+      const newRestaurant: Restaurant = {
+        id: inserted.restaurant_id,
+        name: inserted.restaurant_name,
+        city: inserted.city_name,
+      };
+
+      setSelectedRestaurants(prev => [...prev, newRestaurant]);
+      setRestaurants(prev => [...prev, newRestaurant]);
+      alert("Restaurant added successfully!");
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      alert("An error occurred while adding the restaurant.");
     }
-
-    if (existing && existing.length > 0) {
-      alert("This restaurant already exists.");
-      return;
-    }
-
-    // Step 3: Insert the new restaurant
-    const { data: inserted, error: insertError } = await supabase
-      .from("restaurants_table")
-      .insert([
-        {
-          restaurant_name: restaurant.name,
-          city_name: restaurant.city,
-          city_id: city_id,
-          region_id: regionId,
-        },
-      ])
-      .select()
-      .single();
-
-    if (insertError || !inserted) {
-      console.error("Insert failed:", insertError?.message);
-      alert("Failed to add restaurant.");
-      return;
-    }
-
-    // Step 4: Add to local state (selected + full list)
-    const newRestaurant: Restaurant = {
-      id: inserted.restaurant_id,
-      name: inserted.restaurant_name,
-      city: inserted.city_name,
-    };
-
-    setSelectedRestaurants(prev => [...prev, newRestaurant]);
-    setRestaurants(prev => [...prev, newRestaurant]);
-    alert("Restaurant added successfully!");
-  } catch (err) {
-    console.error("Unexpected error:", err);
-    alert("An error occurred while adding the restaurant.");
-  }
-};
-
+  };
 
   const canProceed = selectedRestaurants.length === 10;
 

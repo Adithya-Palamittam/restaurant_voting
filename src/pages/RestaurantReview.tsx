@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
+import { useUser } from "@/contexts/UserContext"; // <- get UID here
 
 interface Restaurant {
   id: string;
@@ -10,42 +12,81 @@ interface Restaurant {
 }
 
 const RestaurantReview = () => {
+  const navigate = useNavigate();
+  const { userData } = useUser();
+
   const [regionalRestaurants, setRegionalRestaurants] = useState<Restaurant[]>([]);
   const [nationalRestaurants, setNationalRestaurants] = useState<Restaurant[]>([]);
   const [removedFromRegional, setRemovedFromRegional] = useState(false);
   const [removedFromNational, setRemovedFromNational] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const combinedRestaurants = [...regionalRestaurants, ...nationalRestaurants];
   const is15Restaurants = combinedRestaurants.length === 15;
   const hasRemovedRestaurants = removedFromRegional || removedFromNational;
 
   useEffect(() => {
-    const regional = localStorage.getItem("regionalRestaurants");
-    const national = localStorage.getItem("nationalRestaurants");
+    const fetchSelections = async () => {
+      if (!userData?.uid) return;
 
-    if (regional) setRegionalRestaurants(JSON.parse(regional));
-    if (national) setNationalRestaurants(JSON.parse(national));
-  }, []);
+      const { data, error } = await supabase
+        .from("user_selection_table")
+        .select("selected_regional_restaurants, selected_national_restaurants")
+        .eq("user_id", userData.uid)
+        .single();
 
-  const removeRestaurant = (restaurantId: string) => {
-    if (regionalRestaurants.some(r => r.id === restaurantId)) {
-      const updatedRegional = regionalRestaurants.filter(r => r.id !== restaurantId);
-      setRegionalRestaurants(updatedRegional);
-      localStorage.setItem("regionalRestaurants", JSON.stringify(updatedRegional));
-      setRemovedFromRegional(true);
-    } else if (nationalRestaurants.some(r => r.id === restaurantId)) {
-      const updatedNational = nationalRestaurants.filter(r => r.id !== restaurantId);
-      setNationalRestaurants(updatedNational);
-      localStorage.setItem("nationalRestaurants", JSON.stringify(updatedNational));
-      setRemovedFromNational(true);
+      if (error) {
+        console.error("Error fetching selections:", error.message);
+        return;
+      }
+
+      setRegionalRestaurants(data?.selected_regional_restaurants || []);
+      setNationalRestaurants(data?.selected_national_restaurants || []);
+      setLoading(false);
+    };
+
+    fetchSelections();
+  }, [userData?.uid]);
+
+  const updateSelectionInSupabase = async (
+    updatedRegional: Restaurant[],
+    updatedNational: Restaurant[]
+  ) => {
+    const { error } = await supabase
+      .from("user_selection_table")
+      .update({
+        selected_regional_restaurants: updatedRegional,
+        selected_national_restaurants: updatedNational,
+      })
+      .eq("user_id", userData.uid);
+
+    if (error) {
+      console.error("Error updating selections in Supabase:", error.message);
     }
   };
 
+  const removeRestaurant = (restaurantId: string) => {
+    const isRegional = regionalRestaurants.some(r => r.id === restaurantId);
+    const isNational = nationalRestaurants.some(r => r.id === restaurantId);
+
+    let updatedRegional = [...regionalRestaurants];
+    let updatedNational = [...nationalRestaurants];
+
+    if (isRegional) {
+      updatedRegional = regionalRestaurants.filter(r => r.id !== restaurantId);
+      setRegionalRestaurants(updatedRegional);
+      setRemovedFromRegional(true);
+    } else if (isNational) {
+      updatedNational = nationalRestaurants.filter(r => r.id !== restaurantId);
+      setNationalRestaurants(updatedNational);
+      setRemovedFromNational(true);
+    }
+
+    updateSelectionInSupabase(updatedRegional, updatedNational);
+  };
+
   const handleAddRestaurant = () => {
-    if (removedFromRegional && removedFromNational) {
-      navigate("/regional-selection");
-    } else if (removedFromRegional) {
+    if (removedFromRegional) {
       navigate("/regional-selection");
     } else if (removedFromNational) {
       navigate("/national-selection");
@@ -56,6 +97,10 @@ const RestaurantReview = () => {
     navigate("/rating");
   };
 
+  if (loading) {
+    return <div className="p-6 text-center">Loading your selections...</div>;
+  }
+  
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">

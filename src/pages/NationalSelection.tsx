@@ -6,6 +6,7 @@ import SelectedRestaurantsList from "@/components/SelectedRestaurantsList";
 import AddRestaurantDialog from "@/components/AddRestaurantDialog";
 import RestaurantSearchFilter from "@/components/RestaurantSearchFilter";
 import { supabase } from "@/lib/supabaseClient";
+import { useUser } from "@/contexts/UserContext"; // Ensure this is correctly implemented
 
 interface Restaurant {
   id: string;
@@ -15,56 +16,96 @@ interface Restaurant {
 
 const NationalSelection = () => {
   const navigate = useNavigate();
+  const { userData } = useUser(); // Make sure userData.uid is available
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [selectedCity, setSelectedCity] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRestaurants, setSelectedRestaurants] = useState<Restaurant[]>([]);
   const [excludedIds, setExcludedIds] = useState<string[]>([]);
+  const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
 
+
+  // Fetch restaurant list and excluded (regional) selections
+useEffect(() => {
+  const fetchData = async () => {
+    const regional = localStorage.getItem("regionalRestaurants");
+    const excluded = regional ? JSON.parse(regional).map((r: Restaurant) => r.id) : [];
+    setExcludedIds(excluded);
+
+    const { data, error } = await supabase.from("restaurants_table").select("*");
+    if (error) {
+      console.error("Error fetching national restaurants:", error.message);
+      return;
+    }
+
+    const mapped: Restaurant[] = data
+      .map(r => ({
+        id: r.restaurant_id,
+        name: r.restaurant_name,
+        city: r.city_name,
+      }))
+      .filter(r => !excluded.includes(r.id));
+
+    setRestaurants(mapped);
+    setRestaurantsLoaded(true); // ✅ Only after setting restaurants
+  };
+
+  fetchData();
+}, []);
+
+
+  // Load national selection from Supabase
+useEffect(() => {
+  const fetchNationalSelection = async () => {
+    if (!userData?.uid || !restaurantsLoaded) return;
+
+    const { data, error } = await supabase
+      .from("user_selection_table")
+      .select("selected_national_restaurants")
+      .eq("user_id", userData.uid)
+      .single();
+
+    if (error) {
+      console.error("Error fetching national selection:", error.message);
+      return;
+    }
+
+    const selected = data?.selected_national_restaurants || [];
+    setSelectedRestaurants(selected);
+  };
+
+  fetchNationalSelection();
+}, [userData?.uid, restaurantsLoaded]); // ✅ Now it waits for both
+
+
+  // Sync changes to Supabase
   useEffect(() => {
-    const fetchData = async () => {
-      const regional = localStorage.getItem("regionalRestaurants");
-      const excluded = regional ? JSON.parse(regional).map((r: Restaurant) => r.id) : [];
-      setExcludedIds(excluded);
-
-      const { data, error } = await supabase
-        .from("restaurants_table")
-        .select("*");
-
+    const updateSelection = async () => {
+      if (!userData?.uid || !restaurantsLoaded) return;
+      const { error } = await supabase
+        .from("user_selection_table")
+        .upsert(
+          {
+            user_id: userData.uid,
+            selected_national_restaurants: selectedRestaurants,
+          },
+          { onConflict: "user_id" }
+        );
       if (error) {
-        console.error("Error fetching national restaurants:", error.message);
-      } else {
-        const mapped: Restaurant[] = data
-          .map(r => ({
-            id: r.restaurant_id,
-            name: r.restaurant_name,
-            city: r.city_name,
-          }))
-          .filter(r => !excluded.includes(r.id));
-
-        setRestaurants(mapped);
+        console.error("Error updating national selection:", error.message);
       }
     };
 
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("nationalRestaurants");
-    if (stored) {
-      setSelectedRestaurants(JSON.parse(stored));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("nationalRestaurants", JSON.stringify(selectedRestaurants));
-  }, [selectedRestaurants]);
+    updateSelection();
+  }, [selectedRestaurants, userData?.uid]);
 
   const cities = [...new Set(restaurants.map(r => r.city))];
 
   const filteredRestaurants = restaurants.filter(restaurant => {
     const matchesCity = selectedCity ? restaurant.city === selectedCity : false;
-    const matchesSearch = searchTerm ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+    const matchesSearch = searchTerm
+      ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
     return (selectedCity && matchesCity && matchesSearch) || (searchTerm && matchesSearch);
   });
 
@@ -102,12 +143,7 @@ const NationalSelection = () => {
         .eq("restaurant_name", restaurant.name)
         .eq("city_name", restaurant.city);
 
-      if (fetchError) {
-        alert("Something went wrong. Please try again.");
-        return;
-      }
-
-      if (existing && existing.length > 0) {
+      if (fetchError || (existing && existing.length > 0)) {
         alert("This restaurant already exists.");
         return;
       }

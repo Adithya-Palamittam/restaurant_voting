@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import RestaurantRatingCard from "@/components/RestaurantRatingCard";
+import { supabase } from "@/lib/supabaseClient";
+import { useUser } from "@/contexts/UserContext";
 
 interface Restaurant {
   id: string;
@@ -20,51 +22,109 @@ const RatingPage = () => {
   const [ratings, setRatings] = useState<Record<string, Rating>>({});
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const navigate = useNavigate();
+  const { user } = useUser();
 
-  // Load regional + national restaurants
   useEffect(() => {
-    const regional = localStorage.getItem('regionalRestaurants');
-    const national = localStorage.getItem('nationalRestaurants');
+    const fetchData = async () => {
+      if (!user?.id) return;
 
-    const parsedRegional = regional ? JSON.parse(regional) : [];
-    const parsedNational = national ? JSON.parse(national) : [];
+      const { data, error } = await supabase
+        .from("user_selection_table")
+        .select("selected_regional_restaurants, selected_national_restaurants, restaurant_ratings")
+        .eq("user_id", user.id)
+        .single();
 
-    const all = [...parsedRegional, ...parsedNational];
-    setRestaurants(all);
-  }, []);
+      if (error) {
+        console.error("Error fetching user selections:", error.message);
+        return;
+      }
+
+      const regionalList: Restaurant[] = data?.selected_regional_restaurants || [];
+      const nationalList: Restaurant[] = data?.selected_national_restaurants || [];
+      const all: Restaurant[] = [...regionalList, ...nationalList];
+
+      setRestaurants(all);
+      const savedRatings: Record<string, Rating> = data?.restaurant_ratings || {};
+      setRatings(savedRatings);
+
+      const firstUnratedIndex = all.findIndex((r) => {
+        const rating = savedRatings[r.id];
+        return !rating || rating.food === 0 || rating.service === 0 || rating.ambience === 0;
+      });
+
+      setCurrentIndex(firstUnratedIndex === -1 ? 0 : firstUnratedIndex);
+    };
+
+    fetchData();
+  }, [user]);
 
   const currentRestaurant = restaurants[currentIndex];
-  const currentRating = ratings[currentRestaurant?.id] || { food: 0, service: 0, ambience: 0 };
+  const currentRating: Rating = currentRestaurant
+    ? {
+        food: ratings[currentRestaurant.id]?.food || 0,
+        service: ratings[currentRestaurant.id]?.service || 0,
+        ambience: ratings[currentRestaurant.id]?.ambience || 0,
+      }
+    : { food: 0, service: 0, ambience: 0 };
 
-  const isCurrentRated = currentRating.food > 0 && currentRating.service > 0 && currentRating.ambience > 0;
-  const canGoNext = currentIndex < restaurants.length - 1 && isCurrentRated;
-  const canSubmit = currentIndex === restaurants.length - 1 && isCurrentRated;
+  const isCurrentRated =
+    currentRating.food > 0 &&
+    currentRating.service > 0 &&
+    currentRating.ambience > 0;
+
+  const canGoNext =
+    currentIndex < restaurants.length - 1 && isCurrentRated;
+  const canSubmit =
+    currentIndex === restaurants.length - 1 && isCurrentRated;
 
   const updateRating = (category: keyof Rating, value: number) => {
-    setRatings(prev => ({
+    if (!currentRestaurant) return;
+
+    const existing = ratings[currentRestaurant.id] || {
+      food: 0,
+      service: 0,
+      ambience: 0,
+    };
+
+    setRatings((prev) => ({
       ...prev,
       [currentRestaurant.id]: {
-        ...prev[currentRestaurant.id],
-        [category]: value
-      }
+        ...existing,
+        [category]: value,
+      },
     }));
   };
 
-  const goNext = () => {
+  const saveRatingsToSupabase = async (
+    updatedRatings: Record<string, Rating>
+  ) => {
+    if (!user) return;
+    const { error } = await supabase
+      .from("user_selection_table")
+      .update({ restaurant_ratings: updatedRatings })
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error saving ratings:", error);
+    }
+  };
+
+  const goNext = async () => {
     if (canGoNext) {
-      setCurrentIndex(prev => prev + 1);
+      await saveRatingsToSupabase(ratings);
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
   const goPrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
+      setCurrentIndex((prev) => prev - 1);
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (canSubmit) {
-      localStorage.setItem('restaurantRatings', JSON.stringify(ratings));
+      await saveRatingsToSupabase(ratings);
       navigate("/final-ratings");
     }
   };
@@ -152,15 +212,6 @@ const RatingPage = () => {
             onRatingChange={updateRating}
           />
           <NavigationButtons />
-          {/* {canSubmit && isCurrentRated && (
-            <div className="text-right text-sm text-gray-600 mb-4">
-              The "Next" button will only<br />
-              turn green and become<br />
-              clickable after you have<br />
-              rated that restaurant are<br />
-              completed.
-            </div>
-          )} */}
         </div>
       </div>
 
