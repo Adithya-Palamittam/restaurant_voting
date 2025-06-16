@@ -143,6 +143,7 @@ const handleSubmit = async () => {
   const entries = restaurants.map((restaurant) => ({
     user_id: user.id,
     restaurant_id: restaurant.id,
+    restaurant_name: restaurant.name,
     food_rating: latestRatings[restaurant.id]?.food || 0,
     service_rating: latestRatings[restaurant.id]?.service || 0,
     ambience_rating: latestRatings[restaurant.id]?.ambience || 0,

@@ -6,8 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { UserProvider } from "@/contexts/UserContext";
 import AuthGuard from "./components/AuthGuard";
-import RouteTracker from "./components/RouteTracker"; // 👈 Import RouteTracker
+import RouteTracker from "./components/RouteTracker";
 
+// Pages (User flow)
 import Login from "./pages/Login";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import ProcessDescription from "./pages/ProcessDescription";
@@ -20,6 +21,13 @@ import FinalRatings from "./pages/FinalRatings";
 import ThankYou from "./pages/ThankYou";
 import NotFound from "./pages/NotFound";
 
+// Admin panel
+import AdminLayout from "./admin/AdminLayout";
+import AdminDashboard from "./admin/AdminDashboard";
+import UsersPage from "./admin/UsersPage";
+import RatingsPage from "./admin/RatingsPage";
+// import SettingsPage from "./admin/SettingsPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -29,12 +37,23 @@ const App = () => (
       <Sonner />
       <UserProvider>
         <BrowserRouter>
-          <RouteTracker /> {/* 👈 Add RouteTracker inside BrowserRouter */}
+          <RouteTracker />
+
           <Routes>
-            {/* Public Route */}
+            {/* Admin Routes (protected) */}
+            <Route element={<AuthGuard adminOnly />}>
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="users" element={<UsersPage />} />
+                <Route path="ratings" element={<RatingsPage />} />
+                {/* <Route path="settings" element={<SettingsPage />} /> */}
+              </Route>
+            </Route>
+
+            {/* Public login route */}
             <Route path="/" element={<Login />} />
 
-            {/* Auth-Guarded Routes */}
+            {/* Protected user flow */}
             <Route element={<AuthGuard />}>
               <Route path="/terms" element={<TermsAndConditions />} />
               <Route path="/process" element={<ProcessDescription />} />
@@ -46,10 +65,8 @@ const App = () => (
               <Route path="/final-ratings" element={<FinalRatings />} />
             </Route>
 
-            {/* Unprotected Completion Route */}
+            {/* Completion & fallback */}
             <Route path="/thank-you" element={<ThankYou />} />
-
-            {/* 404 Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

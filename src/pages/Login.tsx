@@ -34,7 +34,7 @@ const Login = () => {
     // Fetch user record from users_table
     const { data: userMeta, error: metaError } = await supabase
       .from("users_table")
-      .select("last_visited_page, is_completed, agreed_terms")
+      .select("last_visited_page, is_completed, agreed_terms, is_admin")
       .eq("uid", user.id)
       .single();
 
@@ -44,15 +44,17 @@ const Login = () => {
     }
 
     // ✅ Redirect based on last visited page or fallback
-    if (userMeta.is_completed) {
-      navigate("/thank-you");
-    } else if (userMeta.last_visited_page) {
-      navigate(userMeta.last_visited_page);
-    } else if (!userMeta.agreed_terms) {
-      navigate("/terms");
-    } else {
-      navigate("/process");
-    }
+  if (userMeta.is_admin) {
+    navigate("/admin"); // Redirect to admin dashboard
+  } else if (userMeta.is_completed) {
+    navigate("/thank-you");
+  } else if (userMeta.last_visited_page) {
+    navigate(userMeta.last_visited_page);
+  } else if (!userMeta.agreed_terms) {
+    navigate("/terms");
+  } else {
+    navigate("/process");
+  }
   };
 
   return (
