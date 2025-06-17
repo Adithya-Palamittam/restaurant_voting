@@ -182,8 +182,8 @@ const handleSubmit = async () => {
               <div key={restaurant.id} className="border border-gray-300 rounded-lg p-4">
                 <div className="flex justify-between items-start mb-4">
                   <div>
+                    <div className="text-red-500 text-sm">{index + 1}<span className="text-blue-600">/15</span></div>
                     <div className="text-blue-600 font-medium text-sm">{restaurant.city}</div>
-                    <div className="text-red-500 text-sm">{index + 1}/15</div>
                     <h3 className="text-lg font-bold border-b border-gray-300 pb-2">{restaurant.name}</h3>
                   </div>
                   <Button
@@ -225,8 +225,8 @@ const handleSubmit = async () => {
               <div key={restaurant.id} className="border border-gray-300 rounded-lg p-4">
                 <div className="flex justify-between items-start mb-4">
                   <div>
+                    <div className="text-red-500 text-sm">{index + 1}<span className="text-blue-600">/15</span></div>
                     <div className="text-blue-600 font-medium text-sm">{restaurant.city}</div>
-                    <div className="text-red-500 text-sm">{index + 1}/15</div>
                     <h3 className="text-lg font-bold border-b border-gray-300 pb-2">{restaurant.name}</h3>
                   </div>
                   <Button

@@ -20,7 +20,7 @@ const SelectedRestaurantsList = ({
   maxSelections 
 }: SelectedRestaurantsListProps) => {
   return (
-    <div className="border border-gray-300 rounded-lg p-4 h-[calc(100%-120px)]">
+    <div className="border border-gray-300 rounded-lg p-4 h-[calc(100%-90px)]">
       <h3 className="font-semibold mb-4">Selected Restaurant's</h3>
       
       <div className="border-t border-gray-200">
@@ -29,7 +29,7 @@ const SelectedRestaurantsList = ({
           <div>Restaurant Name</div>
         </div>
         
-        <div className="max-h-64 overflow-y-auto">
+        <div className="max-h-80 overflow-y-auto">
           {selectedRestaurants.map(restaurant => (
             <div key={restaurant.id} className="grid grid-cols-2 gap-4 p-2 border-b border-gray-100 items-center">
               <div className="text-sm">{restaurant.city}</div>

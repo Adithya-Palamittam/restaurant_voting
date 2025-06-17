@@ -33,10 +33,12 @@ const RestaurantList = ({
       </div>
       
       <div className="max-h-96 overflow-y-auto">
-        {restaurants.map(restaurant => (
+        {[...restaurants]
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map(restaurant => (
           <div key={restaurant.id} className="grid grid-cols-3 gap-4 p-2 border-b border-gray-100 hover:bg-gray-50">
             <div>{restaurant.city}</div>
-            <div>{restaurant.name}</div>
+            <div className="break-words whitespace-normal">{restaurant.name}</div>
             <div>
               <Checkbox
                 checked={isSelected(restaurant.id)}

@@ -305,7 +305,7 @@ useEffect(() => {
             onClick={() => navigate("/regional-selection")}
             className="flex items-center gap-2"
           >
-            ← Back to Regional Selection
+            Back to Regional Selection
           </Button>
           
           <Button
@@ -313,7 +313,7 @@ useEffect(() => {
             disabled={!canProceed}
             className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Done →
+            Done
           </Button>
         </div>
       </div>

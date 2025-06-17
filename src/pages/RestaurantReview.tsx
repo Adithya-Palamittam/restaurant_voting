@@ -120,7 +120,9 @@ const RestaurantReview = () => {
               </div>
 
               <div className="max-h-96 overflow-y-auto">
-                {combinedRestaurants.map(restaurant => (
+                {[...combinedRestaurants]
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(restaurant => (
                   <div
                     key={restaurant.id}
                     className="grid grid-cols-3 gap-4 p-4 border-b border-gray-100 hover:bg-gray-50 items-center"

@@ -5,8 +5,7 @@ import { supabase } from "@/lib/supabaseClient";
 const navItems = [
   { label: "Dashboard", path: "/admin", icon: <Home size={18} /> },
   { label: "Users", path: "/admin/users", icon: <Users size={18} /> },
-  { label: "Ratings", path: "/admin/ratings", icon: <Star size={18} /> },
-  { label: "Settings", path: "/admin/settings", icon: <Settings size={18} /> },
+  { label: "Ratings", path: "/admin/ratings", icon: <Star size={18} /> }
 ];
 
 const Sidebar = () => {
