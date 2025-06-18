@@ -38,7 +38,7 @@ const App = () => (
       <UserProvider>
         <BrowserRouter>
           <RouteTracker />
-
+          <div className="max-w-screen-2xl">
           <Routes>
             {/* Admin Routes (protected) */}
             <Route element={<AuthGuard adminOnly />}>
@@ -69,6 +69,7 @@ const App = () => (
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </div>
         </BrowserRouter>
       </UserProvider>
     </TooltipProvider>

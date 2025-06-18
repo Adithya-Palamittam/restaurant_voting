@@ -83,14 +83,14 @@ return (
           <img
             src="/logo.png"
             alt="TP Awards Logo"
-            className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain"
+            className="mx-auto mb-4 w-[15rem] h-[15rem] object-contain"
           />
         </div>
 
-        <div className="space-y-4 text-center text-sm">
+        <div className="space-y-4 text-center text-md">
           <div>
             <h2 className="text-xl font-semibold text-blue-600 mb-2">The Process</h2>
-            <p className="text-gray-700 leading-snug">
+            <p className="text-gray-700 text-mdleading-snug">
               This voting process is designed to be as impartial and<br />
               comprehensive as possible, involving experts and<br />
               tastemakers such as yourself.
@@ -99,7 +99,7 @@ return (
 
           <div>
             <h2 className="text-xl font-semibold text-blue-600 mb-2">Keep it clean</h2>
-            <p className="text-gray-700 leading-snug">
+            <p className="text-gray-700 text-md leading-snug">
               The terms and conditions primarily cover confidentiality,<br />
               conflict of interest and XXXX. Read them{" "}
               <a href="#" className="text-blue-600 underline">
@@ -110,14 +110,14 @@ return (
 
           <div>
             <h2 className="text-xl font-semibold text-blue-600 mb-2">Declaration</h2>
-            <p className="text-gray-700 leading-snug mb-4">
+            <p className="text-gray-700 text-md leading-snug mb-4">
               You certify that all parts of the declaration and voting<br />
               form are true and correct. By participating in the awards,<br />
               you agree to abide by and be bound by the terms and<br />
               conditions.
             </p>
 
-            <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="flex items-center justify-center gap-2 mb-8 mt-8">
               <Checkbox
                 id="agree"
                 checked={agreed}

@@ -176,15 +176,15 @@ const handleSubmit = async () => {
 
       <div className="p-4 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
-        <div className="hidden md:block">
+        <div className="hidden md:block md:px-[6rem] lg:px-[15rem]">
           <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
             {restaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="border border-gray-300 rounded-lg p-4">
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-4 border-b border-gray-300">
                   <div>
-                    <div className="text-red-500 text-sm">{index + 1}<span className="text-blue-600">/15</span></div>
-                    <div className="text-blue-600 font-medium text-sm">{restaurant.city}</div>
-                    <h3 className="text-lg font-bold border-b border-gray-300 pb-2">{restaurant.name}</h3>
+                    <div className="text-red-500 text-md">{index + 1}<span className="text-blue-600">/15</span></div>
+                    <div className="text-blue-600 font-medium text-md">{restaurant.city}</div>
+                    <h2 className="text-2xl font-bold pb-2">{restaurant.name}</h2>
                   </div>
                   <Button
                     variant="ghost"
@@ -196,7 +196,7 @@ const handleSubmit = async () => {
                   </Button>
                 </div>
                 
-                <div className="space-y-2">
+                <div>
                   <StarRating
                     label="Food"
                     value={ratings[restaurant.id]?.food || 0}
@@ -319,7 +319,7 @@ const handleSubmit = async () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="bg-black text-white text-center py-3 mt-8">
+      <footer className="bg-black text-white text-center py-3 mt-4">
         <p className="text-sm">© 2025 Condé Nast</p>
       </footer>
     </div>

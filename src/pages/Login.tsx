@@ -59,13 +59,13 @@ const Login = () => {
 
   return (
   <div className="min-h-screen bg-white flex flex-col justify-between">
-    <div className="flex-grow flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
+    <div className="flex-grow flex items-center justify-center">
+      <div className="w-full max-w-lg">
         <div className="text-center mb-8">
-      <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[15rem] h-[15rem] object-contain" />
           <div className="text-center mb-8">
-            <p className="text-lg mb-2">Your votes will crown India's top 50 restaurants.</p>
-            <p className="text-lg">Ready to go ?</p>
+            <p className="text-lg font-bold mb-2">Your votes will crown India's top 50 restaurants.</p>
+            <p className="text-lg font-bold">Ready to go?</p>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ const Login = () => {
           </div>
         </form>
 
-        <div className="text-center text-sm text-gray-600 mt-8">
+        <div className="text-center text-sm text-gray-600 mt-20">
           You have till 11:59 pm Sunday 30th June to fill this form
         </div>
       </div>

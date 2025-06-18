@@ -12,7 +12,7 @@ const StarRating = ({ value, onChange, label, size = 'md' }: StarRatingProps) =>
 
   return (
     <div className="flex items-center justify-between mb-6">
-      <span className={`text-lg font-medium ${labelWidth}`}>{label}</span>
+      <span className={`text-lg font-medium text-left ${labelWidth}`}>{label}</span>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((star) => (
           <button

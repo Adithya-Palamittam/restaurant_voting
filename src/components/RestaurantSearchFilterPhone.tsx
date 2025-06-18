@@ -1,6 +1,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Search } from "lucide-react";
 
 interface RestaurantSearchFilterPhoneProps {
   selectedCity: string;
@@ -30,12 +31,15 @@ const RestaurantSearchFilterPhone = ({
         </SelectContent>
       </Select>
       
+    <div className="relative w-full">
       <Input
         placeholder="Search By Restaurant Name"
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="flex-1"
+        className="pr-10 pl-4 py-2 flex-1"
       />
+      <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
+    </div>
     </div>
   );
 };

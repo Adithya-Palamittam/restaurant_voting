@@ -4,7 +4,7 @@ const ThankYou = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-2xl text-center">
-        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[16rem] h-[16rem] object-contain" />
           
 
           {/* Mobile Layout */}
@@ -21,7 +21,7 @@ const ThankYou = () => {
           {/* Desktop Layout */}
           <div className="hidden md:block space-y-6">
             <h1 className="text-4xl font-bold text-black">Thank you for voting</h1>
-            <p className="text-xl text-gray-700">
+            <p className="text-xl text-gray-700 pb-32">
               Your votes are confidential and
  secure and will crown India’s Top
  50 restaurant’s of the year. You

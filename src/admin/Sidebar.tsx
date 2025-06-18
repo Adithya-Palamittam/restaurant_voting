@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Home, Users, Star, Settings, LogOut } from "lucide-react";
+import { Home, Users, Star, LogOut } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 
 const navItems = [

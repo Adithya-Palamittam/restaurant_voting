@@ -46,16 +46,23 @@ const AddRestaurantDialog = ({
     <div className="mb-4">
       <p className="text-center text-sm mb-3">Want to add a restaurant that is not on this list?</p>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <div className="flex justify-center">
         <DialogTrigger asChild>
-          <Button className="w-full bg-blue-500 text-white hover:bg-blue-600 py-2 px-4 text-sm">
+          <Button className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-sm">
             Yes
           </Button>
         </DialogTrigger>
+        </div>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Nominate a restaurant not on this list</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
+            <Input
+              placeholder="Restaurant Name"
+              value={newRestaurantName}
+              onChange={(e) => setNewRestaurantName(e.target.value)}
+            />
             <Select value={newRestaurantCity} onValueChange={setNewRestaurantCity}>
               <SelectTrigger>
                 <SelectValue placeholder="Select City" />
@@ -66,11 +73,6 @@ const AddRestaurantDialog = ({
                 ))}
               </SelectContent>
             </Select>
-            <Input
-              placeholder="Restaurant Name"
-              value={newRestaurantName}
-              onChange={(e) => setNewRestaurantName(e.target.value)}
-            />
             <Button 
               onClick={addCustomRestaurant}
               className="w-full"

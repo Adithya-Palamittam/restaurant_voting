@@ -182,8 +182,8 @@ const RatingPage = () => {
       {/* Desktop Layout */}
       <div className="hidden md:flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-md text-center">
-   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
-   <p className="text-lg mb-2">Rate the top 15 restaurants you selected</p>
+   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[15rem] h-[15rem] object-contain" />
+   <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
           <RestaurantRatingCard
             restaurant={currentRestaurant}
             rating={currentRating}
@@ -196,7 +196,7 @@ const RatingPage = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-black text-white text-center py-3 mt-8">
+      <footer className="bg-black text-white text-center py-3">
         <p className="text-sm">© 2025 Condé Nast</p>
       </footer>
     </div>

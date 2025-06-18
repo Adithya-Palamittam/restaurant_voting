@@ -16,12 +16,12 @@ const ProcessDescription = () => {
             <img
               src="/logo.png"
               alt="TP Awards Logo"
-              className="mx-auto mb-2 w-[12.5rem] h-[12.5rem] object-contain"
+              className="mx-auto mb-2 w-[15rem] h-[15rem] object-contain"
             />
 
         </div>
 
-        <div className="space-y-6 text-center text-sm">
+        <div className="space-y-6 text-center text-md">
           <h1 className="text-xl font-semibold text-red-600 mb-4">
             Give us your 15 favourite restaurants
           </h1>
@@ -48,7 +48,7 @@ const ProcessDescription = () => {
 
           <div>
             <h2 className="text-lg font-semibold text-blue-600 mb-2">Step 3</h2>
-            <p className="text-gray-700 leading-snug mb-4">
+            <p className="text-gray-700 leading-snug mb-8">
               Once your list of 15 is ready, proceed to the final stage to<br />
               rate these for Food, Service and Ambience.
             </p>

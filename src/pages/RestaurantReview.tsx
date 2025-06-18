@@ -113,7 +113,7 @@ const RestaurantReview = () => {
         <div className="hidden md:block">
           <div className="max-w-4xl mx-auto">
             <div className="border border-gray-300 rounded-lg mb-6">
-              <div className="grid grid-cols-3 gap-4 p-4 font-semibold border-b border-gray-200">
+              <div className="grid grid-cols-[20%_70%_auto] p-4 font-semibold border-b border-gray-200">
                 <div>City</div>
                 <div>Restaurant Name</div>
                 <div>Remove</div>
@@ -121,15 +121,19 @@ const RestaurantReview = () => {
 
               <div className="max-h-96 overflow-y-auto">
                 {[...combinedRestaurants]
-                .sort((a, b) => a.name.localeCompare(b.name))
+                .sort((a, b) => {
+                  const cityCompare = a.city.localeCompare(b.city);
+                  if (cityCompare !== 0) return cityCompare;
+                  return a.name.localeCompare(b.name);
+                })
                 .map(restaurant => (
                   <div
                     key={restaurant.id}
-                    className="grid grid-cols-3 gap-4 p-4 border-b border-gray-100 hover:bg-gray-50 items-center"
+                    className="grid grid-cols-[20%_70%_auto] p-4 border-b border-gray-100 hover:bg-gray-50 items-center"
                   >
                     <div>{restaurant.city}</div>
                     <div>{restaurant.name}</div>
-                    <div>
+                    <div className="flex justify-center">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -148,7 +152,7 @@ const RestaurantReview = () => {
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
-                className={`px-6 py-2 rounded ${
+                className={`px-6 mx-8 py-2 rounded ${
                   hasRemovedRestaurants
                     ? "bg-blue-500 text-white hover:bg-blue-600"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
