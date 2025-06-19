@@ -20,7 +20,7 @@ const SelectedRestaurantsList = ({
   maxSelections 
 }: SelectedRestaurantsListProps) => {
   return (
-<div className="border border-gray-300 rounded-lg p-4 h-[calc(100%-90px)] overflow-x-hidden flex flex-col">
+<div className=" p-4 h-full overflow-x-hidden flex flex-col">
   {/* Fixed Title */}
   <h3 className=" mb-4">Your Selection</h3>
 

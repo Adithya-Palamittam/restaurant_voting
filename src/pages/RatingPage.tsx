@@ -152,7 +152,7 @@ const RatingPage = () => {
     isCurrentRated
       ? 'text-black cursor-pointer hover:text-gray-800'
       : 'text-gray-400 cursor-not-allowed'
-  } ${isMobile ? 'px-6' : ''} `}
+  }  `}
 >
   Submit
 </span>
@@ -160,7 +160,7 @@ const RatingPage = () => {
       ) : (
         <span
   onClick={isCurrentRated ? goNext : undefined}
-  className={`inline-flex items-center ${isCurrentRated ? 'text-blue-600 cursor-pointer' : 'text-gray-400 cursor-not-allowed'} ${isMobile ? 'px-6' : ''} rounded`}
+  className={`inline-flex items-center ${isCurrentRated ? 'text-blue-600 cursor-pointer' : 'text-gray-400 cursor-not-allowed'}  rounded`}
 >
   Next →
 </span>
@@ -169,12 +169,16 @@ const RatingPage = () => {
     </div>
   );
 
-  return (
-    <div className="min-h-screen bg-white">
+return (
+  <div className="min-h-screen flex flex-col bg-white">
+    {/* Main Content */}
+    <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      
       {/* Mobile Layout */}
-      <div className="block md:hidden p-4">
+      <div className="block md:hidden flex-1 p-4 overflow-y-auto">
         <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
-        <p className="text-lg mb-2 text-center">Rate the top 15 restaurants you selected</p>
+        <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
+
         <RestaurantRatingCard
           restaurant={currentRestaurant}
           rating={currentRating}
@@ -187,10 +191,11 @@ const RatingPage = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden md:flex items-center justify-center min-h-screen px-4">
+      <div className="hidden md:flex flex-1 items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
-   <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
+          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
+          <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
+
           <RestaurantRatingCard
             restaurant={currentRestaurant}
             rating={currentRating}
@@ -201,13 +206,15 @@ const RatingPage = () => {
           <NavigationButtons />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-black text-white text-center py-3">
-        <p className="text-sm">© 2025 Condé Nast</p>
-      </footer>
     </div>
-  );
+
+    {/* Footer */}
+    <footer className="bg-black text-white text-center py-3 text-sm">
+      <p>© 2025 Condé Nast</p>
+    </footer>
+  </div>
+);
+
 };
 
 export default RatingPage;

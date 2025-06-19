@@ -22,7 +22,8 @@ export default function UserTable() {
   const fetchUsers = async () => {
     const { data, error } = await supabase
       .from("users_table")
-      .select("uid, email, is_completed");
+      .select("uid, email, is_completed")
+      .neq("email", "admin@3cctech.com");
     if (!error && data) setUsers(data);
   };
 

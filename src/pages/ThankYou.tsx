@@ -13,9 +13,6 @@ const ThankYou = () => {
             <p className="text-base text-gray-700 mb-6">
               Your votes are confidential and secure and will crown India's top 50 restaurants of the year. You can now close this window
             </p>
-            <button className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800">
-              Close
-            </button>
           </div>
 
           {/* Desktop Layout */}

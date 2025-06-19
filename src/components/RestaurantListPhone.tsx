@@ -7,19 +7,19 @@ interface Restaurant {
   name: string;
 }
 
-interface RestaurantListProps {
+interface RestaurantListPhoneProps {
   restaurants: Restaurant[];
   selectedRestaurants: Restaurant[];
   onRestaurantToggle: (restaurant: Restaurant) => void;
   maxSelections: number;
 }
 
-const RestaurantList = ({ 
+const RestaurantListPhone = ({ 
   restaurants, 
   selectedRestaurants, 
   onRestaurantToggle, 
   maxSelections 
-}: RestaurantListProps) => {
+}: RestaurantListPhoneProps) => {
   const isSelected = (restaurantId: string) => {
     return selectedRestaurants.some(r => r.id === restaurantId);
   };
@@ -32,7 +32,7 @@ const RestaurantList = ({
         <div className="text-center pr-6">Add</div>
       </div>
       
-      <div className="flex-1 overflow-y-scroll scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin">
+      <div className="max-h-72 overflow-y-scroll scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin">
         {[...restaurants]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(restaurant => (
@@ -53,4 +53,4 @@ const RestaurantList = ({
   );
 };
 
-export default RestaurantList;
+export default RestaurantListPhone;

@@ -8,6 +8,7 @@ import RestaurantSearchFilter from "@/components/RestaurantSearchFilter";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext"; // Ensure this is correctly implemented
 import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
+import RestaurantListPhone from "@/components/RestaurantListPhone";
 
 interface Restaurant {
   id: string;
@@ -29,11 +30,26 @@ const NationalSelection = () => {
   // Fetch restaurant list and excluded (regional) selections
 useEffect(() => {
   const fetchData = async () => {
-    const regional = localStorage.getItem("regionalRestaurants");
-    const excluded = regional ? JSON.parse(regional).map((r: Restaurant) => r.id) : [];
+    if (!userData?.uid) return;
+
+    // Fetch regional selection to exclude
+    const { data: userSelection, error: selectionError } = await supabase
+      .from("user_selection_table")
+      .select("selected_regional_restaurants")
+      .eq("user_id", userData.uid)
+      .single();
+
+    if (selectionError) {
+      console.error("Error fetching regional selections:", selectionError.message);
+      return;
+    }
+
+    const excluded = userSelection?.selected_regional_restaurants?.map((r: Restaurant) => r.id) || [];
     setExcludedIds(excluded);
 
+    // Fetch all restaurants
     const { data, error } = await supabase.from("restaurants_table").select("*");
+
     if (error) {
       console.error("Error fetching national restaurants:", error.message);
       return;
@@ -45,14 +61,14 @@ useEffect(() => {
         name: r.restaurant_name,
         city: r.city_name,
       }))
-      .filter(r => !excluded.includes(r.id));
+      .filter(r => !excluded.includes(r.id)); // filter out previously selected ones
 
     setRestaurants(mapped);
-    setRestaurantsLoaded(true); // ✅ Only after setting restaurants
+    setRestaurantsLoaded(true);
   };
 
   fetchData();
-}, []);
+}, [userData?.uid]);
 
 
   // Load national selection from Supabase
@@ -187,24 +203,29 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex-1 p-4 md:p-6">
-        <h2 className="text-xl mb-4 text-left"> Choose 5 restaurants from anywhere across India. Or add more from your region.</h2>
+  <div className="h-screen flex flex-col bg-white">
+    {/* Main Content Wrapper */}
+    <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      
+      {/* Inner Content Section */}
+      <div className="flex-1 flex flex-col overflow-hidden p-4 md:p-6 md:h-[calc(100vh-48px)]">
+        <h2 className="text-xl mb-4 text-left">
+          Choose 5 restaurants from anywhere across India. Or add more from your region.
+        </h2>
         <hr className="border-t border-gray-300 mb-4" />
-        {/* Mobile Layout */}
-        <div className="block md:hidden">
-          <div className="space-y-4 mb-6">
-            <RestaurantSearchFilterPhone
-              selectedCity={selectedCity}
-              onCityChange={setSelectedCity}
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              cities={cities}
-            />
-          </div>
 
-          <div className="border border-gray-300 rounded-lg mb-6">
-            <RestaurantList
+        {/* ---------- Mobile Layout ---------- */}
+        <div className="block md:hidden flex-1 overflow-y-auto space-y-6 pb-4">
+          <RestaurantSearchFilterPhone
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            cities={cities}
+          />
+
+          <div className="max-h-96 border border-gray-300 rounded-lg">
+            <RestaurantListPhone
               restaurants={filteredRestaurants}
               selectedRestaurants={selectedRestaurants}
               onRestaurantToggle={handleRestaurantToggle}
@@ -219,18 +240,18 @@ useEffect(() => {
             maxSelections={5}
           />
 
-          <div className="border border-gray-300 rounded-lg mb-6">
+          <div className="border border-gray-300 rounded-lg">
             <h3 className="font-semibold p-3 border-b">Your Selection</h3>
-            <div className="grid grid-cols-2 gap-4 p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant name</div>
             </div>
             <div className="max-h-48 overflow-y-auto">
               {selectedRestaurants.map(restaurant => (
-                <div key={restaurant.id} className="grid grid-cols-2 gap-4 p-3 border-b border-gray-100 items-center text-sm">
+                <div key={restaurant.id} className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
                   <div>{restaurant.city}</div>
-                  <div className="flex items-center justify-between">
-                    <span>{restaurant.name}</span>
+                  <div>{restaurant.name}</div>
+                  <div className="text-center">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -245,9 +266,9 @@ useEffect(() => {
             </div>
             <div className="p-3 text-center text-sm">
               {selectedRestaurants.length < 5 ? (
-              <>
-                Please add <span className="text-red-500 font-semibold">{5 - selectedRestaurants.length}</span> restaurants
-              </>
+                <>
+                  Please add <span className="text-red-500 font-semibold">{5 - selectedRestaurants.length}</span> restaurants
+                </>
               ) : (
                 <span className="text-green-600 font-semibold">You have added 5 restaurants.</span>
               )}
@@ -257,15 +278,15 @@ useEffect(() => {
           <Button
             onClick={handleProceed}
             disabled={!canProceed}
-            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Done
           </Button>
         </div>
 
-        {/* Desktop Layout */}
-        <div className="hidden md:flex gap-6 h-[calc(100vh-200px)]">
-          <div className="w-[60%] border border-gray-300 rounded-lg p-4">
+        {/* ---------- Desktop Layout ---------- */}
+        <div className="hidden md:flex gap-6 flex-1 overflow-hidden">
+          <div className="w-[60%] border border-gray-300 rounded-lg p-4 flex flex-col overflow-hidden">
             <RestaurantSearchFilter
               selectedCity={selectedCity}
               onCityChange={setSelectedCity}
@@ -273,28 +294,30 @@ useEffect(() => {
               onSearchChange={setSearchTerm}
               cities={cities}
             />
-
-            <RestaurantList
-              restaurants={filteredRestaurants}
-              selectedRestaurants={selectedRestaurants}
-              onRestaurantToggle={handleRestaurantToggle}
-              maxSelections={5}
-            />
+            <div className="flex-1 overflow-hidden">
+              <RestaurantList
+                restaurants={filteredRestaurants}
+                selectedRestaurants={selectedRestaurants}
+                onRestaurantToggle={handleRestaurantToggle}
+                maxSelections={5}
+              />
+            </div>
           </div>
 
-          <div className="w-[40%]">
+          <div className="w-[40%] flex flex-col gap-4">
             <AddRestaurantDialog
               cities={cities}
               selectedRestaurants={selectedRestaurants}
               onAddRestaurant={addCustomRestaurant}
               maxSelections={5}
             />
-
-            <SelectedRestaurantsList
-              selectedRestaurants={selectedRestaurants}
-              onRemoveRestaurant={removeRestaurant}
-              maxSelections={5}
-            />
+            <div className="flex-1 overflow-y-auto border border-gray-300 rounded-lg">
+              <SelectedRestaurantsList
+                selectedRestaurants={selectedRestaurants}
+                onRemoveRestaurant={removeRestaurant}
+                maxSelections={5}
+              />
+            </div>
           </div>
         </div>
 
@@ -317,12 +340,15 @@ useEffect(() => {
           </Button>
         </div>
       </div>
-
-      <footer className="bg-black text-white text-center py-3">
-        <p className="text-sm">© 2025 Condé Nast</p>
-      </footer>
     </div>
-  );
+
+    {/* Footer - Fixed on Desktop */}
+    <footer className="bg-black text-white text-center py-3 text-sm md:fixed md:bottom-0 md:left-0 md:right-0">
+      <p>© 2025 Condé Nast</p>
+    </footer>
+  </div>
+);
+
 };
 
 export default NationalSelection;

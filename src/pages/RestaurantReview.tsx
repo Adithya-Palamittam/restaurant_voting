@@ -179,21 +179,21 @@ const RestaurantReview = () => {
         {/* Mobile Layout */}
         <div className="block md:hidden">
           <div className="border border-gray-300 rounded-lg mb-6">
-            <div className="grid grid-cols-3 gap-2 p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant Name</div>
-              <div>Remove</div>
+              <div className="justify-center">Remove</div>
             </div>
 
             <div className="max-h-96 overflow-y-auto">
               {combinedRestaurants.map(restaurant => (
                 <div
                   key={restaurant.id}
-                  className="grid grid-cols-3 gap-2 p-3 border-b border-gray-100 items-center text-sm"
+                  className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm"
                 >
                   <div>{restaurant.city}</div>
                   <div>{restaurant.name}</div>
-                  <div>
+                  <div className="text-center">
                     <Button
                       variant="ghost"
                       size="sm"

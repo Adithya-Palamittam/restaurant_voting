@@ -8,6 +8,7 @@ import RestaurantSearchFilter from "@/components/RestaurantSearchFilter";
 import { useUser } from "@/contexts/UserContext";
 import { supabase } from "@/lib/supabaseClient";
 import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
+import RestaurantListPhone from "@/components/RestaurantListPhone";
 
 interface Restaurant {
   id: string;
@@ -195,27 +196,30 @@ useEffect(() => {
     navigate("/national-selection");
   };
 
-  return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex-1 p-4 md:p-6">
-        <h2 className="text-xl mb-4 text-left">Choose 10 restaurant from your region</h2>
+return (
+  <div className="h-screen flex flex-col bg-white">
+    {/* Main Content Wrapper */}
+    <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      
+      {/* Inner Content Section */}
+      <div className="flex-1 flex flex-col overflow-hidden p-4 md:p-6 md:h-[calc(100vh-48px)]">
+        <h2 className="text-xl mb-4 text-left">Choose 10 restaurants from your region</h2>
         <hr className="border-t border-gray-300 mb-4" />
-        {/* Mobile Layout */}
-        <div className="block md:hidden">
-          
-          <div className="space-y-4 mb-6">
-            <RestaurantSearchFilterPhone
-              selectedCity={selectedCity}
-              onCityChange={setSelectedCity}
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              cities={cities}
-            />
-          </div>
 
-          {/* Mobile Restaurant List */}
-          <div className="border border-gray-300 rounded-lg mb-6">
-            <RestaurantList
+        {/* ---------- Mobile Layout ---------- */}
+        <div className="block md:hidden flex-1 overflow-y-auto space-y-6 pb-4">
+          {/* Search + Filter */}
+          <RestaurantSearchFilterPhone
+            selectedCity={selectedCity}
+            onCityChange={setSelectedCity}
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            cities={cities}
+          />
+
+          {/* Restaurant List */}
+          <div className="max-h-96 border border-gray-300 rounded-lg">
+            <RestaurantListPhone
               restaurants={filteredRestaurants}
               selectedRestaurants={selectedRestaurants}
               onRestaurantToggle={handleRestaurantToggle}
@@ -223,7 +227,7 @@ useEffect(() => {
             />
           </div>
 
-          {/* Mobile Add Restaurant Button */}
+          {/* Add Custom Restaurant */}
           <AddRestaurantDialog
             cities={cities}
             selectedRestaurants={selectedRestaurants}
@@ -231,19 +235,19 @@ useEffect(() => {
             maxSelections={10}
           />
 
-          {/* Mobile Selected List */}
-          <div className="border border-gray-300 rounded-lg mb-6">
+          {/* Selected Restaurants Display */}
+          <div className="border border-gray-300 rounded-lg">
             <h3 className="font-semibold p-3 border-b">Your Selection</h3>
-            <div className="grid grid-cols-2 gap-4 p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant name</div>
             </div>
             <div className="max-h-48 overflow-y-auto">
               {selectedRestaurants.map(restaurant => (
-                <div key={restaurant.id} className="grid grid-cols-2 gap-4 p-3 border-b border-gray-100 items-center text-sm">
+                <div key={restaurant.id} className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
                   <div>{restaurant.city}</div>
-                  <div className="flex items-center justify-between">
-                    <span>{restaurant.name}</span>
+                  <div>{restaurant.name}</div>
+                  <div className="text-center">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -254,31 +258,31 @@ useEffect(() => {
                     </Button>
                   </div>
                 </div>
-              ))} 
+              ))}
             </div>
             <div className="p-3 text-center text-sm">
               {selectedRestaurants.length < 10 ? (
-                <>
-                  Please add <span className="text-red-500 font-semibold">{10 - selectedRestaurants.length}</span> restaurants
-                </>
+                <>Please add <span className="text-red-500 font-semibold">{10 - selectedRestaurants.length}</span> restaurants</>
               ) : (
                 <span className="text-green-600 font-semibold">You have added 10 restaurants.</span>
               )}
             </div>
           </div>
 
+          {/* Submit Button */}
           <Button
             onClick={handleProceed}
             disabled={!canProceed}
-            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Done
           </Button>
         </div>
 
-        {/* Desktop Layout */}
-        <div className="hidden md:flex gap-6 h-[calc(100vh-200px)]">
-          <div className="w-[60%] border border-gray-300 rounded-lg p-4">
+        {/* ---------- Desktop Layout ---------- */}
+        <div className="hidden md:flex gap-6 flex-1 overflow-hidden">
+          {/* Left Column */}
+          <div className="w-[60%] border border-gray-300 rounded-lg p-4 flex flex-col overflow-hidden">
             <RestaurantSearchFilter
               selectedCity={selectedCity}
               onCityChange={setSelectedCity}
@@ -286,32 +290,35 @@ useEffect(() => {
               onSearchChange={setSearchTerm}
               cities={cities}
             />
-
-            <RestaurantList
-              restaurants={filteredRestaurants}
-              selectedRestaurants={selectedRestaurants}
-              onRestaurantToggle={handleRestaurantToggle}
-              maxSelections={10}
-            />
+            <div className="flex-1 overflow-hidden">
+              <RestaurantList
+                restaurants={filteredRestaurants}
+                selectedRestaurants={selectedRestaurants}
+                onRestaurantToggle={handleRestaurantToggle}
+                maxSelections={10}
+              />
+            </div>
           </div>
 
-          <div className="w-[40%]">
+          {/* Right Column */}
+          <div className="w-[40%] flex flex-col gap-4">
             <AddRestaurantDialog
               cities={cities}
               selectedRestaurants={selectedRestaurants}
               onAddRestaurant={addCustomRestaurant}
               maxSelections={10}
             />
-
-            <SelectedRestaurantsList
-              selectedRestaurants={selectedRestaurants}
-              onRemoveRestaurant={removeRestaurant}
-              maxSelections={10}
-            />
+            <div className="flex-1 overflow-y-auto border border-gray-300 rounded-lg">
+              <SelectedRestaurantsList
+                selectedRestaurants={selectedRestaurants}
+                onRemoveRestaurant={removeRestaurant}
+                maxSelections={10}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation Buttons */}
         <div className="hidden md:flex justify-between items-center mt-6">
           <Button
             variant="outline"
@@ -320,7 +327,7 @@ useEffect(() => {
           >
             Back to Home
           </Button>
-          
+
           <Button
             onClick={handleProceed}
             disabled={!canProceed}
@@ -330,13 +337,15 @@ useEffect(() => {
           </Button>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-black text-white text-center py-3">
-        <p className="text-sm">© 2025 Condé Nast</p>
-      </footer>
     </div>
-  );
+
+    {/* Footer - Fixed on Desktop Only */}
+    <footer className="bg-black text-white text-center py-3 text-sm md:fixed md:bottom-0 md:left-0 md:right-0">
+      <p>© 2025 Condé Nast</p>
+    </footer>
+  </div>
+);
+
 };
 
 export default RegionalSelection;
