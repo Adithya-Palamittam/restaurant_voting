@@ -113,10 +113,10 @@ const RestaurantReview = () => {
         <div className="hidden md:block">
           <div className="max-w-4xl mx-auto">
             <div className="border border-gray-300 rounded-lg mb-6">
-              <div className="grid grid-cols-[20%_70%_auto] p-4 font-semibold border-b border-gray-200">
+              <div className="grid grid-cols-[20%_60%_auto] p-4 pl-14 font-semibold border-b border-gray-200">
                 <div>City</div>
                 <div>Restaurant Name</div>
-                <div>Remove</div>
+                <div className="text-center pr-6">Remove</div>
               </div>
 
               <div className="max-h-96 overflow-y-auto">
@@ -129,10 +129,10 @@ const RestaurantReview = () => {
                 .map(restaurant => (
                   <div
                     key={restaurant.id}
-                    className="grid grid-cols-[20%_70%_auto] p-4 border-b border-gray-100 hover:bg-gray-50 items-center"
+                    className="grid grid-cols-[20%_60%_auto] p-4 pl-14 border-b border-gray-100 hover:bg-gray-50 items-center"
                   >
                     <div>{restaurant.city}</div>
-                    <div>{restaurant.name}</div>
+                    <div className="break-words whitespace-normal">{restaurant.name}</div>
                     <div className="flex justify-center">
                       <Button
                         variant="ghost"
@@ -152,10 +152,10 @@ const RestaurantReview = () => {
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
-                className={`px-6 mx-8 py-2 rounded ${
+                className={`px-8 mx-44 py-2 rounded text-md${
                   hasRemovedRestaurants
                     ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-slate-50 text-gray-100 cursor-not-allowed opacity-50"
                 }`}
               >
                 Add a restaurant
@@ -164,7 +164,7 @@ const RestaurantReview = () => {
               <Button
                 onClick={handleProceedToRating}
                 disabled={!is15Restaurants}
-                className={`px-8 py-2 rounded ${
+                className={`px-8 mx-44 py-2 rounded text-md${
                   is15Restaurants
                     ? "bg-green-500 text-white hover:bg-green-600"
                     : "bg-black text-white hover:bg-gray-800 "

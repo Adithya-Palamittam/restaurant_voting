@@ -198,7 +198,7 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 p-4 md:p-6">
-        <h2 className="text-xl font-semibold mb-4 text-left">Select 10 restaurant's from your region</h2>
+        <h2 className="text-xl mb-4 text-left">Choose 10 restaurant from your region</h2>
         <hr className="border-t border-gray-300 mb-4" />
         {/* Mobile Layout */}
         <div className="block md:hidden">

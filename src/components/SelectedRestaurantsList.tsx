@@ -22,13 +22,13 @@ const SelectedRestaurantsList = ({
   return (
 <div className="border border-gray-300 rounded-lg p-4 h-[calc(100%-90px)] overflow-x-hidden flex flex-col">
   {/* Fixed Title */}
-  <h3 className="font-semibold mb-4">Selected Restaurant's</h3>
+  <h3 className=" mb-4">Your Selection</h3>
 
   {/* Fixed Column Header */}
   <div className="border-t border-gray-200">
     <div className="grid grid-cols-[30%_70%] gap-1 p-2 font-semibold border-b border-gray-200">
       <div>City</div>
-      <div>Restaurant Name</div>
+      <div>Restaurant name</div>
     </div>
   </div>
 

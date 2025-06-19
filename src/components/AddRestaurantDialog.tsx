@@ -59,13 +59,13 @@ const AddRestaurantDialog = ({
           </DialogHeader>
           <div className="space-y-4">
             <Input
-              placeholder="Restaurant Name"
+              placeholder="Restaurant name and location/branch"
               value={newRestaurantName}
               onChange={(e) => setNewRestaurantName(e.target.value)}
             />
             <Select value={newRestaurantCity} onValueChange={setNewRestaurantCity}>
               <SelectTrigger>
-                <SelectValue placeholder="Select City" />
+                <SelectValue placeholder="City/Town" />
               </SelectTrigger>
               <SelectContent>
                 {cities.map(city => (

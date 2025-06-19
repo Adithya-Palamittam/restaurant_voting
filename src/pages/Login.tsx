@@ -58,18 +58,19 @@ const Login = () => {
   };
 
   return (
-  <div className="min-h-screen bg-white flex flex-col justify-between">
+  <div className="min-h-screen bg-white flex flex-col">
     <div className="flex-grow flex items-center justify-center">
-      <div className="w-full max-w-lg">
-        <div className="text-center mb-8">
+      <div className="w-full max-w-lg justify-between flex-col">
+     
         <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[15rem] h-[15rem] object-contain" />
-          <div className="text-center mb-8">
-            <p className="text-lg font-bold mb-2">Your votes will crown India's top 50 restaurants.</p>
-            <p className="text-lg font-bold">Ready to go?</p>
+        <div>
+          <div className="text-center mb-8 pt-8">
+            <p className="text-xl mb-2">Your votes will crown India's top 50 restaurants.</p>
+            <p className="text-xl ">Ready to go?</p>
           </div>
-        </div>
+  
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-6 pb-8 px-20">
           <div>
             <Input
               type="text"
@@ -96,14 +97,15 @@ const Login = () => {
           <div className="flex justify-center pt-4">
             <Button
               type="submit"
-              className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800"
+              className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800 text-md"
             >
               Login
             </Button>
           </div>
         </form>
+        </div>
 
-        <div className="text-center text-sm text-gray-600 mt-20">
+        <div className="text-center text-sm text-gray-600 mt-10">
           You have till 11:59 pm Sunday 30th June to fill this form
         </div>
       </div>

@@ -189,7 +189,7 @@ useEffect(() => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 p-4 md:p-6">
-        <h2 className="text-xl font-semibold mb-4 text-left"> Select 5 restaurant’s from anywhere across the country</h2>
+        <h2 className="text-xl mb-4 text-left"> Choose 5 restaurants from anywhere across India. Or add more from your region.</h2>
         <hr className="border-t border-gray-300 mb-4" />
         {/* Mobile Layout */}
         <div className="block md:hidden">

@@ -176,13 +176,13 @@ const handleSubmit = async () => {
 
       <div className="p-4 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
-        <div className="hidden md:block md:px-[6rem] lg:px-[15rem]">
+        <div className="hidden md:block md:px-[6rem] lg:px-[18rem]">
           <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
             {restaurants.map((restaurant, index) => (
-              <div key={restaurant.id} className="border border-gray-300 rounded-lg p-4">
+              <div key={restaurant.id} className="border border-gray-300 rounded-lg px-4 pt-4">
                 <div className="flex justify-between items-start mb-4 border-b border-gray-300">
                   <div>
-                    <div className="text-red-500 text-md">{index + 1}<span className="text-blue-600">/15</span></div>
+                    <div className="text-red-500 text-xs">{index + 1}<span className="text-blue-600">/15</span></div>
                     <div className="text-blue-600 font-medium text-md">{restaurant.city}</div>
                     <h2 className="text-2xl font-bold pb-2">{restaurant.name}</h2>
                   </div>
@@ -280,7 +280,7 @@ const handleSubmit = async () => {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-              Edit Rating - {editingRestaurant?.name}
+              Edit the ratings for {editingRestaurant?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
@@ -299,17 +299,17 @@ const handleSubmit = async () => {
               value={editingRating.ambience}
               onChange={(value) => updateEditingRating('ambience', value)}
             />
-            <div className="flex gap-2 pt-4">
+            <div className="flex gap-2 pt-4 text-md">
               <Button
                 variant="outline"
                 onClick={() => setIsEditDialogOpen(false)}
-                className="flex-1"
+                className="flex-1 mx-4"
               >
                 Cancel
               </Button>
               <Button
                 onClick={saveEditedRating}
-                className="flex-1"
+                className="flex-1 mx-4"
               >
                 Save
               </Button>

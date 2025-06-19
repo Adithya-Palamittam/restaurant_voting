@@ -21,7 +21,7 @@ const ThankYou = () => {
           {/* Desktop Layout */}
           <div className="hidden md:block space-y-6">
             <h1 className="text-4xl font-bold text-black">Thank you for voting</h1>
-            <p className="text-xl text-gray-700 pb-32">
+            <p className="text-xl text-gray-700 pb-8 px-24">
               Your votes are confidential and
  secure and will crown India’s Top
  50 restaurant’s of the year. You

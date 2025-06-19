@@ -132,32 +132,39 @@ const RatingPage = () => {
   if (!currentRestaurant) return null;
 
   const NavigationButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className="flex justify-between mt-8">
-      <Button
-        variant="outline"
-        onClick={goPrevious}
-        disabled={currentIndex === 0}
-        className="flex items-center gap-2"
-      >
-        ← Previous
-      </Button>
+    <div className="flex justify-between mt-8 mx-6">
+<span
+  onClick={currentIndex === 0 ? undefined : goPrevious}
+  className={`inline-flex items-center gap-2 font-medium ${
+    currentIndex === 0
+      ? 'text-gray-400 cursor-not-allowed'
+      : 'text-black cursor-pointer hover:text-gray-800'
+  }`}
+>
+  ← Previous
+</span>
+
 
       {canSubmit ? (
-        <Button
-          onClick={handleSubmit}
-          disabled={!isCurrentRated}
-          className={`bg-black text-white hover:bg-gray-800 disabled:opacity-50 ${isMobile ? 'px-6' : 'px-8'} py-2 rounded`}
-        >
-          Submit
-        </Button>
+<span
+  onClick={isCurrentRated ? handleSubmit : undefined}
+  className={`inline-block font-medium ${
+    isCurrentRated
+      ? 'text-black cursor-pointer hover:text-gray-800'
+      : 'text-gray-400 cursor-not-allowed'
+  } ${isMobile ? 'px-6' : ''} `}
+>
+  Submit
+</span>
+
       ) : (
-        <Button
-          onClick={goNext}
-          disabled={!isCurrentRated}
-          className={`bg-black text-white hover:bg-blue-700 disabled:opacity-50 ${isMobile ? 'px-6' : 'px-8'} py-2 rounded`}
-        >
-          Next →
-        </Button>
+        <span
+  onClick={isCurrentRated ? goNext : undefined}
+  className={`inline-flex items-center ${isCurrentRated ? 'text-blue-600 cursor-pointer' : 'text-gray-400 cursor-not-allowed'} ${isMobile ? 'px-6' : ''} rounded`}
+>
+  Next →
+</span>
+
       )}
     </div>
   );
@@ -182,7 +189,7 @@ const RatingPage = () => {
       {/* Desktop Layout */}
       <div className="hidden md:flex items-center justify-center min-h-screen px-4">
         <div className="w-full max-w-md text-center">
-   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[15rem] h-[15rem] object-contain" />
+   <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
    <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
           <RestaurantRatingCard
             restaurant={currentRestaurant}

@@ -75,77 +75,83 @@ const handleProceed = async () => {
 };
 
 
-return (
-  <div className="min-h-screen bg-white flex flex-col">
-    <div className="flex-grow flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl">
-        <div className="text-center mb-2">
-          <img
-            src="/logo.png"
-            alt="TP Awards Logo"
-            className="mx-auto mb-4 w-[15rem] h-[15rem] object-contain"
-          />
-        </div>
-
-        <div className="space-y-4 text-center text-md">
-          <div>
-            <h2 className="text-xl font-semibold text-blue-600 mb-2">The Process</h2>
-            <p className="text-gray-700 text-mdleading-snug">
-              This voting process is designed to be as impartial and<br />
-              comprehensive as possible, involving experts and<br />
-              tastemakers such as yourself.
-            </p>
+  return (
+    <div className="bg-white min-h-screen flex flex-col md:h-screen">
+      {/* Main Content */}
+      <div className="flex-1 px-4 py-6 overflow-y-auto md:flex md:items-center md:justify-center md:px-0 md:py-0">
+        <div className="w-full max-w-2xl md:max-h-[calc(100vh-4rem)] md:overflow-hidden">
+          <div className="text-center mb-4">
+            <img
+              src="/logo.png"
+              alt="TP Awards Logo"
+              className="mx-auto mb-4 w-[10rem] h-[10rem] object-contain"
+            />
           </div>
 
-          <div>
-            <h2 className="text-xl font-semibold text-blue-600 mb-2">Keep it clean</h2>
-            <p className="text-gray-700 text-md leading-snug">
-              The terms and conditions primarily cover confidentiality,<br />
-              conflict of interest and XXXX. Read them{" "}
-              <a href="#" className="text-blue-600 underline">
-                here
-              </a>.
-            </p>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold text-blue-600 mb-2">Declaration</h2>
-            <p className="text-gray-700 text-md leading-snug mb-4">
-              You certify that all parts of the declaration and voting<br />
-              form are true and correct. By participating in the awards,<br />
-              you agree to abide by and be bound by the terms and<br />
-              conditions.
-            </p>
-
-            <div className="flex items-center justify-center gap-2 mb-8 mt-8">
-              <Checkbox
-                id="agree"
-                checked={agreed}
-                onCheckedChange={(checked) => setAgreed(checked as boolean)}
-              />
-              <label htmlFor="agree" className="text-gray-700">
-                I agree
-              </label>
+          <div className="space-y-6 text-center text-md">
+            {/* Section 1 */}
+            <div>
+              <h2 className="text-xl font-semibold text-blue-600 mb-2">The Process</h2>
+              <p className="text-gray-700 leading-snug">
+                This voting process is designed to be as impartial and
+                comprehensive as possible, involving experts and
+                tastemakers such as yourself.
+              </p>
             </div>
 
-            <Button
-              onClick={handleProceed}
-              disabled={!agreed}
-              className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Proceed
-            </Button>
+            {/* Section 2 */}
+            <div>
+              <h2 className="text-xl font-semibold text-blue-600 mb-2">Keep it clean</h2>
+              <p className="text-gray-700 leading-snug">
+                The terms and conditions primarily cover confidentiality,
+                conflict of interest and XXXX. Read them{" "}
+                <a href="#" className="text-blue-600 underline">
+                  here
+                </a>.
+              </p>
+            </div>
+
+            {/* Section 3 */}
+            <div>
+              <h2 className="text-xl font-semibold text-blue-600 mb-2">Declaration</h2>
+              <p className="text-gray-700 leading-snug">
+                You certify that all parts of the declaration and voting
+                form are true and correct. By participating in the awards,
+                you agree to abide by and be bound by the terms and
+                conditions.
+              </p>
+
+              <div className="flex items-center justify-center gap-2 mt-6">
+                <Checkbox
+                  id="agree"
+                  checked={agreed}
+                  onCheckedChange={(checked) => setAgreed(checked as boolean)}
+                />
+                <label htmlFor="agree" className="text-gray-700">
+                  I agree
+                </label>
+              </div>
+
+              <div className="mt-6">
+                <Button
+                  onClick={handleProceed}
+                  disabled={!agreed}
+                  className="bg-black text-white text-md px-6 py-2 rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Proceed
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    {/* Footer */}
-    <footer className="bg-black text-white text-center py-2 text-xs">
-      <p>© 2025 Condé Nast</p>
-    </footer>
-  </div>
-);
+      {/* Footer */}
+      <footer className="bg-black text-white text-center py-2 text-xs">
+        <p>© 2025 Condé Nast</p>
+      </footer>
+    </div>
+  );
 
 };
 

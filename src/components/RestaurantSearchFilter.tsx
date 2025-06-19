@@ -22,7 +22,7 @@ const RestaurantSearchFilter = ({
     <div className="flex gap-4 mb-4">
       <Select value={selectedCity} onValueChange={onCityChange}>
         <SelectTrigger className="w-48">
-          <SelectValue placeholder="Select City" />
+          <SelectValue placeholder="Select city" />
         </SelectTrigger>
         <SelectContent>
           {cities.map(city => (
@@ -33,7 +33,7 @@ const RestaurantSearchFilter = ({
       
     <div className="relative w-full">
       <Input
-        placeholder="Search By Restaurant Name"
+        placeholder="Search by restaurant name"
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
         className="pr-10 pl-4 py-2 flex-1"
