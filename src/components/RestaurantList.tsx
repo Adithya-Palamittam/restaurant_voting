@@ -25,7 +25,7 @@ const RestaurantList = ({
   };
 
   return (
-    <div className="border-t border-gray-200 h-  overflow-x-hidden flex flex-col">
+    <div className="border-t border-gray-200 h-[calc(100%-90px)] overflow-x-hidden flex flex-col">
       <div className="grid grid-cols-[20%_60%_auto] p-2 font-semibold border-b border-gray-200">
         <div>City</div>
         <div>Restaurant name</div>
