@@ -76,25 +76,25 @@ useEffect(() => {
 }, [userData?.uid, restaurants]);
 
 
-useEffect(() => {
-  const saveSelection = async () => {
-    if (!userData?.uid || !hasInitialized) return;
+// useEffect(() => {
+//   const saveSelection = async () => {
+//     if (!userData?.uid || !hasInitialized) return;
 
-    const { error } = await supabase
-      .from("user_selection_table")
-      .upsert({
-        user_id: userData.uid,
-        selected_regional_restaurants: selectedRestaurants,
-        updated_at: new Date().toISOString(),
-      });
+//     const { error } = await supabase
+//       .from("user_selection_table")
+//       .upsert({
+//         user_id: userData.uid,
+//         selected_regional_restaurants: selectedRestaurants,
+//         updated_at: new Date().toISOString(),
+//       });
 
-    if (error) {
-      console.error("Error saving selection:", error.message);
-    }
-  };
+//     if (error) {
+//       console.error("Error saving selection:", error.message);
+//     }
+//   };
 
-  saveSelection();
-}, [selectedRestaurants]);
+//   saveSelection();
+// }, [selectedRestaurants]);
 
 
   const cities = [...new Set(restaurants.map(r => r.city))];
@@ -105,18 +105,53 @@ useEffect(() => {
     return (selectedCity && matchesCity && matchesSearch) || (searchTerm && matchesSearch);
   });
 
-  const handleRestaurantToggle = (restaurant: Restaurant) => {
-    const isSelected = selectedRestaurants.some(r => r.id === restaurant.id);
-    if (isSelected) {
-      setSelectedRestaurants(prev => prev.filter(r => r.id !== restaurant.id));
-    } else if (selectedRestaurants.length < 10) {
-      setSelectedRestaurants(prev => [...prev, restaurant]);
-    }
-  };
+const handleRestaurantToggle = async (restaurant: Restaurant) => {
+  const isSelected = selectedRestaurants.some(r => r.id === restaurant.id);
+  let updatedList: Restaurant[];
 
-  const removeRestaurant = (restaurantId: string) => {
-    setSelectedRestaurants(prev => prev.filter(r => r.id !== restaurantId));
-  };
+  if (isSelected) {
+    updatedList = selectedRestaurants.filter(r => r.id !== restaurant.id);
+  } else {
+    if (selectedRestaurants.length >= 10) return;
+    updatedList = [...selectedRestaurants, restaurant];
+  }
+
+  setSelectedRestaurants(updatedList);
+
+  const { error } = await supabase
+    .from("user_selection_table")
+    .upsert({
+      user_id: userData.uid,
+      selected_regional_restaurants: updatedList,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (error) {
+    console.error("Error saving selection after toggle:", error.message);
+  }
+};
+
+
+const removeRestaurant = async (restaurantId: string) => {
+  const updatedList = selectedRestaurants.filter(r => r.id !== restaurantId);
+  setSelectedRestaurants(updatedList);
+
+  const { error } = await supabase
+    .from("user_selection_table")
+    .upsert({
+      user_id: userData.uid,
+      selected_regional_restaurants: updatedList,
+      updated_at: new Date().toISOString(),
+    });
+
+  if (error) {
+    console.error("Error saving after removal:", error.message);
+  }
+
+  // Optional: You may re-fetch if needed for consistency
+  // But keeping it local is faster unless strict consistency is critical
+};
+
 
 const addCustomRestaurant = async (restaurant: Restaurant) => {
   if (!regionId || !hasInitialized) {
@@ -179,20 +214,34 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
       city: inserted.city_name,
     };
 
-    // ✅ Ensure maxSelections logic here too (if needed)
     if (selectedRestaurants.length < 10) {
-      setSelectedRestaurants(prev => [...prev, newRestaurant]);
+      const updatedList = [...selectedRestaurants, newRestaurant];
+      setSelectedRestaurants(updatedList);
+
+      const { error } = await supabase
+        .from("user_selection_table")
+        .upsert({
+          user_id: userData.uid,
+          selected_regional_restaurants: updatedList,
+          updated_at: new Date().toISOString(),
+        });
+
+      if (error) {
+        console.error("Error saving after adding custom restaurant:", error.message);
+      }
     }
 
     setRestaurants(prev => [...prev, newRestaurant]);
+
     toast.success("Restaurant added successfully!", {
-  description: "Your restaurant has been added to the list.",
-});
+      description: "Your restaurant has been added to the list.",
+    });
   } catch (err) {
     console.error("Unexpected error:", err);
     alert("An error occurred while adding the restaurant.");
   }
 };
+
 
 
   const canProceed = selectedRestaurants.length === 10;
