@@ -9,6 +9,7 @@ import { useUser } from "@/contexts/UserContext";
 import { supabase } from "@/lib/supabaseClient";
 import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
 import RestaurantListPhone from "@/components/RestaurantListPhone";
+import { toast } from "sonner";
 
 interface Restaurant {
   id: string;
@@ -117,78 +118,82 @@ useEffect(() => {
     setSelectedRestaurants(prev => prev.filter(r => r.id !== restaurantId));
   };
 
-  const addCustomRestaurant = async (restaurant: Restaurant) => {
-    if (!regionId) {
-      alert("Region ID not available. Cannot add restaurant.");
+const addCustomRestaurant = async (restaurant: Restaurant) => {
+  if (!regionId || !hasInitialized) {
+    alert("Please wait until data is loaded before adding a restaurant.");
+    return;
+  }
+
+  try {
+    const { data: cityMatch, error: cityError } = await supabase
+      .from("cities_table")
+      .select("city_id")
+      .eq("city_name", restaurant.city)
+      .single();
+
+    if (cityError || !cityMatch) {
+      alert(`City "${restaurant.city}" not found in cities_table.`);
       return;
     }
 
-    try {
-      const { data: cityMatch, error: cityError } = await supabase
-        .from("cities_table")
-        .select("city_id")
-        .eq("city_name", restaurant.city)
-        .single();
+    const city_id = cityMatch.city_id;
 
-      if (cityError || !cityMatch) {
-        console.error("City lookup failed:", cityError?.message);
-        alert(`City "${restaurant.city}" not found in cities_table.`);
-        return;
-      }
+    const { data: existing, error: fetchError } = await supabase
+      .from("restaurants_table")
+      .select("restaurant_id")
+      .eq("restaurant_name", restaurant.name)
+      .eq("city_name", restaurant.city)
+      .eq("region_id", regionId);
 
-      const city_id = cityMatch.city_id;
-
-      const { data: existing, error: fetchError } = await supabase
-        .from("restaurants_table")
-        .select("restaurant_id")
-        .eq("restaurant_name", restaurant.name)
-        .eq("city_name", restaurant.city)
-        .eq("region_id", regionId);
-
-      if (fetchError) {
-        console.error("Error checking existing restaurant:", fetchError.message);
-        alert("Something went wrong. Please try again.");
-        return;
-      }
-
-      if (existing && existing.length > 0) {
-        alert("This restaurant already exists.");
-        return;
-      }
-
-      const { data: inserted, error: insertError } = await supabase
-        .from("restaurants_table")
-        .insert([
-          {
-            restaurant_name: restaurant.name,
-            city_name: restaurant.city,
-            city_id: city_id,
-            region_id: regionId,
-          },
-        ])
-        .select()
-        .single();
-
-      if (insertError || !inserted) {
-        console.error("Insert failed:", insertError?.message);
-        alert("Failed to add restaurant.");
-        return;
-      }
-
-      const newRestaurant: Restaurant = {
-        id: inserted.restaurant_id,
-        name: inserted.restaurant_name,
-        city: inserted.city_name,
-      };
-
-      setSelectedRestaurants(prev => [...prev, newRestaurant]);
-      setRestaurants(prev => [...prev, newRestaurant]);
-      alert("Restaurant added successfully!");
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      alert("An error occurred while adding the restaurant.");
+    if (fetchError) {
+      alert("Something went wrong. Please try again.");
+      return;
     }
-  };
+
+    if (existing && existing.length > 0) {
+      alert("This restaurant already exists.");
+      return;
+    }
+
+    const { data: inserted, error: insertError } = await supabase
+      .from("restaurants_table")
+      .insert([
+        {
+          restaurant_name: restaurant.name,
+          city_name: restaurant.city,
+          city_id: city_id,
+          region_id: regionId,
+        },
+      ])
+      .select()
+      .single();
+
+    if (insertError || !inserted) {
+      alert("Failed to add restaurant.");
+      return;
+    }
+
+    const newRestaurant: Restaurant = {
+      id: inserted.restaurant_id,
+      name: inserted.restaurant_name,
+      city: inserted.city_name,
+    };
+
+    // ✅ Ensure maxSelections logic here too (if needed)
+    if (selectedRestaurants.length < 10) {
+      setSelectedRestaurants(prev => [...prev, newRestaurant]);
+    }
+
+    setRestaurants(prev => [...prev, newRestaurant]);
+    toast.success("Restaurant added successfully!", {
+  description: "Your restaurant has been added to the list.",
+});
+  } catch (err) {
+    console.error("Unexpected error:", err);
+    alert("An error occurred while adding the restaurant.");
+  }
+};
+
 
   const canProceed = selectedRestaurants.length === 10;
 
@@ -238,13 +243,13 @@ return (
           {/* Selected Restaurants Display */}
           <div className="border border-gray-300 rounded-lg">
             <h3 className="font-semibold p-3 border-b">Your Selection</h3>
-            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[30%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant name</div>
             </div>
             <div className="max-h-48 overflow-y-auto">
               {selectedRestaurants.map(restaurant => (
-                <div key={restaurant.id} className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
+                <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
                   <div>{restaurant.city}</div>
                   <div>{restaurant.name}</div>
                   <div className="text-center">
@@ -301,7 +306,7 @@ return (
           </div>
 
           {/* Right Column */}
-          <div className="w-[40%] flex flex-col gap-4">
+          <div className="w-[40%] flex flex-col gap-1">
             <AddRestaurantDialog
               cities={cities}
               selectedRestaurants={selectedRestaurants}
@@ -319,7 +324,7 @@ return (
         </div>
 
         {/* Desktop Navigation Buttons */}
-        <div className="hidden md:flex justify-between items-center mt-6">
+        <div className="hidden md:flex justify-between items-center mt-6 text-md">
           <Button
             variant="outline"
             onClick={() => navigate("/process")}

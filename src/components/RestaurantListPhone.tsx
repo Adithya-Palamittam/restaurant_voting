@@ -26,7 +26,7 @@ const RestaurantListPhone = ({
 
   return (
     <div className="border-t border-gray-200 h-full overflow-x-hidden flex flex-col">
-      <div className="grid grid-cols-[20%_60%_auto] p-2 font-semibold border-b border-gray-200">
+      <div className="grid grid-cols-[30%_60%_auto] p-2 font-semibold border-b border-gray-200">
         <div>City</div>
         <div>Restaurant name</div>
         <div className="text-center pr-6">Add</div>
@@ -36,7 +36,7 @@ const RestaurantListPhone = ({
         {[...restaurants]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(restaurant => (
-          <div key={restaurant.id} className="grid grid-cols-[20%_60%_auto] p-2 border-b border-gray-100 hover:bg-gray-50">
+          <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-2 border-b border-gray-100 hover:bg-gray-50">
             <div>{restaurant.city}</div>
             <div className="break-words whitespace-normal">{restaurant.name}</div>
             <div className="flex items-center justify-center">

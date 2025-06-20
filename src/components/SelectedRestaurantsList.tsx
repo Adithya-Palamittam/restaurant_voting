@@ -22,7 +22,7 @@ const SelectedRestaurantsList = ({
   return (
 <div className=" p-4 h-full overflow-x-hidden flex flex-col">
   {/* Fixed Title */}
-  <h3 className=" mb-4">Your Selection</h3>
+  <h3 className=" mb-2">Your Selection</h3>
 
   {/* Fixed Column Header */}
   <div className="border-t border-gray-200">

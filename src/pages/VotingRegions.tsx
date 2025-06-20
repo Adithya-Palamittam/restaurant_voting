@@ -25,31 +25,14 @@ return (
         </p>
 
         <div className="flex justify-center mb-6">
-          <div className="relative w-72 h-52">
-            <svg viewBox="0 0 320 240" className="w-full h-full">
-              <path
-                d="M160 20 L280 60 L300 120 L280 180 L160 220 L40 180 L20 120 L40 60 Z"
-                fill="#D4AF37"
-                stroke="#8B7355"
-                strokeWidth="2"
-              />
-              <path
-                d="M120 80 L200 70 L220 100 L210 140 L190 170 L160 180 L130 170 L110 140 L100 110 Z"
-                fill="#20B2AA"
-                stroke="#1F7A8C"
-                strokeWidth="2"
-              />
-              <circle cx="140" cy="100" r="4" fill="#DC2626" />
-              <circle cx="160" cy="110" r="4" fill="#DC2626" />
-              <circle cx="150" cy="130" r="4" fill="#DC2626" />
-              <circle cx="130" cy="140" r="4" fill="#DC2626" />
-            </svg>
+          <div className="relative">
+<img src="/map.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[22rem] h-[22rem] object-contain" />
           </div>
         </div>
 
         <Button
           onClick={() => navigate("/regional-selection")}
-          className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800"
+          className="bg-black text-white px-8 py-2 rounded hover:bg-gray-800 text-md"
         >
           Let's Go
         </Button>

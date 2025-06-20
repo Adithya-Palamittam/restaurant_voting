@@ -43,23 +43,23 @@ const AddRestaurantDialog = ({
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-2">
       <p className="text-center text-sm mb-3">Want to add a restaurant that is not on this list?</p>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className="flex justify-center">
         <DialogTrigger asChild>
-          <Button className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-sm">
+          <Button className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-md">
             Yes
           </Button>
         </DialogTrigger>
         </div>
-        <DialogContent>
+        <DialogContent className="max-w-md w-[90%]">
           <DialogHeader>
-            <DialogTitle>Nominate a restaurant not on this list</DialogTitle>
+            <DialogTitle className="mb-2 text-left pr-4">Nominate a restaurant not on this list</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <Input
-              placeholder="Restaurant name and location/branch"
+              placeholder="Restaurant name, location/branch"
               value={newRestaurantName}
               onChange={(e) => setNewRestaurantName(e.target.value)}
             />

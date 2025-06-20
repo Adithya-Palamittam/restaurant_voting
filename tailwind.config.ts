@@ -61,7 +61,9 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				condenastGrey: "#F8FAFC",
+				trademarkTextGrey: "#646E70"
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -92,6 +94,7 @@ export default {
 			},
 			fontFamily: {
         	sans: ['Verdana', 'Geneva', 'sans-serif'], // or 'Poppins', 'Roboto', etc.
+		
       },
 		}
 		

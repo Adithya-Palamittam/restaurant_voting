@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext"; // Ensure this is correctly implemented
 import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
 import RestaurantListPhone from "@/components/RestaurantListPhone";
+import { toast } from "sonner";
 
 interface Restaurant {
   id: string;
@@ -190,7 +191,9 @@ useEffect(() => {
 
       setSelectedRestaurants(prev => [...prev, newRestaurant]);
       setRestaurants(prev => [...prev, newRestaurant]);
-      alert("Restaurant added successfully!");
+      toast.success("Restaurant added successfully!", {
+  description: "Your restaurant has been added to the list.",
+});
     } catch (err) {
       alert("An error occurred while adding the restaurant.");
     }
@@ -242,13 +245,13 @@ useEffect(() => {
 
           <div className="border border-gray-300 rounded-lg">
             <h3 className="font-semibold p-3 border-b">Your Selection</h3>
-            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[30%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant name</div>
             </div>
             <div className="max-h-48 overflow-y-auto">
               {selectedRestaurants.map(restaurant => (
-                <div key={restaurant.id} className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
+                <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
                   <div>{restaurant.city}</div>
                   <div>{restaurant.name}</div>
                   <div className="text-center">
@@ -322,7 +325,7 @@ useEffect(() => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-between items-center mt-6">
+        <div className="hidden md:flex justify-between items-center mt-6 text-md">
           <Button
             variant="outline"
             onClick={() => navigate("/regional-selection")}

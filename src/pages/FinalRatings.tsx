@@ -238,7 +238,7 @@ const handleSubmit = async () => {
                     <Edit2 className="w-4 h-4" />
                   </Button>
                 </div>
-                
+                <hr className="border-gray-300 mb-4" />
                 <div className="space-y-2">
                   <StarRating
                     label="Food"
@@ -277,13 +277,14 @@ const handleSubmit = async () => {
 
       {/* Edit Rating Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md w-[90%]">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-left mt-1">
               Edit the ratings for {editingRestaurant?.name}
             </DialogTitle>
+            <hr className="border-gray-300 mt-2" />
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="">
             <StarRating
               label="Food"
               value={editingRating.food}
@@ -299,7 +300,7 @@ const handleSubmit = async () => {
               value={editingRating.ambience}
               onChange={(value) => updateEditingRating('ambience', value)}
             />
-            <div className="flex gap-2 pt-4 text-md">
+            <div className="flex gap-2 pt-2 text-md">
               <Button
                 variant="outline"
                 onClick={() => setIsEditDialogOpen(false)}

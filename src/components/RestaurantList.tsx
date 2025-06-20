@@ -1,5 +1,6 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 interface Restaurant {
   id: string;
@@ -40,11 +41,28 @@ const RestaurantList = ({
             <div>{restaurant.city}</div>
             <div className="break-words whitespace-normal">{restaurant.name}</div>
             <div className="flex items-center justify-center">
-              <Checkbox
-                checked={isSelected(restaurant.id)}
-                onCheckedChange={() => onRestaurantToggle(restaurant)}
-                disabled={!isSelected(restaurant.id) && selectedRestaurants.length >= maxSelections}
-              />
+            <Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger asChild>
+      <div>
+        <Checkbox
+          checked={isSelected(restaurant.id)}
+          onCheckedChange={() => onRestaurantToggle(restaurant)}
+          disabled={!isSelected(restaurant.id) && selectedRestaurants.length >= maxSelections}
+        />
+      </div>
+    </Tooltip.Trigger>
+    {!isSelected(restaurant.id) && selectedRestaurants.length >= maxSelections && (
+      <Tooltip.Content
+        side="top"
+        className="bg-black text-white px-4 py-2 rounded text-base max-w-2xs shadow-lg z-50"
+      >
+        You have already shortlisted your {maxSelections} restaurants
+        <Tooltip.Arrow className="fill-black" />
+      </Tooltip.Content>
+    )}
+  </Tooltip.Root>
+</Tooltip.Provider>
             </div>
           </div>
         ))}

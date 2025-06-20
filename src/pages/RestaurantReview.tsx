@@ -152,10 +152,10 @@ const RestaurantReview = () => {
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
-                className={`px-8 mx-44 py-2 rounded text-md${
+                className={`px-8 mx-44 py-2 rounded text-md ${
                   hasRemovedRestaurants
                     ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-slate-50 text-gray-100 cursor-not-allowed opacity-50"
+                    : "bg-condenastGrey text-black-100 border border-gray-300 cursor-not-allowed opacity-50"
                 }`}
               >
                 Add a restaurant
@@ -179,7 +179,7 @@ const RestaurantReview = () => {
         {/* Mobile Layout */}
         <div className="block md:hidden">
           <div className="border border-gray-300 rounded-lg mb-6">
-            <div className="grid grid-cols-[20%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[30%_50%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
               <div>City</div>
               <div>Restaurant Name</div>
               <div className="justify-center">Remove</div>
@@ -189,7 +189,7 @@ const RestaurantReview = () => {
               {combinedRestaurants.map(restaurant => (
                 <div
                   key={restaurant.id}
-                  className="grid grid-cols-[20%_60%_auto] p-3 border-b border-gray-100 items-center text-sm"
+                  className="grid grid-cols-[30%_50%_auto] p-3 border-b border-gray-100 items-center text-sm"
                 >
                   <div>{restaurant.city}</div>
                   <div>{restaurant.name}</div>
@@ -215,7 +215,7 @@ const RestaurantReview = () => {
               className={`w-full py-2 rounded ${
                 hasRemovedRestaurants
                   ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-condenastGrey text-gray-500 border border-gray-300 cursor-not-allowed"
               }`}
             >
               Add a restaurant
