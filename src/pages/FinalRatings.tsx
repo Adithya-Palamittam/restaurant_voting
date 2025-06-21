@@ -177,7 +177,7 @@ const handleSubmit = async () => {
       <div className="p-4 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
         <div className="hidden md:block md:px-[6rem] lg:px-[18rem]">
-          <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
+          <div className="grid grid-cols-2 3xl:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
             {restaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="border border-gray-300 rounded-lg px-4 pt-4">
                 <div className="flex justify-between items-start mb-4 border-b border-gray-300">
@@ -320,7 +320,7 @@ const handleSubmit = async () => {
       </Dialog>
 
       {/* Footer */}
-      <footer className="bg-black text-white text-center py-3 mt-4">
+      <footer className="bg-black text-white text-center py-3 mt-4 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
         <p className="text-sm">© 2025 Condé Nast</p>
       </footer>
     </div>

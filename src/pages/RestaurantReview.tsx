@@ -118,8 +118,8 @@ const RestaurantReview = () => {
                 <div>Restaurant Name</div>
                 <div className="text-center pr-6">Remove</div>
               </div>
-
-              <div className="max-h-96 overflow-y-auto">
+              {/* //max-h-96 */}
+              <div className="h-full overflow-y-auto">
                 {[...combinedRestaurants]
                 .sort((a, b) => {
                   const cityCompare = a.city.localeCompare(b.city);
@@ -237,7 +237,7 @@ const RestaurantReview = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-black text-white text-center py-3">
+      <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
         <p className="text-sm">© 2025 Condé Nast</p>
       </footer>
     </div>

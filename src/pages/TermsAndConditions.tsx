@@ -147,7 +147,7 @@ const handleProceed = async () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-black text-white text-center py-2 text-xs">
+      <footer className="bg-black text-white text-center py-2 text-xs text-sm md:fixed md:bottom-0 md:left-0 md:right-0">
         <p>© 2025 Condé Nast</p>
       </footer>
     </div>

@@ -209,7 +209,7 @@ return (
     </div>
 
     {/* Footer */}
-    <footer className="bg-black text-white text-center py-3 text-sm">
+    <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
       <p>© 2025 Condé Nast</p>
     </footer>
   </div>
