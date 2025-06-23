@@ -48,17 +48,19 @@ const AddRestaurantDialog = ({
       <p className="text-center text-sm mb-3">Want to add a restaurant that is not on this list?</p>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className="flex justify-center">
-        <DialogTrigger asChild>
+       
 <Tooltip.Provider>
   <Tooltip.Root>
     <Tooltip.Trigger asChild>
       <div>
+         <DialogTrigger asChild>
         <Button
           className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-md disabled:bg-gray-600 disabled:cursor-not-allowed"
           disabled={selectedRestaurants.length >= maxSelections}
         >
           Yes
         </Button>
+        </DialogTrigger>
       </div>
     </Tooltip.Trigger>
     {selectedRestaurants.length >= maxSelections && (
@@ -66,14 +68,14 @@ const AddRestaurantDialog = ({
         side="top"
         className="bg-black text-white px-4 py-2 rounded text-sm shadow-lg z-50"
       >
-        You’ve already added {maxSelections} restaurants
+        You have already added {maxSelections} restaurants
         <Tooltip.Arrow className="fill-black" />
       </Tooltip.Content>
     )}
   </Tooltip.Root>
 </Tooltip.Provider>
 
-        </DialogTrigger>
+        
         </div>
         <DialogContent className="max-w-md w-[90%]">
           <DialogHeader>
