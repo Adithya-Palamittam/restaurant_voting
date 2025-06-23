@@ -177,7 +177,7 @@ const handleSubmit = async () => {
       <div className="p-4 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
         <div className="hidden md:block md:px-[6rem] lg:px-[18rem]">
-          <div className="grid grid-cols-2 3xl:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+          <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
             {restaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="border border-gray-300 rounded-lg px-4 pt-4">
                 <div className="flex justify-between items-start mb-4 border-b border-gray-300">
@@ -261,10 +261,10 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center pb-10">
           <Button
             onClick={handleSubmit}
-            className="bg-green-500 text-white px-8 py-3 rounded hover:bg-green-600"
+            className="bg-green-500 text-white px-8 py-3 pb-20rounded hover:bg-green-600"
           >
             Submit your final ratings
           </Button>
