@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 interface Restaurant {
   id: string;
@@ -48,9 +49,30 @@ const AddRestaurantDialog = ({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className="flex justify-center">
         <DialogTrigger asChild>
-          <Button className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-md">
-            Yes
-          </Button>
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger asChild>
+      <div>
+        <Button
+          className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-md disabled:bg-gray-600 disabled:cursor-not-allowed"
+          disabled={selectedRestaurants.length >= maxSelections}
+        >
+          Yes
+        </Button>
+      </div>
+    </Tooltip.Trigger>
+    {selectedRestaurants.length >= maxSelections && (
+      <Tooltip.Content
+        side="top"
+        className="bg-black text-white px-4 py-2 rounded text-sm shadow-lg z-50"
+      >
+        You’ve already added {maxSelections} restaurants
+        <Tooltip.Arrow className="fill-black" />
+      </Tooltip.Content>
+    )}
+  </Tooltip.Root>
+</Tooltip.Provider>
+
         </DialogTrigger>
         </div>
         <DialogContent className="max-w-md w-[90%]">

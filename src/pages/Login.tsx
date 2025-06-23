@@ -105,7 +105,7 @@ const Login = () => {
         </form>
         </div>
 
-        <div className="text-center text-sm text-gray-600 mt-10">
+        <div className="text-center text-sm text-gray-600 mt-10 pb-5">
           You have till 11:59 pm Sunday 30th June to fill this form
         </div>
       </div>
@@ -113,7 +113,7 @@ const Login = () => {
 
     {/* Footer */}
     <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-      <p className="text-sm">© 2025 Condé Nast</p>
+      <p className="text-xs">© 2025 Condé Nast</p>
     </footer>
   </div>
 );

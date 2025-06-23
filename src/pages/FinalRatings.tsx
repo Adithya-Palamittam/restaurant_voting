@@ -177,41 +177,46 @@ const handleSubmit = async () => {
       <div className="p-4 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
         <div className="hidden md:block md:px-[6rem] lg:px-[18rem]">
-          <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mb-8">
+          <div className="grid grid-cols-2  gap-6 max-w-6xl mx-auto mb-8">
             {restaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="border border-gray-300 rounded-lg px-4 pt-4">
                 <div className="flex justify-between items-start mb-4 border-b border-gray-300">
                   <div>
-                    <div className="text-red-500 text-xs">{index + 1}<span className="text-blue-600">/15</span></div>
                     <div className="text-blue-600 font-medium text-md">{restaurant.city}</div>
                     <h2 className="text-2xl font-bold pb-2">{restaurant.name}</h2>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEditRating(restaurant)}
-                    className="p-2"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </Button>
+                  <div className="text-red-500 text-xs">{index + 1}<span className="text-blue-600">/15</span></div>
                 </div>
                 
-                <div>
-                  <StarRating
-                    label="Food"
-                    value={ratings[restaurant.id]?.food || 0}
-                    readonly
-                  />
-                  <StarRating
-                    label="Service"
-                    value={ratings[restaurant.id]?.service || 0}
-                    readonly
-                  />
-                  <StarRating
-                    label="Ambience"
-                    value={ratings[restaurant.id]?.ambience || 0}
-                    readonly
-                  />
+                <div className="grid grid-cols-[80%_15%] relative">
+                  <div>
+                    <StarRating
+                      label="Food"
+                      value={ratings[restaurant.id]?.food || 0}
+                      readonly
+                    />
+                    <StarRating
+                      label="Service"
+                      value={ratings[restaurant.id]?.service || 0}
+                      readonly
+                    />
+                    <StarRating
+                      label="Ambience"
+                      value={ratings[restaurant.id]?.ambience || 0}
+                      readonly
+                    />
+                  </div>
+                  <div className="absolute bottom-0 right-0 pb-3">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => handleEditRating(restaurant)}
+                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-blue-200 px-2 py-1 h-auto gap-0"
+                    >
+                      <Edit2 className="w-1 h-1" />
+                      <div className="text-xs">Edit</div>
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -223,48 +228,55 @@ const handleSubmit = async () => {
           <div className="space-y-4 mb-8">
             {restaurants.map((restaurant, index) => (
               <div key={restaurant.id} className="border border-gray-300 rounded-lg p-4">
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start">
                   <div>
-                    <div className="text-red-500 text-sm">{index + 1}<span className="text-blue-600">/15</span></div>
                     <div className="text-blue-600 font-medium text-sm">{restaurant.city}</div>
-                    <h3 className="text-lg font-bold border-b border-gray-300 pb-2">{restaurant.name}</h3>
+                    <h3 className="text-lg font-bold pb-2">{restaurant.name}</h3>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEditRating(restaurant)}
-                    className="p-2"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </Button>
+                  <div className="text-red-500 text-sm">{index + 1}<span className="text-blue-600">/15</span></div>
                 </div>
                 <hr className="border-gray-300 mb-4" />
-                <div className="space-y-2">
-                  <StarRating
-                    label="Food"
-                    value={ratings[restaurant.id]?.food || 0}
-                    readonly
-                  />
-                  <StarRating
-                    label="Service"
-                    value={ratings[restaurant.id]?.service || 0}
-                    readonly
-                  />
-                  <StarRating
-                    label="Ambience"
-                    value={ratings[restaurant.id]?.ambience || 0}
-                    readonly
-                  />
+                <div className="grid grid-cols-[75%_15%] relative">
+                  <div>
+                    <StarRating
+                      label="Food"
+                      value={ratings[restaurant.id]?.food || 0}
+                      readonly
+                    />
+                    <StarRating
+                      label="Service"
+                      value={ratings[restaurant.id]?.service || 0}
+                      readonly
+                    />
+                    <StarRating
+                      label="Ambience"
+                      value={ratings[restaurant.id]?.ambience || 0}
+                      readonly
+                    />
+                  </div>
+                  <div className="absolute bottom-0 right-0">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => handleEditRating(restaurant)}
+                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-blue-200 px-2 py-1 h-auto gap-0"
+                    >
+                      <Edit2 className="w-1 h-1" />
+                      <div className="text-xs">Edit</div>
+                    </Button>
+                  </div>
+
+
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex justify-center pb-10">
+        <div className="flex justify-center lg:pb-10">
           <Button
             onClick={handleSubmit}
-            className="bg-green-500 text-white px-8 py-3 pb-20rounded hover:bg-green-600"
+            className="bg-green-500 text-white px-8 py-3 rounded hover:bg-green-600"
           >
             Submit your final ratings
           </Button>
@@ -321,7 +333,7 @@ const handleSubmit = async () => {
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-3 mt-4 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p className="text-sm">© 2025 Condé Nast</p>
+        <p className="text-xs">© 2025 Condé Nast</p>
       </footer>
     </div>
   );

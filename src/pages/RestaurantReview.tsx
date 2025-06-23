@@ -148,7 +148,7 @@ const RestaurantReview = () => {
               </div>
             </div>
 
-            <div className="flex flex-col justify-center gap-4 mb-6">
+            <div className="flex flex-col justify-center gap-4 mb-10">
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
@@ -238,7 +238,7 @@ const RestaurantReview = () => {
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p className="text-sm">© 2025 Condé Nast</p>
+        <p className="text-xs">© 2025 Condé Nast</p>
       </footer>
     </div>
   );
