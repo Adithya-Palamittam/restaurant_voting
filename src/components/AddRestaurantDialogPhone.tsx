@@ -11,19 +11,19 @@ interface Restaurant {
   name: string;
 }
 
-interface AddRestaurantDialogProps {
+interface AddRestaurantDialogPhoneProps {
   cities: string[];
   selectedRestaurants: Restaurant[];
   onAddRestaurant: (restaurant: Restaurant) => void;
   maxSelections: number;
 }
 
-const AddRestaurantDialog = ({ 
+const AddRestaurantDialogPhone = ({ 
   cities, 
   selectedRestaurants, 
   onAddRestaurant, 
   maxSelections 
-}: AddRestaurantDialogProps) => {
+}: AddRestaurantDialogPhoneProps) => {
   const [newRestaurantCity, setNewRestaurantCity] = useState("");
   const [newRestaurantName, setNewRestaurantName] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -65,7 +65,7 @@ const AddRestaurantDialog = ({
 
   return (
     <div className="mb-2">
-      <p className="text-center text-sm mb-3">Want to add a restaurant that is not on this list?</p>
+      <p className="text-center text-sm mb-2">Want to add a restaurant that is not on this list?</p>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className="flex justify-center">
        
@@ -75,7 +75,7 @@ const AddRestaurantDialog = ({
       <div>
          <DialogTrigger asChild>
         <Button
-          className="bg-blue-500 text-white hover:bg-blue-600 py-2 px-12 text-md disabled:bg-gray-600 disabled:cursor-not-allowed"
+          className="bg-blue-500 text-white hover:bg-blue-600 py-0 h-6 px-5 text-xs disabled:bg-gray-600 disabled:cursor-not-allowed"
           disabled={selectedRestaurants.length >= maxSelections}
         >
           Yes
@@ -139,4 +139,4 @@ const AddRestaurantDialog = ({
   );
 };
 
-export default AddRestaurantDialog;
+export default AddRestaurantDialogPhone;

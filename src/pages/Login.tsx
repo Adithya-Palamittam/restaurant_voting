@@ -59,18 +59,18 @@ const Login = () => {
 
   return (
   <div className="min-h-screen bg-white flex flex-col">
-    <div className="flex-grow flex items-center justify-center">
-      <div className="w-full max-w-lg justify-between flex-col">
+    <div className="flex-grow flex items-center justify-center px-4">
+      <div className="w-full max-w-lg justify-between flex-col pb-10">
      
-        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[15rem] h-[15rem] object-contain" />
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[10rem] h-[10rem] md:w-[15rem] md:h-[15rem] object-contain" />
         <div>
           <div className="text-center mb-8 pt-8">
-            <p className="text-xl mb-2">Your votes will crown India's top 50 restaurants.</p>
-            <p className="text-xl ">Ready to go?</p>
+            <p className="text-base md:text-xl mb-2">Your votes will crown India's top 50 restaurants.</p>
+            <p className="text-base md:text-xl">Ready to go?</p>
           </div>
   
 
-        <form onSubmit={handleLogin} className="space-y-6 pb-8 px-20">
+        <form onSubmit={handleLogin} className="space-y-6 pb-8 px-4 md:px-20">
           <div>
             <Input
               type="text"
@@ -105,7 +105,7 @@ const Login = () => {
         </form>
         </div>
 
-        <div className="text-center text-sm text-gray-600 mt-10 pb-5">
+        <div className="text-center text-xs md:text-sm text-gray-600 mt-10">
           You have till 11:59 pm Sunday 30th June to fill this form
         </div>
       </div>

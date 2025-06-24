@@ -10,6 +10,9 @@ import { useUser } from "@/contexts/UserContext"; // Ensure this is correctly im
 import RestaurantSearchFilterPhone from "@/components/RestaurantSearchFilterPhone";
 import RestaurantListPhone from "@/components/RestaurantListPhone";
 import { toast } from "sonner";
+import HamburgerMenu from "@/components/HamburgerMenu";
+import AddRestaurantDialogPhone from "@/components/AddRestaurantDialogPhone";
+import SelectedRestaurantListPhone from "@/components/SelectedRestaurantListPhone";
 
 interface Restaurant {
   id: string;
@@ -211,23 +214,28 @@ useEffect(() => {
     <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
       
       {/* Inner Content Section */}
-      <div className="flex-1 flex flex-col overflow-hidden p-4 md:p-6 md:h-[calc(100vh-48px)]">
-        <h2 className="text-xl mb-4 text-left">
+      <div className="flex-1 flex flex-col overflow-hidden px-4 pt-2 md:p-6 md:h-[calc(100vh-48px)]">
+        <h2 className="text-sm md:text-xl mb-4 text-left pr-10">
           Choose 5 restaurants from anywhere across India. Or add more from your region.
         </h2>
-        <hr className="border-t border-gray-300 mb-4" />
+        <HamburgerMenu /> 
+        <hr className="border-t border-gray-300 mb-2 md:mb-4" />
 
         {/* ---------- Mobile Layout ---------- */}
-        <div className="block md:hidden flex-1 overflow-y-auto space-y-6 pb-4">
-          <RestaurantSearchFilterPhone
-            selectedCity={selectedCity}
-            onCityChange={setSelectedCity}
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            cities={cities}
-          />
+        <div className="block md:hidden flex-1 grid grid-rows-[10%_35%_10%_auto] gap-2 min-h-0">
+          {/* Search + Filter */}
+          <div className="row-span-1 min-h-0">
+            <RestaurantSearchFilterPhone
+              selectedCity={selectedCity}
+              onCityChange={setSelectedCity}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              cities={cities}
+            />
+          </div>
 
-          <div className="max-h-96 border border-gray-300 rounded-lg">
+          {/* Restaurant List */}
+          <div className="row-span-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
             <RestaurantListPhone
               restaurants={filteredRestaurants}
               selectedRestaurants={selectedRestaurants}
@@ -236,55 +244,36 @@ useEffect(() => {
             />
           </div>
 
-          <AddRestaurantDialog
-            cities={cities}
-            selectedRestaurants={selectedRestaurants}
-            onAddRestaurant={addCustomRestaurant}
-            maxSelections={5}
-          />
-
-          <div className="border border-gray-300 rounded-lg">
-            <h3 className="font-semibold p-3 border-b">Your Selection</h3>
-            <div className="grid grid-cols-[30%_60%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
-              <div>City</div>
-              <div>Restaurant name</div>
-            </div>
-            <div className="max-h-48 overflow-y-auto">
-              {selectedRestaurants.map(restaurant => (
-                <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-3 border-b border-gray-100 items-center text-sm">
-                  <div>{restaurant.city}</div>
-                  <div>{restaurant.name}</div>
-                  <div className="text-center">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeRestaurant(restaurant.id)}
-                      className="text-red-500 hover:text-red-700 p-1"
-                    >
-                      ×
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="p-3 text-center text-sm">
-              {selectedRestaurants.length < 5 ? (
-                <>
-                  Please add <span className="text-red-500 font-semibold">{5 - selectedRestaurants.length}</span> restaurants
-                </>
-              ) : (
-                <span className="text-green-600 font-semibold">You have added 5 restaurants.</span>
-              )}
-            </div>
+          {/* Add Custom Restaurant */}
+          <div className="row-span-1 min-h-0">
+            <AddRestaurantDialogPhone
+              cities={cities}
+              selectedRestaurants={selectedRestaurants}
+              onAddRestaurant={addCustomRestaurant}
+              maxSelections={5}
+            />
           </div>
 
-          <Button
-            onClick={handleProceed}
-            disabled={!canProceed}
-            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Done
-          </Button>
+          {/* Selected Restaurants Display + Done Button */}
+          <div className="row-span-1 min-h-0 flex flex-col -mx-4 bg-gray-300">
+            <div className="text-sm text-center py-1 shrink-0">Your Selection</div>
+            <div className="flex-1 min-h-0">
+              <SelectedRestaurantListPhone
+                selectedRestaurants={selectedRestaurants}
+                onRemoveRestaurant={removeRestaurant}
+                maxSelections={5}
+              />
+            </div>
+            <div className="shrink-0 flex items-center justify-center mt-2 px-4 pb-2">
+              <Button
+                onClick={handleProceed}
+                disabled={!canProceed}
+                className="bg-black text-xs h-6 text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Done
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* ---------- Desktop Layout ---------- */}

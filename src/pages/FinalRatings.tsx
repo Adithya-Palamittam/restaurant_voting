@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Edit2 } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { supabase } from "@/lib/supabaseClient";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface Restaurant {
   id: string;
@@ -163,15 +164,18 @@ const handleSubmit = async () => {
     .update({ is_completed: true })
     .eq("uid", user.id);
 
+  // Log out the user and redirect to home
+  await supabase.auth.signOut();
   navigate("/thank-you");
+
 };
 
 
   return (
     <div className="min-h-screen bg-white">
       <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">
-        <span className="text-lg font-medium">Your final ratings</span>
-
+        <h2 className="text-xl pr-10">Your final ratings</h2>
+        <div className="pb-10"><HamburgerMenu /></div>
       </div>
 
       <div className="p-4 md:p-6">

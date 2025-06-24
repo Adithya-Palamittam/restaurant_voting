@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext"; // <- get UID here
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface Restaurant {
   id: string;
@@ -104,8 +105,9 @@ const RestaurantReview = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">
-        <span className="text-lg font-medium">These are your top 15 restaurants</span>
-
+        <h2 className="text-xl pr-10">These are your top 15 restaurants</h2>
+        <div className="pb-10"><HamburgerMenu /></div>
+        
       </div>
 
       <div className="flex-1 p-4 md:p-6">

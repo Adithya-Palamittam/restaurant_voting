@@ -96,6 +96,9 @@ export default {
         	sans: ['Verdana', 'Geneva', 'sans-serif'], // or 'Poppins', 'Roboto', etc.
 		
       },
+	  fontSize: {
+        '2xs': '0.625rem', // 10px
+      },
 		}
 		
 	},

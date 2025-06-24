@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import RestaurantRatingCard from "@/components/RestaurantRatingCard";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext";
+import PageLayout from "@/components/PageLayout";
 
 interface Restaurant {
   id: string;
@@ -170,31 +171,15 @@ const RatingPage = () => {
   );
 
 return (
-  <div className="min-h-screen flex flex-col bg-white">
-    {/* Main Content */}
-    <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-      
-      {/* Mobile Layout */}
-      <div className="block md:hidden flex-1 p-4 overflow-y-auto">
-        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
-        <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
-
-        <RestaurantRatingCard
-          restaurant={currentRestaurant}
-          rating={currentRating}
-          currentIndex={currentIndex}
-          totalCount={restaurants.length}
-          onRatingChange={updateRating}
-          isMobile={true}
-        />
-        <NavigationButtons isMobile={true} />
-      </div>
-
-      {/* Desktop Layout */}
-      <div className="hidden md:flex flex-1 items-center justify-center px-4">
-        <div className="w-full max-w-md text-center">
-          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
-          <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
+  <PageLayout>
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        {/* Mobile Layout */}
+        <div className="block md:hidden flex-1 p-4 overflow-y-auto">
+          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
+          <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
 
           <RestaurantRatingCard
             restaurant={currentRestaurant}
@@ -202,17 +187,35 @@ return (
             currentIndex={currentIndex}
             totalCount={restaurants.length}
             onRatingChange={updateRating}
+            isMobile={true}
           />
-          <NavigationButtons />
+          <NavigationButtons isMobile={true} />
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden md:flex flex-1 items-center justify-center px-4">
+          <div className="w-full max-w-md text-center">
+            <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
+            <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
+
+            <RestaurantRatingCard
+              restaurant={currentRestaurant}
+              rating={currentRating}
+              currentIndex={currentIndex}
+              totalCount={restaurants.length}
+              onRatingChange={updateRating}
+            />
+            <NavigationButtons />
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* Footer */}
-    <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-      <p>© 2025 Condé Nast</p>
-    </footer>
-  </div>
+      {/* Footer */}
+      <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
+        <p>© 2025 Condé Nast</p>
+      </footer>
+    </div>
+  </PageLayout>
 );
 
 };
