@@ -24,9 +24,9 @@ const RestaurantListPhone = ({
   };
 
   return (
-    <div className="border-t border-gray-200 h-full overflow-x-hidden flex flex-col bg-gray-100">
-      <div className="grid grid-cols-[30%_60%_auto] p-1 border-b border-gray-200 text-sm shrink-0">
-        <div>City</div>
+    <div className="border-t border-gray-200 h-full overflow-x-hidden flex flex-col bg-gray-300">
+      <div className="grid grid-cols-[30%_60%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
+        <div className="pl-2">City</div>
         <div>Restaurant name</div>
         <div className="text-center pr-6">Add</div>
       </div>
@@ -35,10 +35,10 @@ const RestaurantListPhone = ({
         {[...restaurants]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(restaurant => (
-          <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-1 border-b border-gray-100 hover:bg-gray-50">
-            <div>{restaurant.city}</div>
+          <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-1 px-2 border-b border-gray-300 hover:bg-gray-50">
+            <div className="pl-2">{restaurant.city}</div>
             <div className="break-words whitespace-normal">{restaurant.name}</div>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center pr-1">
               <Checkbox
                 checked={isSelected(restaurant.id)}
                 onCheckedChange={() => onRestaurantToggle(restaurant)}

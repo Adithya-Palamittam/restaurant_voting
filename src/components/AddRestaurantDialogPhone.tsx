@@ -33,9 +33,16 @@ const AddRestaurantDialogPhone = ({
   const addCustomRestaurant = () => {
     const finalCity = showCustomCityInput ? customCity : newRestaurantCity;
     if (finalCity.trim() && newRestaurantName.trim() && selectedRestaurants.length < maxSelections) {
+      // Check if the custom city already exists in the cities list (case-insensitive)
+      const existingCity = cities.find(city => 
+        city.toLowerCase() === finalCity.trim().toLowerCase()
+      );
+      
+      const cityToUse = existingCity || finalCity.trim();
+      
       const newRestaurant: Restaurant = {
         id: `custom-${Date.now()}`,
-        city: finalCity,
+        city: cityToUse,
         name: newRestaurantName
       };
       onAddRestaurant(newRestaurant);
@@ -64,8 +71,7 @@ const AddRestaurantDialogPhone = ({
   };
 
   return (
-    <div className="mb-2">
-      <p className="text-center text-sm mb-2">Want to add a restaurant that is not on this list?</p>
+    <div className="">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className="flex justify-center">
        

@@ -7,17 +7,15 @@ interface Restaurant {
   name: string;
 }
 
-interface SelectedRestaurantListPhoneProps {
-  selectedRestaurants: Restaurant[];
+interface FinalSelectedRestaurantListPhoneProps {
+  restaurants: Restaurant[];
   onRemoveRestaurant: (restaurantId: string) => void;
-  maxSelections: number;
 }
 
-const SelectedRestaurantListPhone = ({
-  selectedRestaurants,
+const FinalSelectedRestaurantListPhone = ({
+  restaurants,
   onRemoveRestaurant,
-  maxSelections,
-}: SelectedRestaurantListPhoneProps) => {
+}: FinalSelectedRestaurantListPhoneProps) => {
   return (
     <div className="border border-gray-300 rounded-lg bg-white h-full flex flex-col mx-4">
       <div className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-200 text-sm shrink-0">
@@ -26,7 +24,7 @@ const SelectedRestaurantListPhone = ({
         <div className="text-center">Remove</div>
       </div>
       <div className="flex-1 overflow-y-auto">
-        {selectedRestaurants.map((restaurant) => (
+        {restaurants.map((restaurant) => (
           <div
             key={restaurant.id}
             className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-100 items-center text-sm"
@@ -36,9 +34,9 @@ const SelectedRestaurantListPhone = ({
             <div className="text-center">
               <Button
                 variant="ghost"
-                size="xs"
+                size="sm"
                 onClick={() => onRemoveRestaurant(restaurant.id)}
-                className="text-red-500 hover:text-red-700"
+                className="text-red-500 hover:text-red-700 p-1"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -46,17 +44,8 @@ const SelectedRestaurantListPhone = ({
           </div>
         ))}
       </div>
-      <div className="p-1 text-center text-xs shrink-0">
-        {selectedRestaurants.length < maxSelections ? (
-          <>
-            Please add <span className="text-red-500 font-semibold">{maxSelections - selectedRestaurants.length}</span> {maxSelections - selectedRestaurants.length === 1 ? 'restaurant' : 'restaurants'}
-          </>
-        ) : (
-          <span className="text-green-600 font-semibold">You have added {maxSelections} restaurants.</span>
-        )}
-      </div>
     </div>
   );
 };
 
-export default SelectedRestaurantListPhone; 
+export default FinalSelectedRestaurantListPhone; 

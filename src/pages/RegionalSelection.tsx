@@ -265,7 +265,7 @@ return (
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
 
         {/* ---------- Mobile Layout ---------- */}
-        <div className="block md:hidden flex-1 grid grid-rows-[10%_35%_10%_auto] gap-2 min-h-0">
+        <div className="block md:hidden flex-1 grid grid-rows-[10%_35%_5%_5%_auto] gap-2 min-h-0">
           {/* Search + Filter */}
           <div className="row-span-1 min-h-0">
             <RestaurantSearchFilterPhone
@@ -278,7 +278,7 @@ return (
           </div>
 
           {/* Restaurant List */}
-          <div className="row-span-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden bg-gray-100 ">
+          <div className="row-span-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden bg-gray-300 ">
             <RestaurantListPhone
               restaurants={filteredRestaurants}
               selectedRestaurants={selectedRestaurants}
@@ -288,6 +288,7 @@ return (
           </div>
 
           {/* Add Custom Restaurant */}
+          <p className="row-span-1 min-h-0 text-center text-sm">Want to add a restaurant that is not on this list?</p>
           <div className="row-span-1 min-h-0">
             <AddRestaurantDialogPhone 
               cities={cities}
