@@ -33,7 +33,7 @@ const HamburgerMenu = () => {
         variant="ghost"
       
         onClick={toggleMenu}
-        className="fixed top-2 right-4 md:top-6 md:right-6 w-8 h-8 text-lg "
+        className="right-4 md:top-6 md:right-6 w-8 h-8 text-lg "
       >
         {isOpen ? <X className="w-full h-full" /> : <Menu className="w-full h-full" />} 
 
@@ -49,7 +49,7 @@ const HamburgerMenu = () => {
           />
           
           {/* Menu Content */}
-          <div className="absolute top-16 right-4 bg-white rounded-lg shadow-xl border border-gray-200 min-w-[200px] py-2">
+          <div className="absolute top-10 right-4 bg-white rounded-lg shadow-xl border border-gray-200 min-w-[200px] py-2">
             <div className="px-4 py-2 border-b border-gray-100">
               <h3 className="text-sm font-medium text-gray-900">Menu</h3>
             </div>

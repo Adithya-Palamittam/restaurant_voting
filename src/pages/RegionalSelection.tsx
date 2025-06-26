@@ -260,9 +260,12 @@ return (
       
       {/* Inner Content Section */}
       <div className="flex-1 flex flex-col overflow-hidden px-4 pt-2 md:p-6 md:h-[calc(100vh-48px)]">
-        <h2 className="text-sm md:text-xl mb-4 text-left pr-10">Choose 10 restaurants from your region</h2>
+        <div className="flex justify-between items-center">
+        <h2 className="text-sm md:text-xl mb-1 text-left pr-10">Choose 10 restaurants from your region</h2>
         <HamburgerMenu />  
+        </div>
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
+        
 
         {/* ---------- Mobile Layout ---------- */}
         <div className="block md:hidden flex-1 grid grid-rows-[10%_35%_5%_5%_auto] gap-2 min-h-0">

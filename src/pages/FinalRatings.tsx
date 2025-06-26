@@ -173,9 +173,12 @@ const handleSubmit = async () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="border-b border-gray-200 px-4 py-4 flex justify-between items-center">
-        <h2 className="text-xl pr-10">Your final ratings</h2>
-        <div className="pb-10"><HamburgerMenu /></div>
+      <div className="px-4 md:pt-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-md md:text-xl pr-10">Your final ratings</h2>
+          <HamburgerMenu />
+        </div>
+        <hr className="border-t border-gray-300 mb-2 md:mb-4" />
       </div>
 
       <div className="p-4 md:p-6">
@@ -295,7 +298,7 @@ const handleSubmit = async () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-md w-[90%]">
           <DialogHeader>
-            <DialogTitle className="text-left mt-1">
+            <DialogTitle className="text-left mt-1 pr-4">
               Edit the ratings for {editingRestaurant?.name}
             </DialogTitle>
             <hr className="border-gray-300 mt-2" />

@@ -104,10 +104,12 @@ const RestaurantReview = () => {
   
   return (
     <div className="min-h-screen bg-white flex flex-col">
-      <div className="border-b border-gray-200 px-4 md:py-4 flex justify-between items-center">
-        <h2 className="md:text-xl text-sm pr-10 py-2">These are your top 15 restaurants</h2>
-        <div className="md:pb-10" pb-1><HamburgerMenu /></div>
-        
+      <div className="px-4 md:pt-4">
+        <div className="flex justify-between items-center">
+          <h2 className="md:text-xl text-sm pr-10 py-2">These are your top 15 restaurants</h2>
+          <HamburgerMenu />
+        </div>
+        <hr className="border-t border-gray-300 mb-2 md:mb-4" />
       </div>
 
       <div className="flex-1 p-4 md:p-6">

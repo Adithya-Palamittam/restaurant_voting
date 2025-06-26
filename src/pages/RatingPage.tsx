@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import RestaurantRatingCard from "@/components/RestaurantRatingCard";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext";
-import PageLayout from "@/components/PageLayout";
+import HamburgerMenu from "@/components/HamburgerMenu";
 
 interface Restaurant {
   id: string;
@@ -133,7 +133,7 @@ const RatingPage = () => {
   if (!currentRestaurant) return null;
 
   const NavigationButtons = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className="flex justify-between mt-8 mx-6">
+    <div className="flex justify-between mx-6">
 <span
   onClick={currentIndex === 0 ? undefined : goPrevious}
   className={`inline-flex items-center gap-2 font-medium ${
@@ -171,15 +171,36 @@ const RatingPage = () => {
   );
 
 return (
-  <PageLayout>
-    <div className="min-h-screen flex flex-col bg-white">
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        
-        {/* Mobile Layout */}
-        <div className="block md:hidden flex-1 p-4 overflow-y-auto">
-          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12.5rem] h-[12.5rem] object-contain" />
-          <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
+  <div className="min-h-screen flex flex-col bg-white">
+    {/* Header with Hamburger Menu */}
+    <div className="flex justify-end items-center pt-2 pr-2">
+      <HamburgerMenu />
+    </div>
+
+    {/* Main Content */}
+    <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+      
+      {/* Mobile Layout */}
+      <div className="block md:hidden flex-1 px-4 pb-4 overflow-y-auto">
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[10rem] h-[10rem] object-contain" />
+        <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
+
+        <RestaurantRatingCard
+          restaurant={currentRestaurant}
+          rating={currentRating}
+          currentIndex={currentIndex}
+          totalCount={restaurants.length}
+          onRatingChange={updateRating}
+          isMobile={true}
+        />
+        <NavigationButtons isMobile={true} />
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden md:flex flex-1 items-center justify-center px-4">
+        <div className="w-full max-w-md text-center mb-8">
+          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
+          <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
 
           <RestaurantRatingCard
             restaurant={currentRestaurant}
@@ -187,35 +208,17 @@ return (
             currentIndex={currentIndex}
             totalCount={restaurants.length}
             onRatingChange={updateRating}
-            isMobile={true}
           />
-          <NavigationButtons isMobile={true} />
-        </div>
-
-        {/* Desktop Layout */}
-        <div className="hidden md:flex flex-1 items-center justify-center px-4">
-          <div className="w-full max-w-md text-center">
-            <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
-            <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
-
-            <RestaurantRatingCard
-              restaurant={currentRestaurant}
-              rating={currentRating}
-              currentIndex={currentIndex}
-              totalCount={restaurants.length}
-              onRatingChange={updateRating}
-            />
-            <NavigationButtons />
-          </div>
+          <NavigationButtons />
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p>© 2025 Condé Nast</p>
-      </footer>
     </div>
-  </PageLayout>
+
+    {/* Footer */}
+    <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
+      <p>© 2025 Condé Nast</p>
+    </footer>
+  </div>
 );
 
 };
