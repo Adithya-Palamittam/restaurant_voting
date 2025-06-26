@@ -218,7 +218,7 @@ const handleSubmit = async () => {
                       variant="default"
                       size="sm"
                       onClick={() => handleEditRating(restaurant)}
-                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-blue-200 px-2 py-1 h-auto gap-0"
+                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-black px-2 py-1 h-auto gap-0"
                     >
                       <Edit2 className="w-1 h-1" />
                       <div className="text-xs">Edit</div>
@@ -266,7 +266,7 @@ const handleSubmit = async () => {
                       variant="default"
                       size="sm"
                       onClick={() => handleEditRating(restaurant)}
-                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-blue-200 px-2 py-1 h-auto gap-0"
+                      className="flex flex-col items-center justify-center bg-gray-600 text-white hover:bg-black px-2 py-1 h-auto gap-0"
                     >
                       <Edit2 className="w-1 h-1" />
                       <div className="text-xs">Edit</div>

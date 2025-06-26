@@ -117,7 +117,7 @@ const RestaurantReview = () => {
         <div className="hidden md:block">
           <div className="max-w-4xl mx-auto">
             <div className="border border-gray-300 rounded-lg mb-6">
-              <div className="grid grid-cols-[20%_60%_auto] p-4 pl-14 font-semibold border-b border-gray-200">
+              <div className="grid grid-cols-[20%_60%_auto] p-4 pl-14 font-semibold border-b border-gray-600">
                 <div>City</div>
                 <div>Restaurant Name</div>
                 <div className="text-center pr-6">Remove</div>
@@ -183,14 +183,19 @@ const RestaurantReview = () => {
         {/* Mobile Layout */}
         <div className="block md:hidden">
           <div className="border border-gray-300 rounded-lg mb-6">
-            <div className="grid grid-cols-[30%_50%_auto] p-3 font-semibold border-b border-gray-200 text-sm">
+            <div className="grid grid-cols-[30%_50%_auto] p-3 font-semibold border-b border-gray-600 text-sm">
               <div>City</div>
               <div>Restaurant Name</div>
               <div className="justify-center">Remove</div>
             </div>
 
             <div className="max-h-96 overflow-y-auto">
-              {combinedRestaurants.map(restaurant => (
+              {[...combinedRestaurants]
+                .sort((a, b) => {
+                  const cityCompare = a.city.localeCompare(b.city);
+                  if (cityCompare !== 0) return cityCompare;
+                  return a.name.localeCompare(b.name);
+                }).map(restaurant => (
                 <div
                   key={restaurant.id}
                   className="grid grid-cols-[30%_50%_auto] p-3 border-b border-gray-100 items-center text-sm"

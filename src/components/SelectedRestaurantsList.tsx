@@ -26,14 +26,15 @@ const SelectedRestaurantsList = ({
 
   {/* Fixed Column Header */}
   <div className="border-t border-gray-200">
-    <div className="grid grid-cols-[30%_70%] gap-1 p-2 font-semibold border-b border-gray-200">
+    <div className="grid grid-cols-[30%_55%_auto] gap-1 p-2 font-semibold border-b border-gray-600">
       <div>City</div>
       <div>Restaurant name</div>
+      <div>Remove</div>
     </div>
   </div>
 
   {/* Scrollable Restaurant List */}
-  <div className="flex-1 overflow-y-auto border-t border-gray-100">
+  <div className="flex-1 overflow-y-scroll border-t border-gray-100 scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin">
     {selectedRestaurants.map((restaurant) => (
       <div
         key={restaurant.id}
@@ -57,19 +58,13 @@ const SelectedRestaurantsList = ({
 
   {/* Fixed Bottom Message */}
   <div className="mt-4 text-center text-sm">
-    {selectedRestaurants.length < maxSelections ? (
-      <>
-        Please add{" "}
-        <span className="text-red-500 font-semibold">
-          {maxSelections - selectedRestaurants.length}
-        </span>{" "}
-        restaurants
-      </>
-    ) : (
-      <span className="text-green-600 font-semibold">
-        You have added {maxSelections} restaurants.
-      </span>
-    )}
+  {selectedRestaurants.length < maxSelections ? (
+          <>
+            Please add <span className="text-red-500 font-semibold">{maxSelections - selectedRestaurants.length}</span> {maxSelections - selectedRestaurants.length === 1 ? 'restaurant' : 'restaurants'}
+          </>
+        ) : (
+          <span className="text-green-600 font-semibold">You have added {maxSelections} restaurants.</span>
+        )}
   </div>
 </div>
 

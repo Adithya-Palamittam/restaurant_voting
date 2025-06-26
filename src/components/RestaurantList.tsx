@@ -27,7 +27,7 @@ const RestaurantList = ({
 
   return (
     <div className="border-t border-gray-200 h-full overflow-x-hidden flex flex-col">
-      <div className="grid grid-cols-[20%_60%_auto] p-2 font-semibold border-b border-gray-200">
+      <div className="grid grid-cols-[20%_60%_auto] p-2 font-semibold border-b border-gray-600">
         <div>City</div>
         <div>Restaurant name</div>
         <div className="text-center pr-6">Add</div>

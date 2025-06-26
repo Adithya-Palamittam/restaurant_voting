@@ -50,7 +50,7 @@ const HamburgerMenu = () => {
           
           {/* Menu Content */}
           <div className="absolute top-10 right-4 bg-white rounded-lg shadow-xl border border-gray-200 min-w-[200px] py-2">
-            <div className="px-4 py-2 border-b border-gray-100">
+            <div className="px-4 py-2 border-b border-gray-600">
               <h3 className="text-sm font-medium text-gray-900">Menu</h3>
             </div>
             

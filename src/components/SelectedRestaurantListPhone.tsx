@@ -20,7 +20,7 @@ const SelectedRestaurantListPhone = ({
 }: SelectedRestaurantListPhoneProps) => {
   return (
     <div className="border border-gray-300 rounded-lg bg-white h-full flex flex-col mx-4">
-      <div className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-200 text-sm shrink-0">
+      <div className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
         <div className="pl-2">City</div>
         <div>Restaurant name</div>
         <div className="text-center">Remove</div>

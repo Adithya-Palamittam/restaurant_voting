@@ -237,7 +237,7 @@ useEffect(() => {
           </div>
 
           {/* Restaurant List */}
-          <div className="row-span-1 min-h-0 border border-gray-300 rounded-lg overflow-hidden bg-gray-100">
+          <div className="row-span-1 min-h-0 rounded-lg overflow-hidden bg-gray-100">
             <RestaurantListPhone
               restaurants={filteredRestaurants}
               selectedRestaurants={selectedRestaurants}

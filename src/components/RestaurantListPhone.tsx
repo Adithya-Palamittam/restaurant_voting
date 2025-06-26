@@ -24,7 +24,7 @@ const RestaurantListPhone = ({
   };
 
   return (
-    <div className="border-t border-gray-200 h-full overflow-x-hidden flex flex-col bg-gray-300">
+    <div className="h-full overflow-x-hidden flex flex-col bg-gray-300">
       <div className="grid grid-cols-[30%_60%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
         <div className="pl-2">City</div>
         <div>Restaurant name</div>
