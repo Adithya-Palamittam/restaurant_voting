@@ -18,7 +18,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const { data, error: userError } = await supabase
         .from("users_table")
         .select(
-          `*, region:assigned_region (region_id, region_name)`
+          `*, region:assigned_region (region_id, region_name, display_text, image)`
         )
         .eq("uid", user.id)
         .single();
@@ -30,7 +30,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           .select("city_name")
           .eq("region_id", regionId);
 
-        setUserData({ ...data, cities });
+        // Fetch display_text and image from regions_table
+        const { data: regionDetails } = await supabase
+          .from("regions_table")
+          .select("display_text, image")
+          .eq("region_id", regionId)
+          .single();
+
+        setUserData({ ...data, cities, region_display_text: regionDetails?.display_text, region_image: regionDetails?.image });
       }
     };
 
