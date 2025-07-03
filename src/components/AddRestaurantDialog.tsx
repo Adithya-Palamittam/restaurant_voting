@@ -120,7 +120,7 @@ const AddRestaurantDialog = ({
             </Select>
             {showCustomCityInput && (
               <Input
-                placeholder="Enter custom city/town"
+                placeholder="Enter city/town"
                 value={customCity}
                 onChange={(e) => setCustomCity(e.target.value)}
               />

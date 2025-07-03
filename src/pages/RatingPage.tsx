@@ -198,9 +198,9 @@ return (
 
       {/* Desktop Layout */}
       <div className="hidden md:flex flex-1 items-center justify-center px-4">
-        <div className="w-full max-w-md text-center mb-8">
-          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-2 w-[12rem] h-[12rem] object-contain" />
-          <p className="text-xl mb-6">Rate the top 15 restaurants you selected</p>
+        <div className="w-full max-w-md text-center mb-14">
+          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12rem] h-[12rem] object-contain" />
+          <p className="text-xl mb-8">Rate the top 15 restaurants you selected</p>
 
           <RestaurantRatingCard
             restaurant={currentRestaurant}
@@ -216,7 +216,7 @@ return (
 
     {/* Footer */}
     <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-      <p>© 2025 Condé Nast</p>
+      <p>© 2025 Condé Nast India</p>
     </footer>
   </div>
 );

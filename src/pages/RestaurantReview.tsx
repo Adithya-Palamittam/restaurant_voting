@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext"; // <- get UID here
 import HamburgerMenu from "@/components/HamburgerMenu";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 interface Restaurant {
   id: string;
@@ -106,7 +107,7 @@ const RestaurantReview = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="px-4 md:pt-4">
         <div className="flex justify-between items-center">
-          <h2 className="md:text-xl text-sm pr-10 py-2">These are your top 15 restaurants</h2>
+          <h2 className="md:text-xl text-xs font-semibold pr-10 py-2">These are your top 15 restaurants</h2>
           <HamburgerMenu />
         </div>
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
@@ -156,7 +157,7 @@ const RestaurantReview = () => {
               <Button
                 onClick={handleAddRestaurant}
                 disabled={!hasRemovedRestaurants}
-                className={`px-8 mx-44 py-2 rounded text-md ${
+                className={`px-8 mx-44 py-4 rounded text-lg ${
                   hasRemovedRestaurants
                     ? "bg-blue-500 text-white hover:bg-blue-600"
                     : "bg-condenastGrey text-black-100 border border-gray-300 cursor-not-allowed opacity-50"
@@ -165,17 +166,32 @@ const RestaurantReview = () => {
                 Add a restaurant
               </Button>
 
-              <Button
-                onClick={handleProceedToRating}
-                disabled={!is15Restaurants}
-                className={`px-8 mx-44 py-2 rounded text-md${
-                  is15Restaurants
-                    ? "bg-green-500 text-white hover:bg-green-600"
-                    : "bg-black text-white hover:bg-gray-800 "
-                }`}
-              >
-                Ready? It's time to rate
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="flex justify-center">
+                      <Button
+                        onClick={is15Restaurants ? handleProceedToRating : undefined}
+                        disabled={!is15Restaurants}
+                        className={`px-8 w-full mx-44 py-4 rounded text-lg ${
+                          is15Restaurants
+                            ? "bg-green-500 text-white hover:bg-green-600"
+                            : "bg-black text-white hover:bg-gray-800 "
+                        }`}
+                      >
+                        Ready? It's time to rate
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  {!is15Restaurants && (
+  <TooltipContent side="top" className="bg-black text-white px-4 py-2 rounded text-sm shadow-lg z-50">
+    {`Add ${15 - combinedRestaurants.length} more ${
+      15 - combinedRestaurants.length === 1 ? 'restaurant' : 'restaurants'
+    } to proceed.`}
+  </TooltipContent>
+)}
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>
@@ -230,24 +246,39 @@ const RestaurantReview = () => {
               Add a restaurant
             </Button>
 
-            <Button
-              onClick={handleProceedToRating}
-              disabled={!is15Restaurants}
-              className={`w-full py-2 rounded ${
-                is15Restaurants
-                  ? "bg-green-500 text-white hover:bg-green-600"
-                  : "bg-black text-white hover:bg-gray-800 disabled:opacity-50"
-              }`}
-            >
-              Ready? It's time to rate
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="flex justify-center">
+                    <Button
+                      onClick={is15Restaurants ? handleProceedToRating : undefined}
+                      disabled={!is15Restaurants}
+                      className={`w-full py-2 rounded ${
+                        is15Restaurants
+                          ? "bg-green-500 text-white hover:bg-green-600"
+                          : "bg-black text-white hover:bg-gray-800 disabled:opacity-50"
+                      }`}
+                    >
+                      Ready? It's time to rate
+                    </Button>
+                  </span>
+                </TooltipTrigger>
+                {!is15Restaurants && (
+  <TooltipContent side="top" className="bg-black text-white px-4 py-2 rounded text-sm shadow-lg z-50">
+    {`Add ${15 - combinedRestaurants.length} more ${
+      15 - combinedRestaurants.length === 1 ? 'restaurant' : 'restaurants'
+    } to proceed.`}
+  </TooltipContent>
+)}
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p className="text-xs">© 2025 Condé Nast</p>
+        <p className="text-xs">© 2025 Condé Nast India</p>
       </footer>
     </div>
   );

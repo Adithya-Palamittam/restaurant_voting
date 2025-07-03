@@ -169,12 +169,8 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
       .eq("city_name", restaurant.city)
       .single();
 
-    if (cityError || !cityMatch) {
-      alert(`City "${restaurant.city}" not found in cities_table.`);
-      return;
-    }
-
-    const city_id = cityMatch.city_id;
+    // If city is not found, use null for city_id
+    const city_id = (cityError || !cityMatch) ? null : cityMatch.city_id;
 
     const { data: existing, error: fetchError } = await supabase
       .from("restaurants_table")
@@ -236,9 +232,7 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
 
     setRestaurants(prev => [...prev, newRestaurant]);
 
-    toast.success("Restaurant added successfully!", {
-      description: "Your restaurant has been added to the list.",
-    });
+    toast.success("Restaurant added successfully!");
   } catch (err) {
     console.error("Unexpected error:", err);
     alert("An error occurred while adding the restaurant.");
@@ -261,7 +255,7 @@ return (
       {/* Inner Content Section */}
       <div className="flex-1 flex flex-col overflow-hidden px-4 pt-2 md:p-6 md:h-[calc(100vh-48px)]">
         <div className="flex justify-between items-center">
-        <h2 className="text-sm md:text-xl mb-1 text-left pr-10">Choose 10 restaurants from your region</h2>
+        <h2 className="text-xs md:text-xl md:font-semibold font-semibold mb-1 text-left pr-10">Choose 10 restaurants from your region</h2>
         <HamburgerMenu />  
         </div>
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
@@ -385,7 +379,7 @@ return (
 
     {/* Footer - Fixed on Desktop Only */}
     <footer className="bg-black text-white text-center py-2 md:text-xs text-2xs md:fixed md:bottom-0 md:left-0 md:right-0">
-      <p>© 2025 Condé Nast</p>
+      <p>© 2025 Condé Nast India</p>
     </footer>
   </div>
 );

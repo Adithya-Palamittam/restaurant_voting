@@ -31,7 +31,7 @@ const ThankYou = () => {
       
       {/* Footer */}
       <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p className="text-sm">© 2025 Condé Nast</p>
+        <p className="text-sm">© 2025 Condé Nast India</p>
       </footer>
     </div>
   );

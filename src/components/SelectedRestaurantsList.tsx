@@ -57,7 +57,7 @@ const SelectedRestaurantsList = ({
   </div>
 
   {/* Fixed Bottom Message */}
-  <div className="mt-4 text-center text-sm">
+  <div className="mt-4 text-center text-md">
   {selectedRestaurants.length < maxSelections ? (
           <>
             Please add <span className="text-red-500 font-semibold">{maxSelections - selectedRestaurants.length}</span> {maxSelections - selectedRestaurants.length === 1 ? 'restaurant' : 'restaurants'}

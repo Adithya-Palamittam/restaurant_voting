@@ -44,10 +44,10 @@ const ProcessDescription = () => {
                 restaurants from outside your region. Alternatively, you
                 can include more from your region.
               </p>
-              <p className="text-gray-700 leading-snug">
+              {/* <p className="text-gray-700 leading-snug">
                 If there's a restaurant that's not in our list you can add it
                 manually through the "Add a Restaurant" button.
-              </p>
+              </p> */}
             </div>
 
             <div>
@@ -70,7 +70,7 @@ const ProcessDescription = () => {
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-2 text-xs">
-        <p>© 2025 Condé Nast</p>
+        <p>© 2025 Condé Nast India</p>
       </footer>
     </div>
   );

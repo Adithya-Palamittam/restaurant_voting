@@ -175,7 +175,7 @@ const handleSubmit = async () => {
     <div className="min-h-screen bg-white">
       <div className="px-4 md:pt-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-md md:text-xl pr-10">Your final ratings</h2>
+          <h2 className="text-md md:text-xl font-semibold pr-10">Your final ratings</h2>
           <HamburgerMenu />
         </div>
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
@@ -340,7 +340,7 @@ const handleSubmit = async () => {
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-3 mt-4 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p className="text-xs">© 2025 Condé Nast</p>
+        <p className="text-xs">© 2025 Condé Nast India</p>
       </footer>
     </div>
   );

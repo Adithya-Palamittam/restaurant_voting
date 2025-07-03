@@ -108,8 +108,7 @@ const handleProceed = async () => {
             <div>
               <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">Keep it clean</h2>
               <p className="text-gray-700 leading-snug">
-                The terms and conditions primarily cover confidentiality,
-                conflict of interest and XXXX. Read them{" "}
+              The terms & conditions primarily cover confidentiality and conflict of interest. Read them{" "}
                 <a href="#" className="text-blue-600 underline">
                   here
                 </a>.
@@ -120,7 +119,7 @@ const handleProceed = async () => {
             <div>
               <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">Declaration</h2>
               <p className="text-gray-700 leading-snug">
-                You certify that all parts of the declaration and voting
+                You certify that all parts of the <a href="/declaration" className="text-blue-600 underline hover:text-blue-800">declaration</a> and voting
                 form are true and correct. By participating in the awards,
                 you agree to abide by and be bound by the terms and
                 conditions.
@@ -153,7 +152,7 @@ const handleProceed = async () => {
 
       {/* Footer */}
       <footer className="bg-black text-white text-center py-2 text-xs text-sm md:fixed md:bottom-0 md:left-0 md:right-0">
-        <p>© 2025 Condé Nast</p>
+        <p>© 2025 Condé Nast India</p>
       </footer>
     </div>
   );
