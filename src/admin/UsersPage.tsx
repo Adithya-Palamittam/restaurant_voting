@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
 type UserRecord = {
@@ -12,12 +13,22 @@ type UserRecord = {
 
 export default function UserTable() {
   const [users, setUsers] = useState<UserRecord[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<UserRecord[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [confirmUid, setConfirmUid] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    // Filter users based on search term
+    const filtered = users.filter(user =>
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  }, [users, searchTerm]);
 
   const fetchUsers = async () => {
     const { data, error } = await supabase
@@ -62,6 +73,18 @@ export default function UserTable() {
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">Users</h2>
+      
+      {/* Search Bar */}
+      <div className="mb-4">
+        <Input
+          type="text"
+          placeholder="Search users by email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-md"
+        />
+      </div>
+
       <table className="w-full border">
         <thead>
           <tr className="bg-gray-100">
@@ -71,7 +94,7 @@ export default function UserTable() {
           </tr>
         </thead>
         <tbody>
-          {users.map(user => (
+          {filteredUsers.map(user => (
             <tr key={user.uid} className="border-t">
               <td className="p-2">{user.email}</td>
               <td className="p-2">{user.is_completed ? "✅" : "⏳"}</td>
@@ -90,6 +113,13 @@ export default function UserTable() {
           ))}
         </tbody>
       </table>
+
+      {/* Show message when no results found */}
+      {filteredUsers.length === 0 && searchTerm && (
+        <div className="text-center py-4 text-gray-500">
+          No users found matching "{searchTerm}"
+        </div>
+      )}
 
       {/* Confirmation Dialog */}
       {confirmUid && (
