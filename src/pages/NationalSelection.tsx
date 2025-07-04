@@ -51,8 +51,11 @@ useEffect(() => {
     const excluded = userSelection?.selected_regional_restaurants?.map((r: Restaurant) => r.id) || [];
     setExcludedIds(excluded);
 
-    // Fetch all restaurants
-    const { data, error } = await supabase.from("restaurants_table").select("*");
+    // Fetch all restaurants (excluding those created by jury)
+    const { data, error } = await supabase
+      .from("restaurants_table")
+      .select("*")
+      .or("created_by_jury.is.null,created_by_jury.eq.false");
 
     if (error) {
       console.error("Error fetching national restaurants:", error.message);
@@ -172,6 +175,7 @@ useEffect(() => {
             restaurant_name: restaurant.name,
             city_name: restaurant.city,
             city_id: city_id,
+            created_by_jury: true,
           },
         ])
         .select()
@@ -189,7 +193,7 @@ useEffect(() => {
       };
 
       setSelectedRestaurants(prev => [...prev, newRestaurant]);
-      setRestaurants(prev => [...prev, newRestaurant]);
+      // setRestaurants(prev => [...prev, newRestaurant]);
       toast.success("Restaurant added successfully!");
     } catch (err) {
       alert("An error occurred while adding the restaurant.");

@@ -38,7 +38,8 @@ const RegionalSelection = () => {
       const { data, error } = await supabase
         .from("restaurants_table")
         .select("*")
-        .eq("region_id", regionId);
+        .eq("region_id", regionId)
+        .or("created_by_jury.is.null,created_by_jury.eq.false");
 
       if (error) {
         console.error("Error fetching restaurants:", error.message);
@@ -197,6 +198,7 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
           city_name: restaurant.city,
           city_id: city_id,
           region_id: regionId,
+          created_by_jury: true,
         },
       ])
       .select()
@@ -230,7 +232,7 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
       }
     }
 
-    setRestaurants(prev => [...prev, newRestaurant]);
+    // setRestaurants(prev => [...prev, newRestaurant]);
 
     toast.success("Restaurant added successfully!");
   } catch (err) {
