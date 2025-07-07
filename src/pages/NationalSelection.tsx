@@ -13,6 +13,8 @@ import { toast } from "sonner";
 import HamburgerMenu from "@/components/HamburgerMenu";
 import AddRestaurantDialogPhone from "@/components/AddRestaurantDialogPhone";
 import SelectedRestaurantListPhone from "@/components/SelectedRestaurantListPhone";
+import { CheckCircle2 } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface Restaurant {
   id: string;
@@ -29,6 +31,7 @@ const NationalSelection = () => {
   const [selectedRestaurants, setSelectedRestaurants] = useState<Restaurant[]>([]);
   const [excludedIds, setExcludedIds] = useState<string[]>([]);
   const [restaurantsLoaded, setRestaurantsLoaded] = useState(false);
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
 
   // Fetch restaurant list and excluded (regional) selections
@@ -193,8 +196,7 @@ useEffect(() => {
       };
 
       setSelectedRestaurants(prev => [...prev, newRestaurant]);
-      // setRestaurants(prev => [...prev, newRestaurant]);
-      toast.success("Restaurant added successfully!");
+      setSuccessDialogOpen(true);
     } catch (err) {
       alert("An error occurred while adding the restaurant.");
     }
@@ -334,6 +336,20 @@ useEffect(() => {
         </div>
       </div>
     </div>
+
+    {/* Success Dialog */}
+    <Dialog open={successDialogOpen} onOpenChange={setSuccessDialogOpen}>
+      <DialogContent className="max-w-md w-[90%] flex flex-col items-center justify-center text-center gap-2 py-4">
+        <CheckCircle2 className="text-green-500 w-16 h-16 mx-auto" />
+        <div className="text-lg font-semibold">Restaurant added successfully!</div>
+        <button
+          className="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+          onClick={() => setSuccessDialogOpen(false)}
+        >
+          OK
+        </button>
+      </DialogContent>
+    </Dialog>
 
     {/* Footer - Fixed on Desktop */}
     <footer className="bg-black text-white text-center py-3 text-xs md:fixed md:bottom-0 md:left-0 md:right-0">
