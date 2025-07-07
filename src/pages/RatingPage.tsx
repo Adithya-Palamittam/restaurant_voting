@@ -182,8 +182,8 @@ return (
       
       {/* Mobile Layout */}
       <div className="block md:hidden flex-1 px-4 pb-4 overflow-y-auto">
-        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[10rem] h-[10rem] object-contain" />
-        <p className="text-lg mb-4 text-center">Rate the top 15 restaurants you selected</p>
+        <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-6 w-[10rem] h-[10rem] object-contain" />
+        <p className="text-lg mb-6 text-center">Rate the top 15 restaurants you selected</p>
 
         <RestaurantRatingCard
           restaurant={currentRestaurant}
@@ -199,8 +199,8 @@ return (
       {/* Desktop Layout */}
       <div className="hidden md:flex flex-1 items-center justify-center px-4">
         <div className="w-full max-w-md text-center mb-14">
-          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[12rem] h-[12rem] object-contain" />
-          <p className="text-xl mb-8">Rate the top 15 restaurants you selected</p>
+          <img src="/logo.png" alt="TP Awards Logo" className="mx-auto mb-6 w-[12rem] h-[12rem] object-contain" />
+          <p className="text-lg mb-10">Rate the top 15 restaurants you selected</p>
 
           <RestaurantRatingCard
             restaurant={currentRestaurant}

@@ -107,7 +107,7 @@ const RestaurantReview = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="px-4 md:pt-4">
         <div className="flex justify-between items-center">
-          <h2 className="md:text-xl text-xs font-semibold pr-10 py-2">These are your top 15 restaurants</h2>
+          <h2 className="md:text-2xl text-md  md:pr-10 py-2 flex-1 text-center ">These are your top 15 restaurants</h2>
           <HamburgerMenu />
         </div>
         <hr className="border-t border-gray-300 mb-2 md:mb-4" />
@@ -237,7 +237,7 @@ const RestaurantReview = () => {
             <Button
               onClick={handleAddRestaurant}
               disabled={!hasRemovedRestaurants}
-              className={`w-full py-2 rounded ${
+              className={`w-full py-2 rounded text-md ${
                 hasRemovedRestaurants
                   ? "bg-blue-500 text-white hover:bg-blue-600"
                   : "bg-condenastGrey text-gray-500 border border-gray-300 cursor-not-allowed"
@@ -253,7 +253,7 @@ const RestaurantReview = () => {
                     <Button
                       onClick={is15Restaurants ? handleProceedToRating : undefined}
                       disabled={!is15Restaurants}
-                      className={`w-full py-2 rounded ${
+                      className={`w-full py-2 rounded text-md ${
                         is15Restaurants
                           ? "bg-green-500 text-white hover:bg-green-600"
                           : "bg-black text-white hover:bg-gray-800 disabled:opacity-50"

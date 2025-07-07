@@ -25,7 +25,7 @@ const RestaurantListPhone = ({
 
   return (
     <div className="h-full overflow-x-hidden flex flex-col bg-gray-300">
-      <div className="grid grid-cols-[30%_60%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
+      <div className="grid grid-cols-[35%_55%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
         <div className="pl-2">City</div>
         <div>Restaurant name</div>
         <div className="text-center pr-6">Add</div>
@@ -35,8 +35,8 @@ const RestaurantListPhone = ({
         {[...restaurants]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(restaurant => (
-          <div key={restaurant.id} className="grid grid-cols-[30%_60%_auto] p-1 px-2 border-b border-gray-300 hover:bg-gray-50">
-            <div className="pl-2">{restaurant.city}</div>
+          <div key={restaurant.id} className="grid grid-cols-[35%_55%_auto] p-1 px-2 border-b border-gray-300 hover:bg-gray-50">
+            <div className="break-words whitespace-normal pl-2">{restaurant.city}</div>
             <div className="break-words whitespace-normal">{restaurant.name}</div>
             <div className="flex items-center justify-center pr-1">
               <Checkbox

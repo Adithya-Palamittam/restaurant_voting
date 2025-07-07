@@ -20,7 +20,7 @@ const SelectedRestaurantListPhone = ({
 }: SelectedRestaurantListPhoneProps) => {
   return (
     <div className="border border-gray-300 rounded-lg bg-white h-full flex flex-col mx-4">
-      <div className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
+      <div className="grid grid-cols-[35%_45%_auto] p-1 px-2 border-b border-gray-600 text-sm shrink-0">
         <div className="pl-2">City</div>
         <div>Restaurant name</div>
         <div className="text-center">Remove</div>
@@ -29,7 +29,7 @@ const SelectedRestaurantListPhone = ({
         {selectedRestaurants.map((restaurant) => (
           <div
             key={restaurant.id}
-            className="grid grid-cols-[30%_50%_auto] p-1 px-2 border-b border-gray-100 items-center text-sm"
+            className="grid grid-cols-[35%_45%_auto] p-1 px-2 border-b border-gray-100 items-center text-sm"
           >
             <div className="pl-2">{restaurant.city}</div>
             <div>{restaurant.name}</div>
@@ -46,7 +46,7 @@ const SelectedRestaurantListPhone = ({
           </div>
         ))}
       </div>
-      <div className="p-1 text-center text-xs shrink-0">
+      <div className="p-1 text-center text-sm shrink-0">
         {selectedRestaurants.length < maxSelections ? (
           <>
             Please add <span className="text-red-500 font-semibold">{maxSelections - selectedRestaurants.length}</span> {maxSelections - selectedRestaurants.length === 1 ? 'restaurant' : 'restaurants'}

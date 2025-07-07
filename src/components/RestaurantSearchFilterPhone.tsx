@@ -19,9 +19,9 @@ const RestaurantSearchFilterPhone = ({
   cities
 }: RestaurantSearchFilterPhoneProps) => {
   return (
-    <div className="flex flex-col gap-1 mb-2 px-12 text-sm">
+    <div className="flex flex-col gap-1 mb-2 px-12 text-xs">
       <Select value={selectedCity} onValueChange={onCityChange}>
-        <SelectTrigger className="w-full text-sm h-7">
+        <SelectTrigger className="w-full text-xs h-7">
           <SelectValue placeholder="Select city" />
         </SelectTrigger>
         <SelectContent>
@@ -36,7 +36,7 @@ const RestaurantSearchFilterPhone = ({
         placeholder="Search by restaurant name"
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="pr-10 pl-4 py-0 flex-1 text-sm h-7"
+        className="pr-10 pl-4 py-0 flex-1 text-xs h-7"
       />
       <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none" />
     </div>
