@@ -57,11 +57,19 @@ const HamburgerMenu = () => {
             <div className="py-1">
               <Button
                 variant="ghost"
-                onClick={handleTermsClick}
+                asChild
                 className="w-full justify-start px-4 py-2 text-sm hover:bg-gray-50"
               >
-                <FileText size={16} className="mr-3" />
-                Terms & Conditions
+                <a
+                  href="https://www.cntraveller.in/info/terms-and-conditions-tra-2025-applicant/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center w-full h-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FileText size={16} className="mr-3" />
+                  Terms & Conditions
+                </a>
               </Button>
               
               <Button
