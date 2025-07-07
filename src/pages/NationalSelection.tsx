@@ -297,7 +297,7 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="w-[40%] flex flex-col gap-4">
+          <div className="w-[40%] flex flex-col gap-1">
             <AddRestaurantDialog
               cities={cities}
               selectedRestaurants={selectedRestaurants}
