@@ -175,7 +175,7 @@ const handleSubmit = async () => {
     <div className="min-h-screen bg-white">
       <div className="px-4 md:pt-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-md md:text-3xl  flex-1 text-center">Your final ratings</h2>
+          <h2 className="text-md md:text-3xl flex-1 text-center">Your Final Ratings</h2>
           <HamburgerMenu />
         </div>
         {/* <hr className="border-t border-gray-300 mb-2 md:mb-4" /> */}

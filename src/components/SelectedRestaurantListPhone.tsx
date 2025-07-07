@@ -31,8 +31,8 @@ const SelectedRestaurantListPhone = ({
             key={restaurant.id}
             className="grid grid-cols-[35%_45%_auto] p-1 px-2 border-b border-gray-100 items-center text-sm"
           >
-            <div className="pl-2">{restaurant.city}</div>
-            <div>{restaurant.name}</div>
+            <div className="break-words whitespace-normal pl-2">{restaurant.city}</div>
+            <div className="break-words whitespace-normal">{restaurant.name}</div>
             <div className="text-center">
               <Button
                 variant="ghost"

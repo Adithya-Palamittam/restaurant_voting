@@ -26,6 +26,7 @@ const RestaurantReview = () => {
   const combinedRestaurants = [...regionalRestaurants, ...nationalRestaurants];
   const is15Restaurants = combinedRestaurants.length === 15;
   const hasRemovedRestaurants = removedFromRegional || removedFromNational;
+  const canAddRestaurant = combinedRestaurants.length < 15;
 
   useEffect(() => {
     const fetchSelections = async () => {
@@ -88,9 +89,9 @@ const RestaurantReview = () => {
   };
 
   const handleAddRestaurant = () => {
-    if (removedFromRegional) {
+    if (regionalRestaurants.length < 10) {
       navigate("/regional-selection");
-    } else if (removedFromNational) {
+    } else {
       navigate("/national-selection");
     }
   };
@@ -156,9 +157,9 @@ const RestaurantReview = () => {
             <div className="flex flex-col justify-center gap-4 mb-10">
               <Button
                 onClick={handleAddRestaurant}
-                disabled={!hasRemovedRestaurants}
+                disabled={!canAddRestaurant}
                 className={`px-8 mx-44 py-4 rounded text-lg ${
-                  hasRemovedRestaurants
+                  canAddRestaurant
                     ? "bg-blue-500 text-white hover:bg-blue-600"
                     : "bg-condenastGrey text-black-100 border border-gray-300 cursor-not-allowed opacity-50"
                 }`}
@@ -199,7 +200,7 @@ const RestaurantReview = () => {
         {/* Mobile Layout */}
         <div className="block md:hidden">
           <div className="border border-gray-300 rounded-lg mb-6">
-            <div className="grid grid-cols-[30%_50%_auto] p-3 font-semibold border-b border-gray-600 text-sm">
+            <div className="grid grid-cols-[35%_45%_auto] p-3 font-semibold border-b border-gray-600 text-sm">
               <div>City</div>
               <div>Restaurant Name</div>
               <div className="justify-center">Remove</div>
@@ -214,10 +215,10 @@ const RestaurantReview = () => {
                 }).map(restaurant => (
                 <div
                   key={restaurant.id}
-                  className="grid grid-cols-[30%_50%_auto] p-3 border-b border-gray-100 items-center text-sm"
+                  className="grid grid-cols-[35%_45%_auto] p-3 border-b border-gray-100 items-center text-sm"
                 >
-                  <div>{restaurant.city}</div>
-                  <div>{restaurant.name}</div>
+                  <div className="break-words whitespace-normal">{restaurant.city}</div>
+                  <div className="break-words whitespace-normal">{restaurant.name}</div>
                   <div className="text-center">
                     <Button
                       variant="ghost"
@@ -236,9 +237,9 @@ const RestaurantReview = () => {
           <div className="space-y-4">
             <Button
               onClick={handleAddRestaurant}
-              disabled={!hasRemovedRestaurants}
+              disabled={!canAddRestaurant}
               className={`w-full py-2 rounded text-md ${
-                hasRemovedRestaurants
+                canAddRestaurant
                   ? "bg-blue-500 text-white hover:bg-blue-600"
                   : "bg-condenastGrey text-gray-500 border border-gray-300 cursor-not-allowed"
               }`}

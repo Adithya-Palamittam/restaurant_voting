@@ -109,7 +109,7 @@ const handleProceed = async () => {
               <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">Keep it clean</h2>
               <p className="text-gray-700 leading-snug">
               The terms & conditions primarily cover confidentiality and conflict of interest. Read them{" "}
-                <a href="#" className="text-blue-600 underline">
+                <a href="https://www.cntraveller.in/info/terms-and-conditions-tra-2025-applicant/" className="text-blue-600 underline">
                   here
                 </a>.
               </p>
@@ -119,7 +119,7 @@ const handleProceed = async () => {
             <div>
               <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">Declaration</h2>
               <p className="text-gray-700 leading-snug">
-                You certify that all parts of the <a href="/declaration" className="text-blue-600 underline hover:text-blue-800">declaration</a> and voting
+                You certify that all parts of the <a href="https://www.cntraveller.in/info/tra-2025-panelist-declaration-form/" className="text-blue-600 underline hover:text-blue-800">declaration</a> and voting
                 form are true and correct. By participating in the awards,
                 you agree to abide by and be bound by the terms and
                 conditions.
