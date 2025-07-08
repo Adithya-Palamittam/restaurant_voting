@@ -174,14 +174,15 @@ const handleSubmit = async () => {
   return (
     <div className="min-h-screen bg-white">
       <div className="px-4 md:pt-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-md md:text-3xl flex-1 text-center">Your Final Ratings</h2>
+        <div className="relative flex items-center md:pt-0 pt-4">
+          <div className="flex-1"></div>
+          <h2 className="absolute md:font-base font-semibold left-1/2 transform -translate-x-1/2 text-xl md:text-2xl text-center w-max">Your Final Ratings</h2>
           <HamburgerMenu />
         </div>
         {/* <hr className="border-t border-gray-300 mb-2 md:mb-4" /> */}
       </div>
 
-      <div className="p-4 md:p-6">
+      <div className="md:p-4 px-4 pb-4 pt-2 md:p-6">
         {/* Desktop Layout - 2x4 grid */}
         <div className="hidden md:block md:px-[6rem] lg:px-[18rem]">
           <div className="grid grid-cols-2  gap-6 max-w-6xl mx-auto mb-8">

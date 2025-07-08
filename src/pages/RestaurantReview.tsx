@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { CircleAlert, X } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useUser } from "@/contexts/UserContext"; // <- get UID here
 import HamburgerMenu from "@/components/HamburgerMenu";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Restaurant {
   id: string;
@@ -27,6 +29,9 @@ const RestaurantReview = () => {
   const is15Restaurants = combinedRestaurants.length === 15;
   const hasRemovedRestaurants = removedFromRegional || removedFromNational;
   const canAddRestaurant = combinedRestaurants.length < 15;
+
+  const isMobile = useIsMobile();
+  const [mobileDialogOpen, setMobileDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchSelections = async () => {
@@ -246,33 +251,42 @@ const RestaurantReview = () => {
             >
               Add a restaurant
             </Button>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="flex justify-center">
-                    <Button
-                      onClick={is15Restaurants ? handleProceedToRating : undefined}
-                      disabled={!is15Restaurants}
-                      className={`w-full py-2 rounded text-md ${
-                        is15Restaurants
-                          ? "bg-green-500 text-white hover:bg-green-600"
-                          : "bg-black text-white hover:bg-gray-800 disabled:opacity-50"
-                      }`}
-                    >
-                      Ready? It's time to rate
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                {!is15Restaurants && (
-  <TooltipContent side="top" className="bg-black text-white px-4 py-2 rounded text-sm shadow-lg z-50">
-    {`Add ${15 - combinedRestaurants.length} more ${
-      15 - combinedRestaurants.length === 1 ? 'restaurant' : 'restaurants'
-    } to proceed.`}
-  </TooltipContent>
-)}
-              </Tooltip>
-            </TooltipProvider>
+                <Button
+                  onClick={() => {
+                    if (is15Restaurants) {
+                      handleProceedToRating();
+                    } else {
+                      setMobileDialogOpen(true);
+                    }
+                  }}
+                  disabled={!is15Restaurants && false} // always enabled for mobile, dialog handles warning
+                  className={`w-full py-2 rounded text-md ${
+                    is15Restaurants
+                      ? "bg-green-500 text-white hover:bg-green-600"
+                      : "bg-gray-600 text-white hover:bg-gray-800 disabled:opacity-50"
+                  }`}
+                >
+                  Ready? It's time to rate
+                </Button>
+                <Dialog open={mobileDialogOpen} onOpenChange={setMobileDialogOpen}>
+                  <DialogContent className="max-w-md w-[90%] flex flex-col items-center justify-center text-center gap-2 py-4">
+                  <CircleAlert className="text-yellow-500 w-16 h-16 mx-auto" />
+                 
+                      <DialogTitle className="text-center text-base">
+                        {`Add ${15 - combinedRestaurants.length} more ${
+                          15 - combinedRestaurants.length === 1 ? 'restaurant' : 'restaurants'
+                        } to proceed.`}
+                      </DialogTitle>
+                      <button
+          className="mt-4 px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none"
+          onClick={() => setMobileDialogOpen(false)}
+        >
+          Ok
+        </button>
+                   
+                  </DialogContent>
+                </Dialog>
+              
           </div>
         </div>
       </div>
