@@ -181,7 +181,8 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
       .select("restaurant_id")
       .eq("restaurant_name", restaurant.name)
       .eq("city_name", restaurant.city)
-      .eq("region_id", regionId);
+      .eq("region_id", regionId)
+      .or("created_by_jury.is.null,created_by_jury.eq.false");
 
     if (fetchError) {
       alert("Something went wrong. Please try again.");

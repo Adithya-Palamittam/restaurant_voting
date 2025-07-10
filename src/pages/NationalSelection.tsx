@@ -164,7 +164,8 @@ useEffect(() => {
         .from("restaurants_table")
         .select("restaurant_id")
         .eq("restaurant_name", restaurant.name)
-        .eq("city_name", restaurant.city);
+        .eq("city_name", restaurant.city)
+        .or("created_by_jury.is.null,created_by_jury.eq.false");
 
       if (fetchError || (existing && existing.length > 0)) {
         alert("This restaurant already exists.");
