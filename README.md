@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# Restaurant Voting App
 
-## Project info
+A web application for Condé Nast India to facilitate restaurant voting and rating by jury members. The app allows users to select, nominate, and rate restaurants in their assigned region and nationally, with an admin panel for insights and user management.
 
-**URL**: https://lovable.dev/projects/d5c8947a-84d0-4208-84bb-8a5e7f85436f
+## Features
+- **User Authentication**: Secure login for jury members.
+- **Regional Selection**: Jury members select and nominate up to 10 restaurants from their assigned region.
+- **National Selection**: Jury members nominate up to 5 restaurants from anywhere in the country.
+- **Restaurant Rating**: Rate shortlisted restaurants on a dedicated page.
+- **Admin Dashboard**: View user activity, ratings, and restaurant insights.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
 
-## How can I edit this code?
+## Tech Stack
+- **Frontend**: React (Vite, TypeScript, Tailwind CSS)
+- **Backend**: Node.js (Express)
+- **Database**: Supabase (PostgreSQL as a service)
+- **State Management**: React Context API
+- **UI Components**: Custom and Shadcn/UI
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/d5c8947a-84d0-4208-84bb-8a5e7f85436f) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+## Project Structure
+```
+restaurant_voting/
+  backend/           # Node.js backend (API, server)
+  public/            # Static assets (images, favicon, etc.)
+  src/               # Frontend source code
+    admin/           # Admin dashboard pages
+    components/      # Reusable UI components
+    contexts/        # React context providers
+    hooks/           # Custom React hooks
+    lib/             # Utility libraries (e.g., Supabase client)
+    pages/           # Main app pages (user flow)
 ```
 
-**Edit a file directly in GitHub**
+## Getting Started
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or yarn
 
-**Use GitHub Codespaces**
+### Setup
+1. **Clone the repository:**
+   ```bash
+   git clone <repo-url>
+   cd restaurant_voting
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. **Configure environment variables:**
+   - Copy `.env.example` to `.env` and fill in your Supabase credentials and other secrets.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+   The app will be available at `http://localhost:5173` (or as specified by Vite).
 
-## What technologies are used for this project?
 
-This project is built with:
+## Deployment
+- **Frontend:** Can be deployed to Vercel, Netlify, or any static hosting provider.
+- **Backend:** Deploy to services like Heroku, Render, DigitalOcean, or AWS.
+- **Database:** Supabase is managed; ensure your environment variables are set for production.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contribution Guidelines
+1. Fork the repository and create your branch from `main`.
+2. Make your changes and add tests if applicable.
+3. Ensure code passes linting and formatting checks.
+4. Submit a pull request with a clear description of your changes.
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/d5c8947a-84d0-4208-84bb-8a5e7f85436f) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## License
+This project is for internal use by Condé Nast India. All rights reserved.
