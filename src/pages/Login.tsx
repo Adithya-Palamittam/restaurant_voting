@@ -3,12 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabaseClient";
+import ReactGA from "react-ga4";
+import { useEffect } from "react";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   ReactGA.send({ hitType: "pageview", page: "/login", title: "Login Page" });
+  // }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +48,13 @@ const Login = () => {
       setError("Failed to fetch user metadata.");
       return;
     }
+
+    // Track successful login
+    ReactGA.event({
+      category: "User",
+      action: "Login",
+      label: user.email || user.id,
+    });
 
     // ✅ Redirect based on last visited page or fallback
   if (userMeta.is_admin) {
@@ -106,7 +119,7 @@ const Login = () => {
         </div>
 
         <div className="text-center text-xs md:text-sm text-gray-600 mt-10">
-          You have till 11:59 pm Sunday 30th June to fill this form
+        You have till 11:59 pm on Sunday, 31st July to vote
         </div>
       </div>
     </div>

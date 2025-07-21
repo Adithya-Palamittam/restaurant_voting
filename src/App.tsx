@@ -27,54 +27,57 @@ import AdminLayout from "./admin/AdminLayout";
 import AdminDashboard from "./admin/AdminDashboard";
 import UsersPage from "./admin/UsersPage";
 import RatingsPage from "./admin/RatingsPage";
+import { useEffect } from "react";
 // import SettingsPage from "./admin/SettingsPage";
+import ReactGA from "react-ga4";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster position="top-center"/>
-      {/* <Sonner position="top-center"/> */}
-      <UserProvider>
-        <BrowserRouter>
-          <RouteTracker />
-          {/* <div className="items-center justify-center"> */}
-          <Routes>
-            {/* Admin Routes (protected) */}
-            <Route element={<AuthGuard adminOnly />}>
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="users" element={<UsersPage />} />
-                <Route path="ratings" element={<RatingsPage />} />
-                {/* <Route path="settings" element={<SettingsPage />} /> */}
+const App = () => {
+  useEffect(() => {
+    ReactGA.initialize("G-9KGQHWBWZH");
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster position="top-center"/>
+        {/* <Sonner position="top-center"/> */}
+        <UserProvider>
+          <BrowserRouter>
+            <RouteTracker />
+            <Routes>
+              {/* Admin Routes (protected) */}
+              <Route element={<AuthGuard adminOnly />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="users" element={<UsersPage />} />
+                  <Route path="ratings" element={<RatingsPage />} />
+                  {/* <Route path="settings" element={<SettingsPage />} /> */}
+                </Route>
               </Route>
-            </Route>
-
-            {/* Public login route */}
-            <Route path="/" element={<Login />} />
-
-            {/* Protected user flow */}
-            <Route element={<AuthGuard />}>
-              <Route path="/terms" element={<TermsAndConditions />} />
-              <Route path="/process" element={<ProcessDescription />} />
-              <Route path="/regions" element={<VotingRegions />} />
-              <Route path="/regional-selection" element={<RegionalSelection />} />
-              <Route path="/national-selection" element={<NationalSelection />} />
-              <Route path="/restaurant-review" element={<RestaurantReview />} />
-              <Route path="/rating" element={<RatingPage />} />
-              <Route path="/final-ratings" element={<FinalRatings />} />
-            </Route>
-
-            {/* Completion & fallback */}
-            <Route path="/thank-you" element={<ThankYou />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          {/* </div> */}
-        </BrowserRouter>
-      </UserProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+              {/* Public login route */}
+              <Route path="/" element={<Login />} />
+              {/* Protected user flow */}
+              <Route element={<AuthGuard />}>
+                <Route path="/terms" element={<TermsAndConditions />} />
+                <Route path="/process" element={<ProcessDescription />} />
+                <Route path="/regions" element={<VotingRegions />} />
+                <Route path="/regional-selection" element={<RegionalSelection />} />
+                <Route path="/national-selection" element={<NationalSelection />} />
+                <Route path="/restaurant-review" element={<RestaurantReview />} />
+                <Route path="/rating" element={<RatingPage />} />
+                <Route path="/final-ratings" element={<FinalRatings />} />
+              </Route>
+              {/* Completion & fallback */}
+              <Route path="/thank-you" element={<ThankYou />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </UserProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
