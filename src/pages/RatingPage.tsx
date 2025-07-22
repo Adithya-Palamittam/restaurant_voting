@@ -42,7 +42,12 @@ const RatingPage = () => {
 
       const regionalList: Restaurant[] = data?.selected_regional_restaurants || [];
       const nationalList: Restaurant[] = data?.selected_national_restaurants || [];
-      const all: Restaurant[] = [...regionalList, ...nationalList];
+      
+      // Sort by city, then name
+      const all: Restaurant[] = [...regionalList, ...nationalList].sort((a, b) => {
+      const cityCompare = a.city.localeCompare(b.city);
+      return cityCompare !== 0 ? cityCompare : a.name.localeCompare(b.name);
+    });
 
       setRestaurants(all);
       const savedRatings: Record<string, Rating> = data?.restaurant_ratings || {};

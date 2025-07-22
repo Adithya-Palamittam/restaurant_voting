@@ -45,7 +45,11 @@ const FinalRatings = () => {
 
       const regionalList = userSelection?.selected_regional_restaurants || [];
       const nationalList = userSelection?.selected_national_restaurants || [];
-      const allRestaurants = [...regionalList, ...nationalList];
+      const allRestaurants = [...regionalList, ...nationalList].sort((a, b) => {
+        const cityCompare = a.city.localeCompare(b.city);
+        return cityCompare !== 0 ? cityCompare : a.name.localeCompare(b.name);
+      });
+      
 
       setRestaurants(allRestaurants);
       setRatings(userSelection?.restaurant_ratings || {});
