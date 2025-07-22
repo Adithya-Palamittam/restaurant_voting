@@ -126,7 +126,7 @@ useEffect(() => {
     updateSelection();
   }, [selectedRestaurants, userData?.uid]);
 
-  const cities = [...new Set(restaurants.map(r => r.city))];
+  const cities = [...new Set(restaurants.map(r => r.city))].sort();
 
   const filteredRestaurants = restaurants.filter(restaurant => {
     const matchesCity = selectedCity ? restaurant.city === selectedCity : false;
