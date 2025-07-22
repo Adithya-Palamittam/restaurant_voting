@@ -36,46 +36,75 @@ const NationalSelection = () => {
 
   // Fetch restaurant list and excluded (regional) selections
 useEffect(() => {
-  const fetchData = async () => {
-    if (!userData?.uid) return;
+// Fetch all restaurants in batches (pagination)
+const fetchAllRestaurants = async (): Promise<any[]> => {
+  const pageSize = 1000;
+  let from = 0;
+  let allData: any[] = [];
+  let done = false;
 
-    // Fetch regional selection to exclude
-    const { data: userSelection, error: selectionError } = await supabase
-      .from("user_selection_table")
-      .select("selected_regional_restaurants")
-      .eq("user_id", userData.uid)
-      .single();
-
-    if (selectionError) {
-      console.error("Error fetching regional selections:", selectionError.message);
-      return;
-    }
-
-    const excluded = userSelection?.selected_regional_restaurants?.map((r: Restaurant) => r.id) || [];
-    setExcludedIds(excluded);
-
-    // Fetch all restaurants (excluding those created by jury)
+  while (!done) {
     const { data, error } = await supabase
       .from("restaurants_table")
       .select("*")
-      .or("created_by_jury.is.null,created_by_jury.eq.false");
+      .or("created_by_jury.is.null,created_by_jury.eq.false")
+      .range(from, from + pageSize - 1);
 
     if (error) {
-      console.error("Error fetching national restaurants:", error.message);
-      return;
+      console.error("Error fetching restaurants batch:", error.message);
+      break;
     }
 
-    const mapped: Restaurant[] = data
-      .map(r => ({
-        id: r.restaurant_id,
-        name: r.restaurant_name,
-        city: r.city_name,
-      }))
-      .filter(r => !excluded.includes(r.id)); // filter out previously selected ones
+    if (data) {
+      allData = allData.concat(data);
+      if (data.length < pageSize) {
+        done = true; // last page
+      } else {
+        from += pageSize;
+      }
+    } else {
+      done = true;
+    }
+  }
 
-    setRestaurants(mapped);
-    setRestaurantsLoaded(true);
-  };
+  return allData;
+};
+
+const fetchData = async () => {
+  if (!userData?.uid) return;
+
+  // Step 1: Fetch regional selection to exclude
+  const { data: userSelection, error: selectionError } = await supabase
+    .from("user_selection_table")
+    .select("selected_regional_restaurants")
+    .eq("user_id", userData.uid)
+    .single();
+
+  if (selectionError) {
+    console.error("Error fetching regional selections:", selectionError.message);
+    return;
+  }
+
+  const excluded = userSelection?.selected_regional_restaurants?.map((r: Restaurant) => r.id) || [];
+  setExcludedIds(excluded);
+
+  // Step 2: Fetch all restaurants in batches
+  const allRestaurants = await fetchAllRestaurants();
+
+  // Step 3: Map and filter
+  const mapped: Restaurant[] = allRestaurants
+    .map(r => ({
+      id: r.restaurant_id,
+      name: r.restaurant_name,
+      city: r.city_name,
+    }))
+    .filter(r => !excluded.includes(r.id));
+
+  // Final state set
+  setRestaurants(mapped);
+  setRestaurantsLoaded(true);
+};
+
 
   fetchData();
 }, [userData?.uid]);

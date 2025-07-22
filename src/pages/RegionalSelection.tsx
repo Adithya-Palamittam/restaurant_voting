@@ -36,28 +36,57 @@ const RegionalSelection = () => {
 
   useEffect(() => {
     if (!regionId) return;
-
-    const fetchRestaurants = async () => {
-      const { data, error } = await supabase
-        .from("restaurants_table")
-        .select("*")
-        .eq("region_id", regionId)
-        .or("created_by_jury.is.null,created_by_jury.eq.false");
-
-      if (error) {
-        console.error("Error fetching restaurants:", error.message);
-      } else {
-        const mapped: Restaurant[] = data.map(r => ({
-          id: r.restaurant_id,
-          name: r.restaurant_name,
-          city: r.city_name,
-        }));
-        setRestaurants(mapped);
+  
+    const fetchAllRegionRestaurants = async (): Promise<any[]> => {
+      const pageSize = 1000;
+      let from = 0;
+      let allData: any[] = [];
+      let done = false;
+  
+      while (!done) {
+        const { data, error } = await supabase
+          .from("restaurants_table")
+          .select("*")
+          .eq("region_id", regionId)
+          .or("created_by_jury.is.null,created_by_jury.eq.false")
+          .range(from, from + pageSize - 1);
+  
+        if (error) {
+          console.error("Error fetching region restaurants batch:", error.message);
+          break;
+        }
+  
+        if (data) {
+          allData = allData.concat(data);
+          if (data.length < pageSize) {
+            done = true; // last batch
+          } else {
+            from += pageSize;
+          }
+        } else {
+          done = true;
+        }
       }
+  
+      return allData;
     };
-
+  
+    const fetchRestaurants = async () => {
+      const allRestaurants = await fetchAllRegionRestaurants();
+      console.log("Fetched regional restaurants:", allRestaurants.length);
+  
+      const mapped: Restaurant[] = allRestaurants.map(r => ({
+        id: r.restaurant_id,
+        name: r.restaurant_name,
+        city: r.city_name,
+      }));
+  
+      setRestaurants(mapped);
+    };
+  
     fetchRestaurants();
   }, [regionId]);
+  
 
 useEffect(() => {
   const fetchUserSelection = async () => {
