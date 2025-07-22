@@ -177,8 +177,14 @@ const RestaurantReview = () => {
                   <TooltipTrigger asChild>
                     <span className="flex justify-center">
                       <Button
-                        onClick={is15Restaurants ? handleProceedToRating : undefined}
-                        disabled={!is15Restaurants}
+                        onClick={() => {
+                          if (is15Restaurants) {
+                            handleProceedToRating();
+                          } else {
+                            setMobileDialogOpen(true);
+                          }
+                        }}
+                        disabled={!is15Restaurants && false}
                         className={`px-8 w-full mx-44 py-4 rounded text-lg ${
                           is15Restaurants
                             ? "bg-green-500 text-white hover:bg-green-600"
