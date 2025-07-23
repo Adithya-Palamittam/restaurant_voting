@@ -45,17 +45,21 @@ return (
           nominate 5 restaurants from anywhere<br />
           in the country
         </p> */}
+<div className="flex flex-col items-center mb-6 gap-y-8">
+  <div className="relative">
+    {/* <img src="/map.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[14rem] h-[14rem] md:w-[22rem] md:h-[22rem] object-contain" /> */}
+    <img
+      src={`/${userData.region_image?.toLowerCase()}.jpg`}
+      alt={userData.region_display_text || "Region"}
+      className="mx-auto w-[12rem] h-[12rem] md:w-[16rem] md:h-[16rem] object-contain rounded"
+    />
+  </div>
+  <div className="text-center text-xs md:text-sm text-gray-600">
+    This map is for representative purpose only
+  </div>
+</div>
 
-        <div className="flex justify-center mb-6">
-          <div className="relative">
-            {/* <img src="/map.png" alt="TP Awards Logo" className="mx-auto mb-4 w-[14rem] h-[14rem] md:w-[22rem] md:h-[22rem] object-contain" /> */}
-            <img
-              src={`/${userData.region_image?.toLowerCase()}.jpg`}
-              alt={userData.region_display_text || "Region"}
-              className="mx-auto mb-2 w-[12rem] h-[12rem] md:w-[16rem] md:h-[16rem] object-contain rounded"
-            />                 
-          </div>
-        </div>
+
 
         <Button
           onClick={() => navigate("/regional-selection")}
