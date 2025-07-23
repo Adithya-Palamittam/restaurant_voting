@@ -124,7 +124,7 @@ const RestaurantReview = () => {
         <div className="hidden md:block">
           <div className="max-w-4xl mx-auto">
             <div className="border border-gray-300 rounded-lg mb-6">
-              <div className="grid grid-cols-[20%_60%_auto] p-4 pl-14 font-semibold border-b border-gray-600">
+              <div className="grid grid-cols-[30%_60%_auto] p-4 pl-14 font-semibold border-b border-gray-600 gap-2">
                 <div>City</div>
                 <div>Restaurant Name</div>
                 <div className="text-center pr-6">Remove</div>
@@ -140,7 +140,7 @@ const RestaurantReview = () => {
                 .map(restaurant => (
                   <div
                     key={restaurant.id}
-                    className="grid grid-cols-[20%_60%_auto] p-4 pl-14 border-b border-gray-100 hover:bg-gray-50 items-center"
+                    className="grid grid-cols-[30%_60%_auto] p-4 pl-14 border-b border-gray-100 hover:bg-gray-50 items-center gap-2"
                   >
                     <div>{restaurant.city}</div>
                     <div className="break-words whitespace-normal">{restaurant.name}</div>
