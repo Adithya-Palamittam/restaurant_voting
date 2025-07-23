@@ -117,7 +117,7 @@ const AddRestaurantDialogPhone = ({
               <SelectTrigger>
                 <SelectValue placeholder="City/Town" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent side="bottom" className="max-h-60 overflow-y-auto z-50">
                 {cities.map(city => (
                   <SelectItem key={city} value={city}>{city}</SelectItem>
                 ))}
