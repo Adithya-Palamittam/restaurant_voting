@@ -157,13 +157,21 @@ useEffect(() => {
 
   const cities = [...new Set(restaurants.map(r => r.city))].sort();
 
+// Helper to normalize and remove accents/special characters
+  const normalize = (str: string) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
   const filteredRestaurants = restaurants.filter(restaurant => {
-    const matchesCity = selectedCity ? restaurant.city === selectedCity : false;
-    const matchesSearch = searchTerm
-      ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
-      : true;
+    const normalizedSearch = normalize(searchTerm);
+    const normalizedName = normalize(restaurant.name);
+    const normalizedCity = normalize(restaurant.city);
+
+    const matchesCity = selectedCity ? normalizedCity === normalize(selectedCity) : false;
+    const matchesSearch = normalizedSearch ? normalizedName.includes(normalizedSearch) : true;
+
     return (selectedCity && matchesCity && matchesSearch) || (searchTerm && matchesSearch);
   });
+
 
   const handleRestaurantToggle = (restaurant: Restaurant) => {
     const isSelected = selectedRestaurants.some(r => r.id === restaurant.id);
@@ -197,7 +205,7 @@ useEffect(() => {
         .or("created_by_jury.is.null,created_by_jury.eq.false");
 
       if (fetchError || (existing && existing.length > 0)) {
-        alert("This restaurant already exists.");
+        alert("This restaurant is already on our list. Use the search bar to select and add.");
         return;
       }
 

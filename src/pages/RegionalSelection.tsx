@@ -135,11 +135,22 @@ useEffect(() => {
 
   const cities = [...new Set(restaurants.map(r => r.city))].sort();
 
+// Helper function to normalize strings: remove accents and lowercase
+  const normalize = (str: string) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
   const filteredRestaurants = restaurants.filter(restaurant => {
-    const matchesCity = selectedCity ? restaurant.city === selectedCity : false;
-    const matchesSearch = searchTerm ? restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+    const normalizedSearch = normalize(searchTerm);
+    const normalizedName = normalize(restaurant.name);
+    const normalizedCity = normalize(restaurant.city);
+    const normalizedSelectedCity = normalize(selectedCity);
+
+    const matchesCity = selectedCity ? normalizedCity === normalizedSelectedCity : false;
+    const matchesSearch = normalizedSearch ? normalizedName.includes(normalizedSearch) : true;
+
     return (selectedCity && matchesCity && matchesSearch) || (searchTerm && matchesSearch);
   });
+
 
 const handleRestaurantToggle = async (restaurant: Restaurant) => {
   const isSelected = selectedRestaurants.some(r => r.id === restaurant.id);
@@ -219,7 +230,7 @@ const addCustomRestaurant = async (restaurant: Restaurant) => {
     }
 
     if (existing && existing.length > 0) {
-      alert("This restaurant already exists.");
+      alert("This restaurant is already on our list. Use the search bar to select and add.");
       return;
     }
 

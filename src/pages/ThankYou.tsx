@@ -21,7 +21,7 @@ const ThankYou = () => {
             <p className="text-xl text-gray-700 pb-8 px-24">
               Your votes are confidential and
  secure and will crown India’s Top
- 50 restaurant’s of the year. You
+ 50 restaurants of the year. You
  can now close this window
             </p>
 
