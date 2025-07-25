@@ -142,7 +142,7 @@ const RestaurantReview = () => {
                     key={restaurant.id}
                     className="grid grid-cols-[30%_60%_auto] p-4 pl-14 border-b border-gray-100 hover:bg-gray-50 items-center gap-2"
                   >
-                    <div>{restaurant.city}</div>
+                    <div className="break-words whitespace-normal">{restaurant.city}</div>
                     <div className="break-words whitespace-normal">{restaurant.name}</div>
                     <div className="flex justify-center">
                       <Button
