@@ -109,7 +109,7 @@ const handleProceed = async () => {
               <h2 className="text-base md:text-lg font-semibold text-blue-600 mb-2">Keep it clean</h2>
               <p className="text-gray-700 leading-snug">
               The terms & conditions primarily cover confidentiality and conflict of interest. Read them{" "}
-                <a href="https://www.cntraveller.in/info/terms-and-conditions-tra-2025-applicant/" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.cntraveller.in/info/tra-2025-panelist-declaration-form/" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">
                   here
                 </a>.
               </p>
